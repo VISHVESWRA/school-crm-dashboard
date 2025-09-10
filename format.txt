@@ -1,0 +1,17 @@
+my-app/
+│
+├── public/              # Static files (favicon, images, robots.txt, etc.)
+│
+├── src/                 # Main source code
+│   ├── assets/          # Images, fonts, global styles
+│   ├── components/      # Reusable UI components (buttons, inputs, modals, etc.)
+│   ├── features/        # Feature-based folders (Redux slices, hooks, pages)
+│   ├── hooks/           # Custom React hooks (e.g., useAuth, useFetch)
+│   ├── pages/           # Route-based components (Home, Login, Dashboard, etc.)
+│   ├── services/        # API services (Axios/Fetch requests)
+│   ├── utils/           # Utility/helper functions
+│   ├── App.jsx          # Root React component
+│   └── index.js         # Entry point
+│
+├── .eslintrc.js         # Linting configuration
+├── package.json         # Project dependencies & scripts
