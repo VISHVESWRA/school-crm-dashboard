@@ -11,6 +11,8 @@ import { GiMoonBats } from "react-icons/gi";
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import SideNavBar from '../side-navbar/SideNavBar';
+import { Outlet } from 'react-router-dom';
 
 const user = {
     name: 'Tom Cook',
@@ -18,6 +20,7 @@ const user = {
     imageUrl:
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
+
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Team', href: '#', current: false },
@@ -25,6 +28,7 @@ const navigation = [
     { name: 'Calendar', href: '#', current: false },
     { name: 'Reports', href: '#', current: false },
 ]
+
 const userNavigation = [
     { name: 'Your profile', href: '#' },
     { name: 'Settings', href: '#' },
@@ -90,12 +94,11 @@ function NavBar({ theme, setTheme }) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar> */}
-
             <div className="min-h-full">
-                <Disclosure as="nav" className="bg-gray-800 dark:bg-gray-300">
+                <Disclosure as="nav" className="bg-white dark:bg-blue-300 border-b ">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="flex h-16 items-center justify-between">
-                            <div className="flex items-center">
+                        <div className="flex h-16 items-center justify-end">
+                            {/* <div className="flex items-center">
                                 <div className="shrink-0">
                                     <img
                                         alt="Your Company"
@@ -106,15 +109,15 @@ function NavBar({ theme, setTheme }) {
                                 <div className="hidden md:block">
                                     <div className="ml-10 flex items-baseline space-x-4">
                                         {navigation.map((item) => (
-                                            <a
+                                            <a style={{ textDecoration: 'none' }}
                                                 key={item.name}
                                                 href={item.href}
                                                 aria-current={item.current ? 'page' : undefined}
                                                 className={classNames(
                                                     item.current
-                                                        ? 'bg-gray-900 text-white dark:bg-gray-950/50 no-underline'
-                                                        : 'text-gray-300 hover:bg-white/5 hover:text-white no-underline',
-                                                    'rounded-md px-3 py-2 text-sm font-medium no-underline',
+                                                        ? 'bg-gray-600 text-white dark:bg-blue-300'
+                                                        : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                                                    'rounded-md px-3 py-2 text-sm font-medium',
                                                 )}
                                             >
                                                 {item.name}
@@ -122,12 +125,12 @@ function NavBar({ theme, setTheme }) {
                                         ))}
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="hidden md:block">
                                 <div className="ml-4 flex items-center md:ml-6">
                                     <button
                                         type="button"
-                                        className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
+                                        className="relative rounded-full p-1 text-black hover:text-blue-700 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
                                     >
                                         <span className="absolute -inset-1.5" />
                                         <span className="sr-only">View notifications</span>
@@ -153,6 +156,7 @@ function NavBar({ theme, setTheme }) {
                                             {userNavigation.map((item) => (
                                                 <MenuItem key={item.name}>
                                                     <a
+                                                        style={{ textDecoration: 'none' }}
                                                         href={item.href}
                                                         className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
                                                     >
@@ -180,15 +184,16 @@ function NavBar({ theme, setTheme }) {
                         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
                             {navigation.map((item) => (
                                 <DisclosureButton
+                                    style={{ textDecoration: 'none' }}
                                     key={item.name}
                                     as="a"
                                     href={item.href}
                                     aria-current={item.current ? 'page' : undefined}
                                     className={classNames(
                                         item.current
-                                            ? 'bg-gray-900 text-white dark:bg-gray-950/50 no-underline'
-                                            : 'text-gray-300 hover:bg-white/5 hover:text-white no-underline',
-                                        'block rounded-md px-3 py-2 text-base font-medium no-underline',
+                                            ? 'bg-gray-900 text-white dark:bg-gray-950/50'
+                                            : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                                        'block rounded-md px-3 py-2 text-base font-medium',
                                     )}
                                 >
                                     {item.name}
@@ -210,7 +215,7 @@ function NavBar({ theme, setTheme }) {
                                 </div>
                                 <button
                                     type="button"
-                                    className="relative ml-auto shrink-0 rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
+                                    className="relative ml-auto shrink-0 rounded-full p-1 text-black hover:text-blue-700 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
                                 >
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">View notifications</span>
@@ -220,6 +225,7 @@ function NavBar({ theme, setTheme }) {
                             <div className="mt-3 space-y-1 px-2">
                                 {userNavigation.map((item) => (
                                     <DisclosureButton
+                                        style={{ textDecoration: 'none' }}
                                         key={item.name}
                                         as="a"
                                         href={item.href}
@@ -233,15 +239,14 @@ function NavBar({ theme, setTheme }) {
                     </DisclosurePanel>
                 </Disclosure>
 
-                <header className="relative bg-white shadow-sm dark:bg-gray-800 dark:shadow-none dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:inset-y-0 dark:after:border-y dark:after:border-white/10">
+                {/* <header className="relative bg-white shadow-sm dark:bg-gray-800 dark:shadow-none dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:inset-y-0 dark:after:border-y dark:after:border-white/10">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Dashboard</h1>
                     </div>
-                </header>
+                </header> */}
                 <main>
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {/* Your content */}
-                        List
+                        <Outlet />
                     </div>
                 </main>
             </div>

@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { BrowserRouter, Routes } from 'react-router-dom'
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import NavBar from './components/navbar/NavBar'
 import SideNavBar from './components/side-navbar/SideNavBar'
+import { Sidebar } from 'lucide-react'
+import Form from './components/form'
+import AppLayout from './components/AppLayout'
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -19,9 +22,11 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <NavBar theme={theme} setTheme={setTheme} />
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Form />} />
+            {/* add more pages here */}
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
