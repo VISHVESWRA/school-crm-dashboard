@@ -8,8 +8,6 @@ function SideNavBar() {
   const [sideNav, setSideNav] = useState(true);
 
   const handleMenuClick = (menu) => {
-    console.log(menu);
-
     setActiveMenu(menu.name);
     setIsChildMenuOpen(!isChildMenuOpen && menu.subItems);
   };
