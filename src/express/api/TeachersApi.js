@@ -1,9 +1,18 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api/teachers";
+const URL = "http://localhost:9900/api/teachers";
 
-export const createTeacherApi = (data) => axios.post(BASE_URL, data);
-export const getTeachersApi = () => axios.get(BASE_URL);
-export const updateTeacherApi = (id, data) =>
-  axios.put(`${BASE_URL}/${id}`, data);
-export const deleteTeacherApi = (id) => axios.delete(`${BASE_URL}/${id}`);
+export const createTeacherApi = (data) => {
+  return axios.post(URL, data);
+};
+
+export const getTeachersApi = () => {
+  return axios.get(URL);
+};
+
+// export const updateTeacherApi = (id, data) => {
+//   axios.put(`${URL}/${id}`, data);
+// }
+export const deleteTeacherApi = (id) => {
+  return axios.delete(`${URL}/${id}`);
+};

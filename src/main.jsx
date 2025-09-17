@@ -5,9 +5,13 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Provider } from "react-redux";
+import { Store } from "./express/redux/Store.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <Provider store={Store}>
+      <App />
+    </Provider>
   </StrictMode>
 );

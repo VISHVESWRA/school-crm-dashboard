@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createTeacherApi,
-  getTeachersApi,
-  updateTeacherApi,
+  // updateTeacherApi,
   deleteTeacherApi,
+  getTeachersApi,
 } from "../api/TeachersApi";
 
 export const fetchTeachers = createAsyncThunk("teachers/fetchAll", async () => {
@@ -23,13 +23,13 @@ export const createTeacher = createAsyncThunk(
   }
 );
 
-export const updateTeacher = createAsyncThunk(
-  "teachers/update",
-  async ({ id, data }) => {
-    const response = await updateTeacherApi(id, data);
-    return response.data;
-  }
-);
+// export const updateTeacher = createAsyncThunk(
+//   "teachers/update",
+//   async ({ id, data }) => {
+//     const response = await updateTeacherApi(id, data);
+//     return response.data;
+//   }
+// );
 
 export const deleteTeacher = createAsyncThunk("teachers/delete", async (id) => {
   await deleteTeacherApi(id);
@@ -60,10 +60,10 @@ const teachersSlice = createSlice({
       .addCase(createTeacher.fulfilled, (state, action) => {
         state.list.push(action.payload);
       })
-      .addCase(updateTeacher.fulfilled, (state, action) => {
-        const index = state.list.findIndex((t) => t.id === action.payload.id);
-        if (index !== -1) state.list[index] = action.payload;
-      })
+      // .addCase(updateTeacher.fulfilled, (state, action) => {
+      //   const index = state.list.findIndex((t) => t.id === action.payload.id);
+      //   if (index !== -1) state.list[index] = action.payload;
+      // })
       .addCase(deleteTeacher.fulfilled, (state, action) => {
         state.list = state.list.filter((t) => t.id !== action.payload);
       });

@@ -25,7 +25,7 @@ export const sideMenus = [
     subItems: [
       { name: "General", path: "/" },
       { name: "Users", path: "/" },
-      { name: "Teachers", path: "/settings/teachersForm" },
+      { name: "Teachers", path: "/settings/teachersList" },
     ],
   },
 ];

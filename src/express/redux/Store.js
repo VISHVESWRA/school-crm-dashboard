@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import teachersReducer from "./TeachersSlice";
-import authReducer from "./authSlice";
+// import authReducer from "./authSlice";
 
-export const store = configureStore({
+export const Store = configureStore({
   reducer: {
     teachers: teachersReducer,
-    auth: authReducer,
+    // auth: authReducer,
   },
 });
