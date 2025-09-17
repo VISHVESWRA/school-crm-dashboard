@@ -1,15 +1,32 @@
 import { useState } from "react";
 import NavBar from "../navbar/NavBar";
 import { sideMenus } from "./list";
+import { useNavigate } from "react-router-dom";
 
 function SideNavBar() {
   const [activeMenu, setActiveMenu] = useState("Home");
   const [isChildMenuOpen, setIsChildMenuOpen] = useState(false);
   const [sideNav, setSideNav] = useState(true);
+  const navigate = useNavigate();
 
   const handleMenuClick = (menu) => {
     setActiveMenu(menu.name);
-    setIsChildMenuOpen(!isChildMenuOpen && menu.subItems);
+
+    if (menu.subItems) {
+      setIsChildMenuOpen(!isChildMenuOpen && menu.subItems);
+    } else {
+      setIsChildMenuOpen(!isChildMenuOpen && menu.subItems);
+      if (menu.path) {
+        navigate(menu.path);
+      }
+    }
+  };
+
+  const handleSubMenuClick = (sub) => {
+    if (sub.path) {
+      navigate(sub.path);
+      setIsChildMenuOpen(!isChildMenuOpen);
+    }
   };
 
   return (
@@ -28,8 +45,9 @@ function SideNavBar() {
               <div
                 key={menu.name}
                 onClick={() => handleMenuClick(menu)}
-                className={`flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-gray-700 cursor-pointer ${activeMenu === menu.name ? "bg-gray-700" : ""
-                  }`}
+                className={`flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-gray-700 cursor-pointer ${
+                  activeMenu === menu.name ? "bg-gray-700" : ""
+                }`}
               >
                 <i className={`bi ${menu.icon}`}></i>
                 <span className="hidden md:block">{menu.name}</span>
@@ -40,6 +58,30 @@ function SideNavBar() {
       )}
 
       {isChildMenuOpen && (
+        <aside
+          style={isChildMenuOpen ? { display: "block" } : { display: "none" }}
+          className="relative md:absolute h-screen md:left-24 w-52 bg-[#0f172a] border-x border-gray-200 p-4 overflow-y-auto"
+        >
+          <h3 className="text-xs font-bold text-white uppercase mb-3">
+            {activeMenu}
+          </h3>
+          <ul className="space-y-2">
+            {sideMenus
+              .find((m) => m.name === activeMenu)
+              ?.subItems?.map((sub, idx) => (
+                <li
+                  key={idx}
+                  onClick={() => handleSubMenuClick(sub)}
+                  className="cursor-pointer p-2 rounded hover:bg-blue-400 text-white text-md"
+                >
+                  {sub.name}
+                </li>
+              ))}
+          </ul>
+        </aside>
+      )}
+
+      {/* {isChildMenuOpen && (
         <aside className="relative md:absolute h-screen md:left-24 w-52 bg-[#0f172a] border-x border-gray-200 p-4 overflow-y-auto">
           <h3 className="text-xs font-bold text-white uppercase mb-3">
             {activeMenu}
@@ -57,7 +99,7 @@ function SideNavBar() {
               ))}
           </ul>
         </aside>
-      )}
+      )} */}
 
       <main className="flex-1 bg-gray-50 overflow-auto">
         <NavBar sideNav={sideNav} onSetSideNav={setSideNav} />
