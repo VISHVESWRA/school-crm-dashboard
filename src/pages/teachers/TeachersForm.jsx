@@ -26,14 +26,13 @@ export default function TeachersForm() {
 
   const onSubmit = (data) => {
     console.log(data);
-    createTeacherApi(data)
+    createTeacherApi(data);
     reset();
-    navigate('/settings/teachersList')
+    navigate("/settings/teachersList");
   };
 
   return (
     <>
-      <button onClick={() => navigate("/settings/teachersList")}>Back</button>
       <Form noValidate onSubmit={handleSubmit(onSubmit)}>
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="firstName">
@@ -141,7 +140,10 @@ export default function TeachersForm() {
               placeholder="Zip"
               isInvalid={!!errors.zip}
               {...register("zip", {
-                pattern: { value: /^[0-9]{6}$/, message: "Zip must be 6 digits" },
+                pattern: {
+                  value: /^[0-9]{6}$/,
+                  message: "Zip must be 6 digits",
+                },
               })}
             />
             <Form.Control.Feedback type="invalid">
@@ -160,6 +162,13 @@ export default function TeachersForm() {
         </Form.Group>
 
         <Button type="submit">Submit form</Button>
+        <Button
+          className="mx-2"
+          type="button"
+          onClick={() => navigate("/settings/teachersList")}
+        >
+          Back
+        </Button>
       </Form>
     </>
   );

@@ -33,8 +33,10 @@ function NavBar({ sideNav, onSetSideNav }) {
         </div>
       </div>
 
-      <main className={classNames("p-4 transition-all duration-300")}>
-        <div className="p-4 border-2 border-dashed border-gray-200 rounded-lg min-h-[calc(100vh-8rem)]">
+      <main
+        className={classNames("p-4 bg-gray-200 transition-all duration-300")}
+      >
+        <div className="p-4 border-2 border-dashed border-gray-400 bg-gray-300 rounded-lg min-h-[calc(100vh-8rem)]">
           <Outlet />
         </div>
       </main>

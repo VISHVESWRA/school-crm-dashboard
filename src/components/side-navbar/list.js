@@ -25,7 +25,11 @@ export const sideMenus = [
     subItems: [
       { name: "General", path: "/" },
       { name: "Users", path: "/" },
-      { name: "Teachers", path: "/settings/teachersList" },
+      {
+        name: "Teachers",
+        path: "/settings/teachersList",
+        icon: "LiaChalkboardTeacherSolid",
+      },
     ],
   },
 ];

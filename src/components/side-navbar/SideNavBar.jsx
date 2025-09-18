@@ -2,9 +2,11 @@ import { useState } from "react";
 import NavBar from "../navbar/NavBar";
 import { sideMenus } from "./list";
 import { useNavigate } from "react-router-dom";
+import { iconList } from "../../assets/iconMap";
 
 function SideNavBar() {
   const [activeMenu, setActiveMenu] = useState("Home");
+  const [activeSubMenu, setSubActiveMenu] = useState();
   const [isChildMenuOpen, setIsChildMenuOpen] = useState(false);
   const [sideNav, setSideNav] = useState(true);
   const navigate = useNavigate();
@@ -23,10 +25,16 @@ function SideNavBar() {
   };
 
   const handleSubMenuClick = (sub) => {
+    setSubActiveMenu(sub.name);
     if (sub.path) {
       navigate(sub.path);
       setIsChildMenuOpen(!isChildMenuOpen);
     }
+  };
+
+  const searchIcon = (iconName) => {
+    const IconComponent = iconList[iconName];
+    return IconComponent ? <IconComponent size={20} /> : null;
   };
 
   return (
@@ -65,15 +73,18 @@ function SideNavBar() {
           <h3 className="text-xs font-bold text-white uppercase mb-3">
             {activeMenu}
           </h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2" style={{ paddingLeft: "0px" }}>
             {sideMenus
               .find((m) => m.name === activeMenu)
               ?.subItems?.map((sub, idx) => (
                 <li
                   key={idx}
                   onClick={() => handleSubMenuClick(sub)}
-                  className="cursor-pointer p-2 rounded hover:bg-blue-400 text-white text-md"
+                  className={`flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-gray-700 text-white text-md  ${
+                    activeSubMenu === sub.name ? "bg-gray-700" : ""
+                  }`}
                 >
+                  {sub.icon && searchIcon(sub.icon)}
                   {sub.name}
                 </li>
               ))}
