@@ -18,37 +18,37 @@ export default function TeachersList() {
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
 
-  const lists = [
-    {
-      _id: "1",
-      firstName: "Arun",
-      lastName: "S",
-      phoneNumber: "9658623586",
-      role: "Teacher",
-      dateOfJoin: "2025-09-18",
-      city: "",
-      state: "",
-      zip: "",
-    },
-    {
-      _id: "2",
-      firstName: "John",
-      lastName: "Doe",
-      phoneNumber: "9876543210",
-      role: "Admin",
-      dateOfJoin: "2025-05-10",
-    },
-    {
-      _id: "3",
-      firstName: "John",
-      lastName: "Doe",
-      phoneNumber: "9876543210",
-      role: "Admin",
-      dateOfJoin: "2025-05-10",
-    },
-  ];
+  // const lists = [
+  //   {
+  //     _id: "1",
+  //     firstName: "Arun",
+  //     lastName: "S",
+  //     phoneNumber: "9658623586",
+  //     role: "Teacher",
+  //     dateOfJoin: "2025-09-18",
+  //     city: "",
+  //     state: "",
+  //     zip: "",
+  //   },
+  //   {
+  //     _id: "2",
+  //     firstName: "John",
+  //     lastName: "Doe",
+  //     phoneNumber: "9876543210",
+  //     role: "Admin",
+  //     dateOfJoin: "2025-05-10",
+  //   },
+  //   {
+  //     _id: "3",
+  //     firstName: "John",
+  //     lastName: "Doe",
+  //     phoneNumber: "9876543210",
+  //     role: "Admin",
+  //     dateOfJoin: "2025-05-10",
+  //   },
+  // ];
 
-  const filteredList = lists.filter((teacher) => {
+  const filteredList = list.filter((teacher) => {
     const fullName = `${teacher.firstName} ${teacher.lastName}`.toLowerCase();
     const matchSearch =
       fullName.includes(searchTerm.toLowerCase()) ||

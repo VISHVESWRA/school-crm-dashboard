@@ -161,7 +161,7 @@ export default function TeachersForm() {
           />
         </Form.Group>
 
-        <Button type="submit">Submit form</Button>
+        <Button type="submit">Submit</Button>
         <Button
           className="mx-2"
           type="button"

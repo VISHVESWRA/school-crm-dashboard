@@ -1,6 +1,6 @@
 export const sideMenus = [
   { name: "Home", icon: "bi-house-door", path: "/" },
-  { name: "Business", icon: "bi-building", path: "/" },
+  { name: "Business", icon: "bi-building", path: "/login" },
   { name: "Zones", icon: "bi-geo-alt", path: "/" },
   {
     name: "Reports",
