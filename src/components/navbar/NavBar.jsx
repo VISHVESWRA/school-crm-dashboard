@@ -1,10 +1,7 @@
 import { FaBars } from "react-icons/fa6";
 import { FaBell } from "react-icons/fa";
 import { Outlet } from "react-router-dom";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import Login from "../../pages/auth/Login";
 
 function NavBar({ sideNav, onSetSideNav }) {
   // const toggleTheme = () => {
@@ -33,12 +30,11 @@ function NavBar({ sideNav, onSetSideNav }) {
         </div>
       </div>
 
-      <main
-        className={classNames("p-4 bg-[#FCDDEC] transition-all duration-300")}
-      >
-        <div className="p-4 border-2 border-dashed border-gray-400 bg-gray-300 rounded-lg min-h-[calc(100vh-8rem)]">
-          <Outlet />
-        </div>
+      <Login />
+      <main className="p-3 bg-[#FCDDEC] h-full">
+        {/* <div className="p-4 border-2 border-dashed border-gray-400 bg-gray-300 rounded-lg min-h-[calc(100vh-8rem)]"> */}
+        <Outlet />
+        {/* </div> */}
       </main>
     </>
   );

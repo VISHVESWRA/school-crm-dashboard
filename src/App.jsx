@@ -6,6 +6,7 @@ import Table from "./pages/table/Table";
 import TeachersList from "./pages/teachers/TeachersList";
 import TeachersForm from "./pages/teachers/TeachersForm";
 import Login from "./pages/auth/Login";
+import Home from "./components/home/Home";
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -22,7 +23,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route path="/" element={<Table />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="settings">
               <Route path="teachersList" element={<TeachersList />} />

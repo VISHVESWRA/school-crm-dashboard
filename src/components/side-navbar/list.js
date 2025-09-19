@@ -1,10 +1,10 @@
 export const sideMenus = [
   { name: "Home", icon: "IoHome", path: "/" },
-  // { name: "Business", icon: "bi-building", path: "/login" },
+  { name: "Business", icon: "bi-building", path: "/login" },
   // { name: "Zones", icon: "bi-geo-alt", path: "/" },
   {
     name: "Reports",
-    icon: "bi-graph-up",
+    icon: "TbReportSearch",
     subItems: [
       { name: "Order List", path: "/" },
       { name: "Business Wise", path: "/" },

@@ -41,7 +41,7 @@ function SideNavBar() {
   return (
     <div className="flex h-screen overflow-hidden">
       {sideNav && (
-        <aside className="w-20 md:w-24 bg-[#C72571] flex flex-col">
+        <aside className="w-20 md:w-24 bg-[#C72571] flex flex-col relative">
           <div className="p-4 flex flex-col items-center gap-2">
             <span className="font-poppins text-black text-lg hidden md:block">
               NSCHOOL
@@ -53,9 +53,8 @@ function SideNavBar() {
               <div
                 key={menu.name}
                 onClick={() => handleMenuClick(menu)}
-                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${
-                  activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
-                }`}
+                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
+                  }`}
               >
                 {menu.icon && searchIcon(menu.icon)}
                 <span className="font-poppins hidden md:block">
