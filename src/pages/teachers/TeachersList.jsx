@@ -9,6 +9,7 @@ import { Table, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Placeholder from "react-bootstrap/Placeholder";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import Spinner from "react-bootstrap/Spinner";
 
 export default function TeachersList() {
   const dispatch = useDispatch();
@@ -17,36 +18,6 @@ export default function TeachersList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
-
-  // const lists = [
-  //   {
-  //     _id: "1",
-  //     firstName: "Arun",
-  //     lastName: "S",
-  //     phoneNumber: "9658623586",
-  //     role: "Teacher",
-  //     dateOfJoin: "2025-09-18",
-  //     city: "",
-  //     state: "",
-  //     zip: "",
-  //   },
-  //   {
-  //     _id: "2",
-  //     firstName: "John",
-  //     lastName: "Doe",
-  //     phoneNumber: "9876543210",
-  //     role: "Admin",
-  //     dateOfJoin: "2025-05-10",
-  //   },
-  //   {
-  //     _id: "3",
-  //     firstName: "John",
-  //     lastName: "Doe",
-  //     phoneNumber: "9876543210",
-  //     role: "Admin",
-  //     dateOfJoin: "2025-05-10",
-  //   },
-  // ];
 
   const filteredList = list.filter((teacher) => {
     const fullName = `${teacher.firstName} ${teacher.lastName}`.toLowerCase();
@@ -69,7 +40,13 @@ export default function TeachersList() {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-600">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
   }
 
   if (error) {

@@ -1,7 +1,7 @@
 export const sideMenus = [
-  { name: "Home", icon: "bi-house-door", path: "/" },
-  { name: "Business", icon: "bi-building", path: "/login" },
-  { name: "Zones", icon: "bi-geo-alt", path: "/" },
+  { name: "Home", icon: "IoHome", path: "/" },
+  // { name: "Business", icon: "bi-building", path: "/login" },
+  // { name: "Zones", icon: "bi-geo-alt", path: "/" },
   {
     name: "Reports",
     icon: "bi-graph-up",
@@ -21,10 +21,18 @@ export const sideMenus = [
   },
   {
     name: "Settings",
-    icon: "bi-gear",
+    icon: "IoSettings",
     subItems: [
-      { name: "General", path: "/" },
-      { name: "Users", path: "/" },
+      {
+        name: "General",
+        path: "/",
+        icon: "SiGoogleclassroom",
+      },
+      {
+        name: "Students",
+        path: "/",
+        icon: "PiStudentBold",
+      },
       {
         name: "Teachers",
         path: "/settings/teachersList",

@@ -3,6 +3,7 @@ import NavBar from "../navbar/NavBar";
 import { sideMenus } from "./list";
 import { useNavigate } from "react-router-dom";
 import { iconList } from "../../assets/iconMap";
+import "./SideNavBar.css";
 
 function SideNavBar() {
   const [activeMenu, setActiveMenu] = useState("Home");
@@ -40,11 +41,11 @@ function SideNavBar() {
   return (
     <div className="flex h-screen overflow-hidden">
       {sideNav && (
-        <aside className="w-20 md:w-24 bg-[#C72571] text-brand-light flex flex-col">
+        <aside className="w-20 md:w-24 bg-[#C72571] flex flex-col">
           <div className="p-4 flex flex-col items-center gap-2">
-            {/* <div className="bg-blue-500 w-8 h-8 rounded-full flex items-center justify-center font-bold">
-            </div> */}
-            <span className="hidden md:block font-poppins">NSCHOOL</span>
+            <span className="font-poppins text-black text-lg hidden md:block">
+              NSCHOOL
+            </span>
           </div>
 
           <nav className="flex-1 p-2 space-y-2">
@@ -52,11 +53,14 @@ function SideNavBar() {
               <div
                 key={menu.name}
                 onClick={() => handleMenuClick(menu)}
-                className={`flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-[#FCDDEC] hover:text-black cursor-pointer ${activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
-                  }`}
+                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${
+                  activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
+                }`}
               >
-                <i className={`bi ${menu.icon}`}></i>
-                <span className="hidden md:block">{menu.name}</span>
+                {menu.icon && searchIcon(menu.icon)}
+                <span className="font-poppins hidden md:block">
+                  {menu.name}
+                </span>
               </div>
             ))}
           </nav>
@@ -68,7 +72,7 @@ function SideNavBar() {
           style={isChildMenuOpen ? { display: "block" } : { display: "none" }}
           className="relative md:absolute h-screen md:left-24 w-52 bg-[#C72571] border-x border-gray-200 p-4 overflow-y-auto"
         >
-          <h3 className="text-xs font-bold text-white uppercase mb-3">
+          <h3 className="text-xs font-bold text-white font-poppins uppercase mb-3">
             {activeMenu}
           </h3>
           <ul className="space-y-2" style={{ paddingLeft: "0px" }}>
@@ -78,8 +82,12 @@ function SideNavBar() {
                 <li
                   key={idx}
                   onClick={() => handleSubMenuClick(sub)}
-                  className={`flex items-center gap-2 cursor-pointer p-2 rounded  hover:bg-[#FCDDEC] hover:text-black text-white text-md  ${activeSubMenu === sub.name ? "bg-[#FCDDEC] text-black" : ""
-                    }`}
+                  style={
+                    activeSubMenu === sub.name
+                      ? { backgroundColor: "#FCDDEC", color: "black" }
+                      : { backgroundColor: "", color: "" }
+                  }
+                  className="flex items-center gap-2 cursor-pointer p-2 rounded font-poppins text-black hover:bg-[#FCDDEC] text-md"
                 >
                   {sub.icon && searchIcon(sub.icon)}
                   {sub.name}
