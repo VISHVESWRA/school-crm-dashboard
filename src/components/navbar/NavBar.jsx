@@ -2,6 +2,7 @@ import { FaBars } from "react-icons/fa6";
 import { FaBell } from "react-icons/fa";
 import { Outlet } from "react-router-dom";
 import Login from "../../pages/auth/Login";
+import LoginPage from "../../pages/auth/Login";
 
 function NavBar({ sideNav, onSetSideNav }) {
   // const toggleTheme = () => {
@@ -30,7 +31,7 @@ function NavBar({ sideNav, onSetSideNav }) {
         </div>
       </div>
 
-      <Login />
+      <LoginPage />
       <main className="p-3 bg-[#FCDDEC] h-full">
         {/* <div className="p-4 border-2 border-dashed border-gray-400 bg-gray-300 rounded-lg min-h-[calc(100vh-8rem)]"> */}
         <Outlet />

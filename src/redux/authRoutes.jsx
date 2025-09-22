@@ -1,18 +1,18 @@
-// import { useSelector } from "react-redux";
-// import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
-// export default function PrivateRoute({ children, role }) {
-//   const { user } = useSelector((state) => state.auth);
+export default function PrivateRoute({ children, role }) {
+  const { user } = useSelector((state) => state.auth);
 
-//   if (!user) return <Navigate to="/login" />;
-//   if (role && user.role !== role) return <Navigate to="/unauthorized" />;
+  if (!user) return <Navigate to="/login" />;
+  if (role && user.role !== role) return <Navigate to="/unauthorized" />;
 
-//   return children;
-// }
+  return children;
+}
 
 /////////////////////////////////////
 
-import PrivateRoute from "./components/PrivateRoute";
+// import PrivateRoute from "./components/PrivateRoute";
 
 {
   /* <Route
