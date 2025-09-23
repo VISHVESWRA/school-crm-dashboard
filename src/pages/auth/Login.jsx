@@ -21,7 +21,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      navigate("/"); // redirect to home
+      navigate("/");
     }
   }, [user, navigate]);
 

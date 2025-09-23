@@ -27,7 +27,7 @@ function App() {
 
           <Route
             element={
-              <PrivateRoute role={"superAdmin"}>
+              <PrivateRoute role={["superAdmin", "teacher"]}>
                 <AppLayout />
               </PrivateRoute>
             }

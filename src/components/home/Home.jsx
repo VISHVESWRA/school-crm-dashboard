@@ -6,8 +6,6 @@ import { BsPersonSlash } from "react-icons/bs";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  console.log("home component rendered");
-
   return (
     <>
       <div className="grid grid-cols-3 gap-5 sm:gap-3 mt-4">

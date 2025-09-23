@@ -56,9 +56,8 @@ function SideNavBar() {
               <div
                 key={menu.name}
                 onClick={() => handleMenuClick(menu)}
-                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${
-                  activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
-                }`}
+                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
+                  }`}
               >
                 {menu.icon && searchIcon(menu.icon)}
                 <span className="font-poppins hidden md:block">
