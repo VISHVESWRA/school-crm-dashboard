@@ -31,7 +31,7 @@ function NavBar({ sideNav, onSetSideNav }) {
         </div>
       </div>
 
-      <LoginPage />
+      {/* <LoginPage /> */}
       <main className="p-3 bg-[#FCDDEC] h-full">
         {/* <div className="p-4 border-2 border-dashed border-gray-400 bg-gray-300 rounded-lg min-h-[calc(100vh-8rem)]"> */}
         <Outlet />

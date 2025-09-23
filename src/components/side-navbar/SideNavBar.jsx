@@ -4,8 +4,11 @@ import { sideMenus } from "./list";
 import { useNavigate } from "react-router-dom";
 import { iconList } from "../../assets/iconMap";
 import "./SideNavBar.css";
+import { useDispatch } from "react-redux";
+import { Logout } from "../../express/redux/LoginSlice";
 
 function SideNavBar() {
+  const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState("Home");
   const [activeSubMenu, setSubActiveMenu] = useState();
   const [isChildMenuOpen, setIsChildMenuOpen] = useState(false);
@@ -53,8 +56,9 @@ function SideNavBar() {
               <div
                 key={menu.name}
                 onClick={() => handleMenuClick(menu)}
-                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
-                  }`}
+                className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${
+                  activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
+                }`}
               >
                 {menu.icon && searchIcon(menu.icon)}
                 <span className="font-poppins hidden md:block">
@@ -63,6 +67,15 @@ function SideNavBar() {
               </div>
             ))}
           </nav>
+
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(Logout());
+            }}
+          >
+            Logout
+          </button>
         </aside>
       )}
 
@@ -95,26 +108,6 @@ function SideNavBar() {
           </ul>
         </aside>
       )}
-
-      {/* {isChildMenuOpen && (
-        <aside className="relative md:absolute h-screen md:left-24 w-52 bg-[#0f172a] border-x border-gray-200 p-4 overflow-y-auto">
-          <h3 className="text-xs font-bold text-white uppercase mb-3">
-            {activeMenu}
-          </h3>
-          <ul className="space-y-2">
-            {sideMenus
-              .find((m) => m.name === activeMenu)
-              ?.subItems?.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="cursor-pointer p-2 rounded hover:bg-blue-400 text-white text-md"
-                >
-                  {item}
-                </li>
-              ))}
-          </ul>
-        </aside>
-      )} */}
 
       <main className="flex-1 bg-gray-50 overflow-auto">
         <NavBar sideNav={sideNav} onSetSideNav={setSideNav} />

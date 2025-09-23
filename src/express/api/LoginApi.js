@@ -1,13 +1,29 @@
 import axios from "axios";
 
-const URL = "http://localhost:9900/api/auth/login";
-
 const axiosInstance = axios.create({
-  baseURL: URL,
+  baseURL: "http://localhost:9900/api",
 });
 
-export const LoginApi = (data) => {
-  return axios.post(URL, data);
-};
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-// export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
+export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
+
+// const URL = "http://localhost:9900/api/auth/login";
+
+// export const LoginApi = (data) => axios.post(`${URL}/auth/login`, data);
+
+// // const axiosInstance = axios.create({
+// //   baseURL: URL,
+// // });
+
+// export const LoginApi = (data) => {
+//   return axios.post(URL, data);
+// };
+
+// // export const LoginApi = (data) => axiosInstance.post("/auth/login", data);

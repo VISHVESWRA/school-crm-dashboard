@@ -7,6 +7,7 @@ import TeachersList from "./pages/teachers/TeachersList";
 import TeachersForm from "./pages/teachers/TeachersForm";
 import Home from "./components/home/Home";
 import LoginPage from "./pages/auth/Login";
+import PrivateRoute from "./redux/authRoutes";
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -22,9 +23,16 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route
+            element={
+              <PrivateRoute role={"superAdmin"}>
+                <AppLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Home />} />
             <Route path="settings">
               <Route path="teachersList" element={<TeachersList />} />
               <Route path="teachersForm" element={<TeachersForm />} />
