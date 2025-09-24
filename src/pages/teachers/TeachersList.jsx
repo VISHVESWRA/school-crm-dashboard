@@ -4,44 +4,26 @@ import {
   fetchTeachers,
 } from "../../express/redux/TeachersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Table, Form } from "react-bootstrap";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
-import Card from 'react-bootstrap/Card';
-import Paper from '@mui/material/Paper';
-import { DataGrid } from '@mui/x-data-grid';
+import Card from "react-bootstrap/Card";
+import Paper from "@mui/material/Paper";
+import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
+    field: "serial",
+    headerName: "S.No",
+    flex: 0.5,
+    headerAlign: "center",
+    align: "center",
   },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-  },
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  { field: "firstName", headerName: "First Name", flex: 1 },
+  { field: "lastName", headerName: "Last Name", flex: 1 },
+  { field: "phoneNumber", headerName: "Phone Number", flex: 1 },
+  { field: "role", headerName: "Role", flex: 1 },
 ];
 
 const paginationModel = { page: 0, pageSize: 5 };
@@ -53,6 +35,7 @@ export default function TeachersList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
+  const { setBreadcrumbs } = useOutletContext();
 
   const filteredList = list.filter((teacher) => {
     const fullName = `${teacher.firstName} ${teacher.lastName}`.toLowerCase();
@@ -66,9 +49,30 @@ export default function TeachersList() {
     return matchSearch && matchRole && matchDate;
   });
 
+  const rows = filteredList.map((teacher, index) => ({
+    id: teacher._id, // `DataGrid` requires a unique `id`
+    serial: index + 1,
+    firstName: teacher.firstName,
+    lastName: teacher.lastName,
+    phoneNumber: teacher.phoneNumber,
+    role: teacher.role,
+  }));
+
   useEffect(() => {
     dispatch(fetchTeachers());
   }, [dispatch]);
+
+  useEffect(() => {
+    setBreadcrumbs([
+      {
+        label: "Home",
+        href: "/",
+      },
+      {
+        label: "List",
+      },
+    ]);
+  }, []);
 
   const handleAddTeacher = () => {
     navigate("/settings/teachersForm");
@@ -90,10 +94,10 @@ export default function TeachersList() {
 
   return (
     <div>
-      <Card className="mb-3">
+      <Card className="mb-0.5">
         {/* <Card.Header>Header</Card.Header> */}
         <Card.Body>
-          <div className="flex flex-row gap-3 mb-3 items-center">
+          <div className="flex flex-row gap-3 items-center">
             <Form.Select
               className="w-full max-w-xs"
               value={roleFilter}
@@ -129,7 +133,7 @@ export default function TeachersList() {
             </button>
           </div>
 
-          <Table striped bordered hover responsive>
+          {/* <Table striped bordered hover responsive>
             <thead>
               <tr>
                 <th className="text-center">S.No</th>
@@ -158,13 +162,13 @@ export default function TeachersList() {
                 </tr>
               )}
             </tbody>
-          </Table>
+          </Table> */}
         </Card.Body>
       </Card>
 
       <Card>
         <Card.Body>
-          <Paper sx={{ height: 400, width: '100%' }}>
+          <Paper sx={{ height: 400, width: "100%" }}>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -177,7 +181,5 @@ export default function TeachersList() {
         </Card.Body>
       </Card>
     </div>
-
-
   );
 }

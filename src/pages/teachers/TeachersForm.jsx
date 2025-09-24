@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { createTeacherApi } from "../../express/api/TeachersApi";
-import { useNavigate } from "react-router-dom";
-import Card from 'react-bootstrap/Card';
+import { useNavigate, useOutletContext } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
+import { useEffect } from "react";
 
 export default function TeachersForm() {
   const roles = [
@@ -24,22 +26,60 @@ export default function TeachersForm() {
     },
   });
   const navigate = useNavigate();
+  const { setBreadcrumbs } = useOutletContext();
+
+  // const breadcrumbs = [
+  //   {
+  //     label: "Home",
+  //     href: "/",
+  //     onClick: (e) => {
+  //       e.preventDefault();
+  //       console.log("Clicked Home");
+  //     },
+  //   },
+  //   {
+  //     label: "Dashboard",
+  //     href: "/dashboard",
+  //   },
+  //   {
+  //     label: "Settings", // no href = current page
+  //   },
+  // ];
+
+  useEffect(() => {
+    setBreadcrumbs([
+      {
+        label: "Home",
+        href: "/",
+        // onClick: (e) => {
+        //   e.preventDefault();
+        //   console.log("Clicked Home");
+        // },
+      },
+      {
+        label: "List",
+        href: "././teachersList",
+      },
+      {
+        label: "Form", // no href = current page
+      },
+    ]);
+  }, []);
 
   const onSubmit = (data) => {
     console.log(data);
     createTeacherApi(data);
+    setBreadcrumbs([]);
     reset();
     navigate("/settings/teachersList");
   };
 
   return (
     <>
-      <Card className="mb-3">
-        {/* <Card.Header>Header</Card.Header> */}
-        <Card.Body>This is some text within a card body.</Card.Body>
-      </Card>
       <Card className="shadow">
-        <Card.Header className="font-poppins text-lg font-medium">General Details</Card.Header>
+        <Card.Header className="font-poppins text-lg font-medium">
+          General Details
+        </Card.Header>
         <Card.Body>
           <Form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Row className="mb-3">
@@ -173,13 +213,17 @@ export default function TeachersForm() {
             <Button
               className="mx-2"
               type="button"
-              onClick={() => navigate("/settings/teachersList")}
+              onClick={() => {
+                navigate("/settings/teachersList");
+                setBreadcrumbs([]);
+              }}
             >
               Back
             </Button>
           </Form>
         </Card.Body>
       </Card>
+
       {/* <div className="bg-white m-10 p-4 shadow-2xl rounded"> */}
       {/* <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Row className="mb-3">

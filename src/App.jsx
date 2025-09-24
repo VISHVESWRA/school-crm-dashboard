@@ -32,7 +32,7 @@ function App() {
               </PrivateRoute>
             }
           >
-            <Route index element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="settings">
               <Route path="teachersList" element={<TeachersList />} />
               <Route path="teachersForm" element={<TeachersForm />} />
