@@ -1,32 +1,15 @@
 import { useEffect, useState } from "react";
 import {
-  createTeacher,
+  deleteTeacher,
   fetchTeachers,
 } from "../../express/redux/TeachersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Table, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Card from "react-bootstrap/Card";
-import Paper from "@mui/material/Paper";
-import { DataGrid } from "@mui/x-data-grid";
-
-const columns = [
-  {
-    field: "serial",
-    headerName: "S.No",
-    flex: 0.5,
-    headerAlign: "center",
-    align: "center",
-  },
-  { field: "firstName", headerName: "First Name", flex: 1 },
-  { field: "lastName", headerName: "Last Name", flex: 1 },
-  { field: "phoneNumber", headerName: "Phone Number", flex: 1 },
-  { field: "role", headerName: "Role", flex: 1 },
-];
-
-const paginationModel = { page: 0, pageSize: 5 };
 
 export default function TeachersList() {
   const dispatch = useDispatch();
@@ -37,26 +20,8 @@ export default function TeachersList() {
   const [dateFilter, setDateFilter] = useState("");
   const { setBreadcrumbs } = useOutletContext();
 
-  const filteredList = list.filter((teacher) => {
-    const fullName = `${teacher.firstName} ${teacher.lastName}`.toLowerCase();
-    const matchSearch =
-      fullName.includes(searchTerm.toLowerCase()) ||
-      teacher.phoneNumber.includes(searchTerm);
-
-    const matchRole = roleFilter ? teacher.role === roleFilter : true;
-    const matchDate = dateFilter ? teacher.dateOfJoin === dateFilter : true;
-
-    return matchSearch && matchRole && matchDate;
-  });
-
-  const rows = filteredList.map((teacher, index) => ({
-    id: teacher._id, // `DataGrid` requires a unique `id`
-    serial: index + 1,
-    firstName: teacher.firstName,
-    lastName: teacher.lastName,
-    phoneNumber: teacher.phoneNumber,
-    role: teacher.role,
-  }));
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 10;
 
   useEffect(() => {
     dispatch(fetchTeachers());
@@ -64,19 +29,40 @@ export default function TeachersList() {
 
   useEffect(() => {
     setBreadcrumbs([
-      {
-        label: "Home",
-        href: "/",
-      },
-      {
-        label: "List",
-      },
+      { label: "Home", href: "/" },
+      { label: "List" },
     ]);
   }, []);
 
-  const handleAddTeacher = () => {
-    navigate("/settings/teachersForm");
+  const handleAddTeacher = () => navigate("/settings/teachersForm");
+
+  const handleEdit = (teacher) => {
+    navigate(`/settings/teachersForm/${teacher._id}`)
   };
+
+  const handleDelete = (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this teacher?");
+    if (!confirmed) return;
+
+    dispatch(deleteTeacher(id))
+  };
+
+  const filteredList = list.filter((teacher) => {
+    const fullName = `${teacher.firstName} ${teacher.lastName}`.toLowerCase();
+    const matchSearch =
+      fullName.includes(searchTerm.toLowerCase()) ||
+      teacher.phoneNumber.includes(searchTerm);
+    const matchRole = roleFilter ? teacher.role === roleFilter : true;
+    const matchDate = dateFilter ? teacher.dateOfJoin === dateFilter : true;
+    return matchSearch && matchRole && matchDate;
+  });
+
+  const totalPages = Math.ceil(filteredList.length / rowsPerPage);
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = filteredList.slice(indexOfFirstRow, indexOfLastRow);
+
+  const goToPage = (page) => setCurrentPage(page);
 
   if (loading) {
     return (
@@ -88,20 +74,18 @@ export default function TeachersList() {
     );
   }
 
-  if (error) {
-    return <p className="text-danger">Error: {error}</p>;
-  }
+  if (error) return <p className="text-danger">Error: {error}</p>;
 
   return (
     <div>
-      <Card className="mb-0.5">
-        {/* <Card.Header>Header</Card.Header> */}
+
+      <Card>
         <Card.Body>
-          <div className="flex flex-row gap-3 items-center">
+          <div className="flex flex-row gap-3 items-center mb-4">
             <Form.Select
               className="w-full max-w-xs"
               value={roleFilter}
-              onChange={(event) => setRoleFilter(event.target.value)}
+              onChange={(e) => setRoleFilter(e.target.value)}
             >
               <option value="">All Roles</option>
               <option value="Teacher">Teacher</option>
@@ -113,7 +97,7 @@ export default function TeachersList() {
               placeholder="Search"
               className="w-full max-w-xs"
               value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             <Form.Control
@@ -133,51 +117,74 @@ export default function TeachersList() {
             </button>
           </div>
 
-          {/* <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th className="text-center">S.No</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Phone Number</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredList.length > 0 ? (
-                filteredList.map((teacher, index) => (
-                  <tr key={teacher._id}>
-                    <td className="text-center">{index + 1}</td>
-                    <td>{teacher.firstName}</td>
-                    <td>{teacher.lastName}</td>
-                    <td>{teacher.phoneNumber}</td>
-                    <td>{teacher.role}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="text-center">
-                    No results found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table> */}
-        </Card.Body>
-      </Card>
+          <div className="flex justify-end items-center mb-2 gap-2">
+            <button
+              className="px-3 py-1 border rounded disabled:opacity-50"
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Prev
+            </button>
 
-      <Card>
-        <Card.Body>
-          <Paper sx={{ height: 400, width: "100%" }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              initialState={{ pagination: { paginationModel } }}
-              pageSizeOptions={[5, 10]}
-              checkboxSelection
-              sx={{ border: 0 }}
-            />
-          </Paper>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+              <button
+                key={num}
+                className={`px-3 py-1 border rounded ${num === currentPage ? "bg-blue-500 text-white" : ""
+                  }`}
+                onClick={() => goToPage(num)}
+              >
+                {num}
+              </button>
+            ))}
+
+            <button
+              className="px-3 py-1 border rounded disabled:opacity-50"
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+
+          <div className="overflow-x-auto border rounded">
+            <table className="min-w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-300 font-poppins text-sm">
+                  <th className="border px-4 py-2 text-center">S.No</th>
+                  <th className="border px-4 py-2">First Name</th>
+                  <th className="border px-4 py-2">Last Name</th>
+                  <th className="border px-4 py-2">Phone Number</th>
+                  <th className="border px-4 py-2">Role</th>
+                  <th className="border px-4 py-2 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentRows.map((teacher, idx) => (
+                  <tr key={teacher._id} className="hover:bg-gray-50 bg-white">
+                    <td className="border px-4 py-2 text-center">
+                      {indexOfFirstRow + idx + 1}
+                    </td>
+                    <td className="border px-4 py-2">{teacher.firstName}</td>
+                    <td className="border px-4 py-2">{teacher.lastName}</td>
+                    <td className="border px-4 py-2">{teacher.phoneNumber}</td>
+                    <td className="border px-4 py-2">{teacher.role}</td>
+                    <td className="border px-4 py-2 flex text-center justify-center gap-2">
+                      <FiEdit
+                        className="text-blue-500 cursor-pointer hover:text-blue-700"
+                        size={18}
+                        onClick={() => handleEdit(teacher)}
+                      />
+                      <FiTrash2
+                        className="text-red-500 cursor-pointer hover:text-red-700"
+                        size={18}
+                        onClick={() => handleDelete(teacher._id)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Card.Body>
       </Card>
     </div>

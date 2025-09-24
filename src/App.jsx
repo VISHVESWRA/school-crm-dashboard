@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
-import Table from "./pages/table/Table";
 import TeachersList from "./pages/teachers/TeachersList";
 import TeachersForm from "./pages/teachers/TeachersForm";
 import Home from "./components/home/Home";
@@ -36,6 +35,7 @@ function App() {
             <Route path="settings">
               <Route path="teachersList" element={<TeachersList />} />
               <Route path="teachersForm" element={<TeachersForm />} />
+              <Route path="teachersForm/:id" element={<TeachersForm />} />
             </Route>
           </Route>
         </Routes>

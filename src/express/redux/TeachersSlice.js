@@ -1,15 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createTeacherApi,
-  // updateTeacherApi,
+  updateTeacherApi,
   deleteTeacherApi,
   getTeachersApi,
+  getTeacherByIdApi,
 } from "../api/TeachersApi";
 
 export const fetchTeachers = createAsyncThunk("teachers/fetchAll", async () => {
   const response = await getTeachersApi();
   return response.data;
 });
+
+export const fetchTeacherById = createAsyncThunk(
+  "teachers/fetchById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await getTeacherByIdApi(id);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 
 export const createTeacher = createAsyncThunk(
   "teachers/create",
@@ -23,13 +36,17 @@ export const createTeacher = createAsyncThunk(
   }
 );
 
-// export const updateTeacher = createAsyncThunk(
-//   "teachers/update",
-//   async ({ id, data }) => {
-//     const response = await updateTeacherApi(id, data);
-//     return response.data;
-//   }
-// );
+export const updateTeacher = createAsyncThunk(
+  "teachers/update",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const response = await updateTeacherApi(id, data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 
 export const deleteTeacher = createAsyncThunk("teachers/delete", async (id) => {
   await deleteTeacherApi(id);
@@ -40,6 +57,7 @@ const teachersSlice = createSlice({
   name: "teachers",
   initialState: {
     list: [],
+    selectedTeacher: null,
     loading: false,
     error: null,
   },
@@ -60,12 +78,27 @@ const teachersSlice = createSlice({
       .addCase(createTeacher.fulfilled, (state, action) => {
         state.list.push(action.payload);
       })
-      // .addCase(updateTeacher.fulfilled, (state, action) => {
-      //   const index = state.list.findIndex((t) => t.id === action.payload.id);
-      //   if (index !== -1) state.list[index] = action.payload;
-      // })
+      .addCase(fetchTeacherById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTeacherById.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.selectedTeacher = action.payload;
+      })
+      .addCase(fetchTeacherById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateTeacher.fulfilled, (state, action) => {
+        console.log(action.payload);
+
+        const index = state.list.findIndex((t) => t._id === action.payload._id);
+        if (index !== -1) state.list[index] = action.payload;
+      })
       .addCase(deleteTeacher.fulfilled, (state, action) => {
-        state.list = state.list.filter((t) => t.id !== action.payload);
+        state.list = state.list.filter((t) => t._id !== action.payload);
       });
   },
 });

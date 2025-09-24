@@ -6,10 +6,6 @@ export default function PrivateRoute({ children, role }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  console.log("PrivateRoute mounted", user, role);
-  console.log("Route path:", window.location.pathname);
-
-
   if (!user) return <Navigate to="/login" />;
   if (role && !role.includes(user.role)) return (
     <>

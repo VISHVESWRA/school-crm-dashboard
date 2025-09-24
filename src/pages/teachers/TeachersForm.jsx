@@ -1,13 +1,18 @@
 import { useForm } from "react-hook-form";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { createTeacherApi } from "../../express/api/TeachersApi";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useEffect } from "react";
+import { fetchTeacherById, fetchTeachers, updateTeacher } from "../../express/redux/TeachersSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TeachersForm() {
+  const { selectedTeacher, loading, error } = useSelector((state) => state.teachers);
+
   const roles = [
+    "Admin",
     "Principal",
     "Management Staff",
     "Teacher",
@@ -25,26 +30,10 @@ export default function TeachersForm() {
       dateOfJoin: new Date().toISOString().split("T")[0],
     },
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
   const { setBreadcrumbs } = useOutletContext();
-
-  // const breadcrumbs = [
-  //   {
-  //     label: "Home",
-  //     href: "/",
-  //     onClick: (e) => {
-  //       e.preventDefault();
-  //       console.log("Clicked Home");
-  //     },
-  //   },
-  //   {
-  //     label: "Dashboard",
-  //     href: "/dashboard",
-  //   },
-  //   {
-  //     label: "Settings", // no href = current page
-  //   },
-  // ];
 
   useEffect(() => {
     setBreadcrumbs([
@@ -61,17 +50,49 @@ export default function TeachersForm() {
         href: "././teachersList",
       },
       {
-        label: "Form", // no href = current page
+        label: "Form",
       },
     ]);
   }, []);
 
+  useEffect(() => {
+    console.log(id);
+    if (id) {
+
+      dispatch(fetchTeacherById(id));
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (selectedTeacher) {
+      reset({
+        firstName: selectedTeacher.firstName,
+        lastName: selectedTeacher.lastName,
+        phoneNumber: selectedTeacher.phoneNumber,
+        dateOfJoin: selectedTeacher.dateOfJoin
+          ? new Date(selectedTeacher.dateOfJoin).toISOString().split("T")[0]
+          : new Date().toISOString().split("T")[0],
+        role: selectedTeacher.role,
+        city: selectedTeacher.city,
+        state: selectedTeacher.state,
+        zip: selectedTeacher.zip
+      });
+    }
+  }, [selectedTeacher, reset]);
+
   const onSubmit = (data) => {
-    console.log(data);
-    createTeacherApi(data);
-    setBreadcrumbs([]);
-    reset();
-    navigate("/settings/teachersList");
+    if (id) {
+      console.log(data, id);
+      dispatch(updateTeacher({ id, data }));
+      reset();
+      setBreadcrumbs([]);
+      navigate("/settings/teachersList");
+    } else {
+      createTeacherApi(data);
+      setBreadcrumbs([]);
+      reset();
+      navigate("/settings/teachersList");
+    }
   };
 
   return (

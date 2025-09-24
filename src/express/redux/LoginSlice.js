@@ -40,6 +40,7 @@ const authSlice = createSlice({
       .addCase(LoginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.role = null;
       })
       .addCase(LoginUser.fulfilled, (state, action) => {
         state.loading = false;
@@ -50,7 +51,7 @@ const authSlice = createSlice({
       })
       .addCase(LoginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });

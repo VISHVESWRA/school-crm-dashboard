@@ -5,8 +5,6 @@ import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const BreadcrumbNav = ({ items }) => {
-  console.log(items);
-
   return (
     <Stack spacing={2}>
       <Breadcrumbs
