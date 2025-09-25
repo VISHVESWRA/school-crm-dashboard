@@ -56,9 +56,7 @@ export default function TeachersForm() {
   }, []);
 
   useEffect(() => {
-    console.log(id);
     if (id) {
-
       dispatch(fetchTeacherById(id));
     }
   }, [dispatch, id]);
@@ -108,7 +106,6 @@ export default function TeachersForm() {
                 <Form.Label>First name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="First name"
                   isInvalid={!!errors.firstName}
                   {...register("firstName", { required: "Required" })}
                 />
@@ -121,7 +118,6 @@ export default function TeachersForm() {
                 <Form.Label>Last name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Last name"
                   isInvalid={!!errors.lastName}
                   {...register("lastName", { required: "Required" })}
                 />
@@ -136,7 +132,6 @@ export default function TeachersForm() {
                 <Form.Label>Phone Number</Form.Label>
                 <Form.Control
                   type="tel"
-                  placeholder="Phone Number"
                   isInvalid={!!errors.phoneNumber}
                   {...register("phoneNumber", {
                     required: "Required",
@@ -186,7 +181,6 @@ export default function TeachersForm() {
                 <Form.Label>City</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="City"
                   isInvalid={!!errors.city}
                   {...register("city")}
                 />
@@ -196,7 +190,6 @@ export default function TeachersForm() {
                 <Form.Label>State</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="State"
                   isInvalid={!!errors.state}
                   {...register("state")}
                 />
@@ -206,7 +199,6 @@ export default function TeachersForm() {
                 <Form.Label>Zip</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Zip"
                   isInvalid={!!errors.zip}
                   {...register("zip", {
                     pattern: {

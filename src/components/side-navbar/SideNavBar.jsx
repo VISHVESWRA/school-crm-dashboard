@@ -20,10 +20,17 @@ import {
   Calendar,
   TrendingUp,
   Activity,
+  Split,
+  SquareCode,
+  GraduationCap,
+  BookOpenText,
+  UserRoundPlus
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import BreadcrumbNav from "../bredCrumbs/BredCrumb";
+import { useDispatch, useSelector } from "react-redux";
+import { Logout } from "../../express/redux/LoginSlice";
 
 const SideNavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,7 +38,9 @@ const SideNavBar = () => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
+  const dispatch = useDispatch();
   const [breadcrumbs, setBreadcrumbs] = useState([]);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleResize = () => {
@@ -60,8 +69,9 @@ const SideNavBar = () => {
   ];
 
   const settingsItems = [
-    { icon: User, label: "Teachers", path: "/settings/teachersList" },
-    // { icon: Shield, label: "Security", path: "/security" },
+    { icon: Users, label: "Teachers", path: "/settings/teachersList" },
+    { icon: BookOpenText, label: "Course", path: "/settings/courseForm" },
+    { icon: UserRoundPlus, label: "Student", path: "/settings/studentForm" },
     // { icon: Palette, label: "Appearance", path: "/appearance" },
     // { icon: Bell, label: "Notifications", path: "/settings/notifications" },
     // { icon: Globe, label: "Language & Region", path: "/settings/language" },
@@ -106,6 +116,11 @@ const SideNavBar = () => {
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
   };
+
+
+  const handleFirstLetter = (data) => {
+    return data.name[0]
+  }
 
   return (
     <div className="h-screen flex bg-gray-50 overflow-hidden">
@@ -172,21 +187,19 @@ const SideNavBar = () => {
                 <Link
                   to={item.path}
                   className={`group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
-    ${
-      item.active
-        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-        : "text-white hover:bg-pink-400 hover:text-black"
-    }
+    ${item.active
+                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                      : "text-white hover:bg-pink-400 hover:text-black"
+                    }
   `}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="flex items-center">
                     <item.icon
-                      className={`w-5 h-5 mr-3 ${
-                        item.active
-                          ? "text-[#8B0F4B]"
-                          : "text-white group-hover:text-gray-600"
-                      }`}
+                      className={`w-5 h-5 mr-3 ${item.active
+                        ? "text-[#8B0F4B]"
+                        : "text-white group-hover:text-gray-600"
+                        }`}
                     />
                     {item.label}
                   </div>
@@ -211,9 +224,8 @@ const SideNavBar = () => {
                   Settings
                 </div>
                 <div
-                  className={`transform transition-transform duration-200 ${
-                    settingsOpen ? "rotate-180" : ""
-                  }`}
+                  className={`transform transition-transform duration-200 ${settingsOpen ? "rotate-180" : ""
+                    }`}
                 >
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </div>
@@ -221,11 +233,10 @@ const SideNavBar = () => {
 
               {/* Settings Dropdown Menu */}
               <div
-                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${
-                  settingsOpen
-                    ? "max-h-64 opacity-100"
-                    : "max-h-0 opacity-0 overflow-hidden"
-                }`}
+                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${settingsOpen
+                  ? "max-h-64 opacity-100"
+                  : "max-h-0 opacity-0 overflow-hidden"
+                  }`}
               >
                 {settingsItems.map((item, index) => (
                   // <div
@@ -345,11 +356,10 @@ const SideNavBar = () => {
                         >
                           <div className="flex items-start">
                             <div
-                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${
-                                notification.unread
-                                  ? "bg-blue-500"
-                                  : "bg-gray-300"
-                              }`}
+                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${notification.unread
+                                ? "bg-blue-500"
+                                : "bg-gray-300"
+                                }`}
                             ></div>
                             <div className="flex-1">
                               <h4 className="text-sm font-medium text-gray-900">
@@ -381,7 +391,7 @@ const SideNavBar = () => {
                   onClick={toggleUserMenu}
                   className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                 >
-                  <span className="text-white font-semibold text-sm">JD</span>
+                  <span className="text-white font-semibold text-sm">{handleFirstLetter(user)}</span>
                 </button>
 
                 {/* User Dropdown Menu */}
@@ -391,17 +401,17 @@ const SideNavBar = () => {
                     <div className="p-4 border-b border-gray-100">
                       <div className="flex items-center">
                         <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center">
-                          <span className="text-white font-semibold">JD</span>
+                          <span className="text-white font-semibold">{handleFirstLetter(user)}</span>
                         </div>
                         <div className="ml-3">
                           <p className="text-sm font-semibold text-gray-900">
-                            John Doe
+                            {user.name}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          {/* <p className="text-xs text-gray-500">
                             john.doe@company.com
-                          </p>
+                          </p> */}
                           <span className="inline-block px-2 py-1 mt-1 text-xs font-medium bg-pink-100 text-pink-700 rounded-full">
-                            Administrator
+                            {user.role}
                           </span>
                         </div>
                       </div>
@@ -409,49 +419,49 @@ const SideNavBar = () => {
 
                     {/* Menu Items */}
                     <div className="py-2">
-                      <a
+                      <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                      >
+                        style={{ textDecoration: "none", color: "inherit" }} >
                         <User className="w-4 h-4 mr-3 text-gray-400" />
                         View Profile
-                      </a>
-                      <a
+                      </Link>
+                      {/* <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                      >
+                        style={{ textDecoration: "none", color: "inherit" }}>
                         <Settings className="w-4 h-4 mr-3 text-gray-400" />
                         Account Settings
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                      >
+                        style={{ textDecoration: "none", color: "inherit" }}>
                         <Bell className="w-4 h-4 mr-3 text-gray-400" />
                         Notifications
                         <span className="ml-auto text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">
                           3
                         </span>
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                      >
+                        style={{ textDecoration: "none", color: "inherit" }}>
                         <Shield className="w-4 h-4 mr-3 text-gray-400" />
                         Privacy & Security
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                      >
+                        style={{ textDecoration: "none", color: "inherit" }}>
                         <HelpCircle className="w-4 h-4 mr-3 text-gray-400" />
                         Help & Support
-                      </a>
+                      </Link> */}
                     </div>
 
                     {/* Logout Section */}
                     <div className="border-t border-gray-100 py-2">
-                      <button className="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200">
+                      <button className="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200" onClick={() => dispatch(Logout())}>
                         <LogOut className="w-4 h-4 mr-3" />
                         Sign Out
                       </button>
