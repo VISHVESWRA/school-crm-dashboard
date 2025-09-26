@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import BreadcrumbNav from "../bredCrumbs/BredCrumb";
+import { useDispatch, useSelector } from "react-redux";
+import { Logout } from "../../express/redux/LoginSlice";
 import {
   Menu,
   X,
@@ -26,11 +31,7 @@ import {
   BookOpenText,
   UserRoundPlus,
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import BreadcrumbNav from "../bredCrumbs/BredCrumb";
-import { useDispatch, useSelector } from "react-redux";
-import { Logout } from "../../express/redux/LoginSlice";
+
 
 const SideNavBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -54,6 +55,7 @@ const SideNavBar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
 
   const sidebarItems = [
     {
@@ -212,21 +214,19 @@ const SideNavBar = () => {
                     setActiveMenuItem(item.label);
                   }}
                   className={`group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
-    ${
-      item.active
-        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-        : "text-white hover:bg-pink-400 hover:text-black"
-    }
+    ${item.active
+                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                      : "text-white hover:bg-pink-400 hover:text-black"
+                    }
   `}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="flex items-center">
                     <item.icon
-                      className={`w-5 h-5 mr-3 ${
-                        item.active
-                          ? "text-[#8B0F4B]"
-                          : "text-white group-hover:text-gray-600"
-                      }`}
+                      className={`w-5 h-5 mr-3 ${item.active
+                        ? "text-[#8B0F4B]"
+                        : "text-white group-hover:text-gray-600"
+                        }`}
                     />
                     {item.label}
                   </div>
@@ -251,9 +251,8 @@ const SideNavBar = () => {
                   Settings
                 </div>
                 <div
-                  className={`transform transition-transform duration-200 ${
-                    settingsOpen ? "rotate-180" : ""
-                  }`}
+                  className={`transform transition-transform duration-200 ${settingsOpen ? "rotate-180" : ""
+                    }`}
                 >
                   <ChevronDown className="w-4 h-4 text-white" />
                 </div>
@@ -261,11 +260,10 @@ const SideNavBar = () => {
 
               {/* Settings Dropdown Menu */}
               <div
-                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${
-                  settingsOpen
-                    ? "max-h-64 opacity-100"
-                    : "max-h-0 opacity-0 overflow-hidden"
-                }`}
+                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${settingsOpen
+                  ? "max-h-64 opacity-100"
+                  : "max-h-0 opacity-0 overflow-hidden"
+                  }`}
               >
                 {settingsItems.map((item, index) => (
                   // <div
@@ -283,10 +281,9 @@ const SideNavBar = () => {
                     key={index}
                     to={item.path}
                     className={`flex items-center px-4 py-3 text-sm hover:text-gray-900 rounded-lg transition-colors duration-200
-                      ${
-                        item.active
-                          ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                          : "text-white hover:bg-pink-400 hover:text-black"
+                      ${item.active
+                        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                        : "text-white hover:bg-pink-400 hover:text-black"
                       }`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
@@ -393,11 +390,10 @@ const SideNavBar = () => {
                         >
                           <div className="flex items-start">
                             <div
-                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${
-                                notification.unread
-                                  ? "bg-blue-500"
-                                  : "bg-gray-300"
-                              }`}
+                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${notification.unread
+                                ? "bg-blue-500"
+                                : "bg-gray-300"
+                                }`}
                             ></div>
                             <div className="flex-1">
                               <h4 className="text-sm font-medium text-gray-900">

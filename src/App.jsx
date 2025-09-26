@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import AppLayout from "./components/AppLayout";
 import TeachersList from "./pages/teachers/TeachersList";
 import TeachersForm from "./pages/teachers/TeachersForm";
 import Home from "./components/home/Home";
@@ -15,14 +14,14 @@ import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
 
 function App() {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light";
-  });
+  // const [theme, setTheme] = useState(() => {
+  //   return localStorage.getItem("theme") || "light";
+  // });
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-bs-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  // useEffect(() => {
+  //   document.documentElement.setAttribute("data-bs-theme", theme);
+  //   localStorage.setItem("theme", theme);
+  // }, [theme]);
 
   return (
     <>

@@ -1,8 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../../express/redux/LoginSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Row from 'react-bootstrap/Row';
+
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 export default function LoginPage() {
   const {
@@ -13,6 +21,16 @@ export default function LoginPage() {
   const { user, loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [formData, setFormData] = useState({ username: '', password: '' });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
 
   const onSubmit = (data) => {
     console.log("Form submitted:", data);
@@ -27,7 +45,8 @@ export default function LoginPage() {
 
   return (
     <div className="flex rounded-4xl m-10 h-full">
-      {/* Left side */}
+
+      {/* Left Side */}
       <div className="w-1/2 bg-pink-200 flex flex-col items-center justify-center p-10 rounded-l-4xl">
         <div className="flex flex-col items-center mb-8">
           <span className="text-3xl font-poppins text-[#C72571]">
@@ -55,67 +74,94 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right side */}
-      <div className="w-1/2 bg-pink-300 flex flex-col justify-center px-12 rounded-r-4xl">
-        <h2 className="text-xl font-semibold text-gray-800 mb-8 relative">
+      {/* Right Side */}
+      <div className="w-1/2 bg-pink-100 flex flex-col justify-center gap-4 px-12 rounded-r-4xl">
+        <h2 className="text-xl font-semibold text-gray-800 relative">
           <span className="absolute -top-3 left-0 w-8 h-1 bg-[#8B0F4B] rounded-4xl"></span>
-          Log in as an admin user
+          Login
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email */}
-          <div>
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-full px-4 py-2 border border-pink-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
-              {...register("name", { required: "Required" })}
-            />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
-            )}
-          </div>
+        <Form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="name">
+              {/* <Form.Label>Name</Form.Label> */}
+              <Form.Control
+                required
+                type="text"
+                placeholder="Name"
+                isInvalid={!!errors.name}
+                {...register("name", { required: "Required" })}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.name?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="password">
+              {/* <Form.Label>Last name</Form.Label> */}
+              <Form.Control
+                required
+                type="text"
+                placeholder="Password"
+                isInvalid={!!errors.password}
+                {...register("password", { required: "Required" })}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.password?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
 
-          {/* Password */}
-          <div>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-2 border border-pink-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
-              {...register("password", { required: "Required" })}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.password.message}
-              </p>
-            )}
+          <div className="w-full flex items-end justify-end">
+            <Button
+              size="md"
+              type="submit"
+              className="bg-pink-700 text-white px-6 py-2 rounded-4xl hover:bg-pink-800"
+            >
+              Log in
+            </Button>
           </div>
+        </Form>
 
-          {/* Submit button */}
-          <button
-            type="submit"
-            className="bg-pink-700 text-white px-6 py-2 rounded-full hover:bg-pink-800 transition"
+
+        <Row>
+
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
+            noValidate
+            autoComplete="off"
           >
-            Log in
-          </button>
-        </form>
+            {/* Name field */}
+            <TextField
+              label="Name"
+              variant="outlined"
+              required
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              {...register("name", { required: "Name is required" })}
+            />
+
+            {/* Password field */}
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              required
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              {...register("password", { required: "Password is required" })}
+            />
+
+            <Button type="submit" variant="contained" className="bg-black rounded-4xl text-white">
+              Submit
+            </Button>
+          </Box>
+
+        </Row>
       </div>
     </div>
   );
 }
-
-// const handleSubmit = (e) => {
-//   e.preventDefault();
-//   dispatch(loginUser({ email, password }));
-// };
-
-// return (
-//   <div>
-//     <h2>Login</h2>
-//     <form onSubmit={handleSubmit}>
-//       <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-//       <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-//       <button type="submit">Login</button>
-//     </form>
-//   </div>
-// );
