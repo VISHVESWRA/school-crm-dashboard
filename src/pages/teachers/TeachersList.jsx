@@ -28,23 +28,22 @@ export default function TeachersList() {
   }, [dispatch]);
 
   useEffect(() => {
-    setBreadcrumbs([
-      { label: "Home", href: "/" },
-      { label: "List" },
-    ]);
+    setBreadcrumbs([{ label: "Home", href: "/" }, { label: "List" }]);
   }, []);
 
   const handleAddTeacher = () => navigate("/settings/teachersForm");
 
   const handleEdit = (teacher) => {
-    navigate(`/settings/teachersForm/${teacher._id}`)
+    navigate(`/settings/teachersForm/${teacher._id}`);
   };
 
   const handleDelete = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this teacher?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this teacher?"
+    );
     if (!confirmed) return;
 
-    dispatch(deleteTeacher(id))
+    dispatch(deleteTeacher(id));
   };
 
   const filteredList = list.filter((teacher) => {
@@ -78,7 +77,6 @@ export default function TeachersList() {
 
   return (
     <div>
-
       <Card>
         <Card.Body>
           <div className="flex flex-row gap-3 items-center mb-4">
@@ -102,7 +100,7 @@ export default function TeachersList() {
 
             <Form.Control
               type="date"
-              className="w-full max-w-xs bg-black text-white"
+              className="w-full max-w-xs"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
             />
@@ -129,8 +127,9 @@ export default function TeachersList() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <button
                 key={num}
-                className={`px-3 py-1 border rounded ${num === currentPage ? "bg-blue-500 text-white" : ""
-                  }`}
+                className={`px-3 py-1 border rounded ${
+                  num === currentPage ? "bg-blue-500 text-white" : ""
+                }`}
                 onClick={() => goToPage(num)}
               >
                 {num}

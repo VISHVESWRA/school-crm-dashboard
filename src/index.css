@@ -1,32 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 body {
-    font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 @theme {
-    --font-sans: InterVariable, sans-serif;
-    --font-sans--font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  --font-sans: InterVariable, sans-serif;
+  --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
 .form-control {
-    border: 1px solid #6c757d !important;
-    border-radius: 6px;
+  border: 1px solid #6c757d !important;
+  border-radius: 6px;
 }
 
 .form-select {
-    border: 1px solid #6c757d !important;
-    border-radius: 6px;
+  border: 1px solid #6c757d !important;
+  border-radius: 6px;
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: #495057 !important;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25) !important;
+  border-color: #495057 !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
 
 .form-control.is-invalid,
 .form-select.is-invalid {
-    border-color: #dc3545 !important;
+  border: 2px solid #8b0f4b !important;
+}
+
+/* Chrome, Safari, Edge */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6); /* make it darker */
+  opacity: 1 !important; /* ensure it's fully visible */
+  cursor: pointer;
+}
+
+/* Firefox */
+input[type="date"]::-moz-calendar-picker-indicator {
+  filter: invert(0.6);
+  opacity: 1 !important;
+  cursor: pointer;
+}
+
+/* Optional: make the whole input text clearly visible */
+input[type="date"] {
+  color: #000 !important;
 }

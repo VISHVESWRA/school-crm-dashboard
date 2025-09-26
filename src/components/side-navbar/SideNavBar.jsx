@@ -24,7 +24,7 @@ import {
   SquareCode,
   GraduationCap,
   BookOpenText,
-  UserRoundPlus
+  UserRoundPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
@@ -37,6 +37,8 @@ const SideNavBar = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState("Home");
+  const [activeSettingsItem, setActiveSettingsItem] = useState();
 
   const dispatch = useDispatch();
   const [breadcrumbs, setBreadcrumbs] = useState([]);
@@ -54,27 +56,48 @@ const SideNavBar = () => {
   }, []);
 
   const sidebarItems = [
-    { icon: Home, label: "Home", active: true, badge: null, path: "/" },
     {
-      icon: BarChart3,
-      label: "Analytics",
-      active: false,
+      icon: Home,
+      label: "Home",
+      active: activeMenuItem === "Home",
       badge: null,
       path: "/",
     },
-    // { icon: Users, label: "Users", active: false, badge: "24", path: "/users" },
-    // { icon: FileText, label: "Reports", active: false, badge: null, path: "/reports" },
-    // { icon: Mail, label: "Messages", active: false, badge: "12", path: "/messages" },
-    // { icon: Calendar, label: "Calendar", active: false, badge: null, path: "/calendar" },
+    {
+      icon: BarChart3,
+      label: "Analytics",
+      active: activeMenuItem === "Analytics",
+      badge: null,
+      path: "/",
+    },
+    // { icon: Users, label: "Users", active: activeMenuItem  === "Users", badge: "24", path: "/users" },
+    // { icon: FileText, label: "Reports", active: activeMenuItem  === "Reports", badge: null, path: "/reports" },
+    // { icon: Mail, label: "Messages", active: activeMenuItem  === "Messages", badge: "12", path: "/messages" },
+    // { icon: Calendar, label: "Calendar", active: activeMenuItem  === "Calendar", badge: null, path: "/calendar" },
   ];
 
   const settingsItems = [
-    { icon: Users, label: "Teachers", path: "/settings/teachersList" },
-    { icon: BookOpenText, label: "Course", path: "/settings/courseForm" },
-    { icon: UserRoundPlus, label: "Student", path: "/settings/studentForm" },
-    // { icon: Palette, label: "Appearance", path: "/appearance" },
-    // { icon: Bell, label: "Notifications", path: "/settings/notifications" },
-    // { icon: Globe, label: "Language & Region", path: "/settings/language" },
+    {
+      icon: Users,
+      label: "Teachers",
+      active: activeSettingsItem === "Teachers",
+      path: "/settings/teachersList",
+    },
+    {
+      icon: BookOpenText,
+      label: "Course",
+      active: activeSettingsItem === "Course",
+      path: "/settings/courseForm",
+    },
+    {
+      icon: UserRoundPlus,
+      label: "Student",
+      active: activeSettingsItem === "Student",
+      path: "/settings/studentForm",
+    },
+    // { icon: Palette, label: "Appearance", active: activeSettingsItem  === "Users", path: "/appearance" },
+    // { icon: Bell, label: "Notifications", active: activeSettingsItem  === "Users", path: "/settings/notifications" },
+    // { icon: Globe, label: "Language & Region", active: activeSettingsItem  === "Users", path: "/settings/language" },
   ];
 
   const notifications = [
@@ -117,10 +140,9 @@ const SideNavBar = () => {
     setUserMenuOpen(!userMenuOpen);
   };
 
-
   const handleFirstLetter = (data) => {
-    return data.name[0]
-  }
+    return data.name[0];
+  };
 
   return (
     <div className="h-screen flex bg-gray-50 overflow-hidden">
@@ -186,20 +208,25 @@ const SideNavBar = () => {
 
                 <Link
                   to={item.path}
+                  onClick={() => {
+                    setActiveMenuItem(item.label);
+                  }}
                   className={`group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
-    ${item.active
-                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                      : "text-white hover:bg-pink-400 hover:text-black"
-                    }
+    ${
+      item.active
+        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+        : "text-white hover:bg-pink-400 hover:text-black"
+    }
   `}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className="flex items-center">
                     <item.icon
-                      className={`w-5 h-5 mr-3 ${item.active
-                        ? "text-[#8B0F4B]"
-                        : "text-white group-hover:text-gray-600"
-                        }`}
+                      className={`w-5 h-5 mr-3 ${
+                        item.active
+                          ? "text-[#8B0F4B]"
+                          : "text-white group-hover:text-gray-600"
+                      }`}
                     />
                     {item.label}
                   </div>
@@ -224,19 +251,21 @@ const SideNavBar = () => {
                   Settings
                 </div>
                 <div
-                  className={`transform transition-transform duration-200 ${settingsOpen ? "rotate-180" : ""
-                    }`}
+                  className={`transform transition-transform duration-200 ${
+                    settingsOpen ? "rotate-180" : ""
+                  }`}
                 >
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                  <ChevronDown className="w-4 h-4 text-white" />
                 </div>
               </button>
 
               {/* Settings Dropdown Menu */}
               <div
-                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${settingsOpen
-                  ? "max-h-64 opacity-100"
-                  : "max-h-0 opacity-0 overflow-hidden"
-                  }`}
+                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${
+                  settingsOpen
+                    ? "max-h-64 opacity-100"
+                    : "max-h-0 opacity-0 overflow-hidden"
+                }`}
               >
                 {settingsItems.map((item, index) => (
                   // <div
@@ -248,9 +277,17 @@ const SideNavBar = () => {
                   //   {item.label}
                   // </div>
                   <Link
+                    onClick={() => {
+                      setActiveSettingsItem(item.label);
+                    }}
                     key={index}
                     to={item.path}
-                    className="flex items-center px-4 py-3 text-sm text-white hover:bg-pink-400 hover:text-gray-900 rounded-lg transition-colors duration-200"
+                    className={`flex items-center px-4 py-3 text-sm hover:text-gray-900 rounded-lg transition-colors duration-200
+                      ${
+                        item.active
+                          ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                          : "text-white hover:bg-pink-400 hover:text-black"
+                      }`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
                     <item.icon className="w-4 h-4 mr-3" />
@@ -356,10 +393,11 @@ const SideNavBar = () => {
                         >
                           <div className="flex items-start">
                             <div
-                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${notification.unread
-                                ? "bg-blue-500"
-                                : "bg-gray-300"
-                                }`}
+                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${
+                                notification.unread
+                                  ? "bg-blue-500"
+                                  : "bg-gray-300"
+                              }`}
                             ></div>
                             <div className="flex-1">
                               <h4 className="text-sm font-medium text-gray-900">
@@ -391,7 +429,9 @@ const SideNavBar = () => {
                   onClick={toggleUserMenu}
                   className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                 >
-                  <span className="text-white font-semibold text-sm">{handleFirstLetter(user)}</span>
+                  <span className="text-white font-semibold text-sm">
+                    {handleFirstLetter(user)}
+                  </span>
                 </button>
 
                 {/* User Dropdown Menu */}
@@ -401,7 +441,9 @@ const SideNavBar = () => {
                     <div className="p-4 border-b border-gray-100">
                       <div className="flex items-center">
                         <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center">
-                          <span className="text-white font-semibold">{handleFirstLetter(user)}</span>
+                          <span className="text-white font-semibold">
+                            {handleFirstLetter(user)}
+                          </span>
                         </div>
                         <div className="ml-3">
                           <p className="text-sm font-semibold text-gray-900">
@@ -422,7 +464,8 @@ const SideNavBar = () => {
                       <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                        style={{ textDecoration: "none", color: "inherit" }} >
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
                         <User className="w-4 h-4 mr-3 text-gray-400" />
                         View Profile
                       </Link>
@@ -461,7 +504,10 @@ const SideNavBar = () => {
 
                     {/* Logout Section */}
                     <div className="border-t border-gray-100 py-2">
-                      <button className="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200" onClick={() => dispatch(Logout())}>
+                      <button
+                        className="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
+                        onClick={() => dispatch(Logout())}
+                      >
                         <LogOut className="w-4 h-4 mr-3" />
                         Sign Out
                       </button>

@@ -5,11 +5,17 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useEffect } from "react";
-import { fetchTeacherById, fetchTeachers, updateTeacher } from "../../express/redux/TeachersSlice";
+import {
+  fetchTeacherById,
+  fetchTeachers,
+  updateTeacher,
+} from "../../express/redux/TeachersSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function TeachersForm() {
-  const { selectedTeacher, loading, error } = useSelector((state) => state.teachers);
+  const { selectedTeacher, loading, error } = useSelector(
+    (state) => state.teachers
+  );
 
   const roles = [
     "Admin",
@@ -73,7 +79,7 @@ export default function TeachersForm() {
         role: selectedTeacher.role,
         city: selectedTeacher.city,
         state: selectedTeacher.state,
-        zip: selectedTeacher.zip
+        zip: selectedTeacher.zip,
       });
     }
   }, [selectedTeacher, reset]);
