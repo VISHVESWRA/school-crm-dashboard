@@ -10,6 +10,8 @@ body {
   --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
+/* BootStrap Text Field */
+
 .form-control.is-invalid {
   background-image: none !important;
 }
@@ -55,3 +57,25 @@ input[type="date"]::-moz-calendar-picker-indicator {
 input[type="date"] {
   color: #000 !important;
 }
+
+/* Material Text Field */
+
+.MuiOutlinedInput-root {
+  width: 360px !important;
+  height: 50px;
+  /* max-width: 1000%; */
+}
+
+.MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+  border-color: #8B0F4B !important;
+}
+
+/* Change label color when invalid */
+.MuiInputLabel-root.Mui-error {
+  color: black !important;
+}
+
+/* Change helper/error text color */
+/* .MuiFormHelperText-root.Mui-error {
+  color: #6a5565 !important;
+} */
