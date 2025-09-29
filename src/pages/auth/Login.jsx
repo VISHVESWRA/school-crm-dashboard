@@ -94,7 +94,6 @@ export default function LoginPage() {
                 <div className="grid gap-4 w-full space-y-3">
                   <TextField
                     label="Name"
-                    placeholder="Name"
                     variant="outlined"
                     size="small"
                     required
@@ -105,7 +104,6 @@ export default function LoginPage() {
 
                   <TextField
                     label="Password"
-                    placeholder="Password"
                     type="password"
                     variant="outlined"
                     size="small"
@@ -119,7 +117,8 @@ export default function LoginPage() {
                     <Button
                       size="md"
                       type="submit"
-                      className="bg-pink-700 text-white px-6 py-2 rounded-4xl hover:bg-pink-800"
+                      className="text-white px-6 py-2 rounded-3xl border"
+                      style={{ backgroundColor: "#8B0F4B" }}
                     >
                       Log in
                     </Button>

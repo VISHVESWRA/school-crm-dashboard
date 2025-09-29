@@ -27,7 +27,7 @@ export default function StudentForm() {
       },
     },
   });
-  const { setBreadcrumbs } = useOutletContext();
+  const { setBreadcrumbs, setSideNavButtons } = useOutletContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,6 +43,23 @@ export default function StudentForm() {
       },
       {
         label: "Student Form",
+      },
+    ]);
+
+    setSideNavButtons([
+      {
+        label: "Save",
+        onClick: () => {
+          console.log("Saving student...");
+          // trigger submit logic here
+        },
+      },
+      {
+        label: "Cancel",
+        onClick: () => {
+          console.log("Cancel clicked");
+          // maybe navigate back
+        },
       },
     ]);
   }, []);
@@ -306,7 +323,7 @@ export default function StudentForm() {
                     setBreadcrumbs([]);
                   }}
                 >
-                  Back
+                  Cancel
                 </Button>
               </div>
             </Row>

@@ -13,6 +13,9 @@ import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
 import { Toaster } from "react-hot-toast";
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+// import 'primeicons/primeicons.css';
 
 function App() {
   // const [theme, setTheme] = useState(() => {

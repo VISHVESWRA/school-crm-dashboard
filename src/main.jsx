@@ -11,10 +11,10 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <PrimeReactProvider>
-      <Provider store={Store}>
+    <Provider store={Store}>
+      <PrimeReactProvider>
         <App />
-      </Provider>
-    </PrimeReactProvider>
+      </PrimeReactProvider>
+    </Provider>
   </StrictMode>
 );

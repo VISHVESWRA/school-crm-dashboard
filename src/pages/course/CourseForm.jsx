@@ -192,7 +192,7 @@ export default function CourseForm() {
                 setBreadcrumbs([]);
               }}
             >
-              Back
+              Cancel
             </Button>
           </Form>
         </Card.Body>

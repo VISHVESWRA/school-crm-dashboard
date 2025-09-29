@@ -237,7 +237,7 @@ export default function TeachersForm() {
                 setBreadcrumbs([]);
               }}
             >
-              Back
+              Cancel
             </Button>
           </Form>
         </Card.Body>

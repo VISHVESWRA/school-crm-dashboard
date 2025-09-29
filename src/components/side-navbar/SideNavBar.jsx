@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import BreadcrumbNav from "../bredCrumbs/BredCrumb";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,43 +7,39 @@ import { Logout } from "../../express/redux/LoginSlice";
 import {
   Menu,
   X,
-  Home,
   Users,
-  Settings,
-  BarChart3,
-  Mail,
   Bell,
-  Search,
   User,
   ChevronDown,
-  Shield,
-  Palette,
-  Globe,
   LogOut,
   HelpCircle,
-  FileText,
-  Calendar,
-  TrendingUp,
-  Activity,
-  Split,
-  SquareCode,
-  GraduationCap,
-  BookOpenText,
   UserRoundPlus,
+  LayoutGrid,
+  BookUser,
+  BookOpenIcon,
+  CalendarCheck2,
+  IndianRupee,
+  BriefcaseBusiness,
+  FileChartLine
 } from "lucide-react";
-
+// import { Button } from "react-bootstrap";
+import { Button } from 'primereact/button';
 
 const SideNavBar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState("Home");
-  const [activeSettingsItem, setActiveSettingsItem] = useState();
-
   const dispatch = useDispatch();
+  const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(null);
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const { user } = useSelector((state) => state.auth);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [sideNavButtons, setSideNavButtons] = useState([]);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  const [activeSettingsItem, setActiveSettingsItem] = useState();
+  const [activeMenuItem, setActiveMenuItem] = useState("Home");
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,51 +52,132 @@ const SideNavBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
-  const sidebarItems = [
+  const menuItems = [
     {
-      icon: Home,
-      label: "Home",
-      active: activeMenuItem === "Home",
-      badge: null,
+      name: "Dashboard",
       path: "/",
+      icon: <LayoutGrid size={20} />,
     },
     {
-      icon: BarChart3,
-      label: "Analytics",
-      active: activeMenuItem === "Analytics",
-      badge: null,
-      path: "/",
+      name: "Students",
+      // path: "/students",
+      icon: <Users size={20} />,
+      dropdown: [
+        { name: "All Students", path: "/settings/studentForm" },
+        // { name: "Add Student", path: "/" },
+      ],
     },
-    // { icon: Users, label: "Users", active: activeMenuItem  === "Users", badge: "24", path: "/users" },
-    // { icon: FileText, label: "Reports", active: activeMenuItem  === "Reports", badge: null, path: "/reports" },
-    // { icon: Mail, label: "Messages", active: activeMenuItem  === "Messages", badge: "12", path: "/messages" },
-    // { icon: Calendar, label: "Calendar", active: activeMenuItem  === "Calendar", badge: null, path: "/calendar" },
+    {
+      name: "Teachers",
+      // path: "/teachers",
+      icon: <BookUser size={20} />,
+      dropdown: [
+        { name: "All Teachers", path: "/settings/teachersList" },
+        // { name: "Add Teacher", path: "/teachers/add" },
+      ],
+    },
+    {
+      name: "Courses",
+      // path: "/courses",
+      icon: <BookOpenIcon size={20} />,
+      dropdown: [
+        { name: "All Courses", path: "/settings/courseForm" },
+        // { name: "Add Course", path: "/courses/add" },
+      ],
+    },
+    {
+      name: "Enquiry",
+      icon: <HelpCircle size={20} />,
+      dropdown: [
+        { name: "New Enquiry", path: "/" },
+        { name: "Manage Enquiry", path: "/" },
+      ],
+    },
+    {
+      name: "Enrollment",
+      icon: <UserRoundPlus size={20} />,
+      dropdown: [
+        { name: "New Enrollment", path: "/" },
+        { name: "Manage Enrollment", path: "/" },
+      ],
+    },
+    {
+      name: "Attendance",
+      icon: <CalendarCheck2 size={20} />,
+      dropdown: [
+        { name: "Take Attendance", path: "/" },
+        { name: "View Attendance", path: "/" },
+      ],
+    },
+    {
+      name: "Payment",
+      icon: <IndianRupee size={20} />,
+      dropdown: [
+        { name: "Take Payment", path: "/" },
+        { name: "View Payment", path: "/" },
+      ],
+    },
+    {
+      name: "Placement",
+      icon: <BriefcaseBusiness size={20} />,
+      dropdown: [
+        { name: "Add Placement", path: "/" },
+        { name: "Manage Placement", path: "/" },
+      ],
+    },
+    {
+      name: "Report",
+      icon: <FileChartLine size={20} />,
+      dropdown: [
+        { name: "Manage Report", path: "/" },
+      ],
+    },
   ];
 
-  const settingsItems = [
-    {
-      icon: Users,
-      label: "Teachers",
-      active: activeSettingsItem === "Teachers",
-      path: "/settings/teachersList",
-    },
-    {
-      icon: BookOpenText,
-      label: "Course",
-      active: activeSettingsItem === "Course",
-      path: "/settings/courseForm",
-    },
-    {
-      icon: UserRoundPlus,
-      label: "Student",
-      active: activeSettingsItem === "Student",
-      path: "/settings/studentForm",
-    },
-    // { icon: Palette, label: "Appearance", active: activeSettingsItem  === "Users", path: "/appearance" },
-    // { icon: Bell, label: "Notifications", active: activeSettingsItem  === "Users", path: "/settings/notifications" },
-    // { icon: Globe, label: "Language & Region", active: activeSettingsItem  === "Users", path: "/settings/language" },
-  ];
+  // const sidebarItems = [
+  //   {
+  //     icon: Home,
+  //     label: "Home",
+  //     active: activeMenuItem === "Home",
+  //     badge: null,
+  //     path: "/",
+  //   },
+  //   {
+  //     icon: BarChart3,
+  //     label: "Analytics",
+  //     active: activeMenuItem === "Analytics",
+  //     badge: null,
+  //     path: "/",
+  //   },
+  //   // { icon: Users, label: "Users", active: activeMenuItem  === "Users", badge: "24", path: "/users" },
+  //   // { icon: FileText, label: "Reports", active: activeMenuItem  === "Reports", badge: null, path: "/reports" },
+  //   // { icon: Mail, label: "Messages", active: activeMenuItem  === "Messages", badge: "12", path: "/messages" },
+  //   // { icon: Calendar, label: "Calendar", active: activeMenuItem  === "Calendar", badge: null, path: "/calendar" },
+  // ];
+
+  // const settingsItems = [
+  //   {
+  //     icon: Users,
+  //     label: "Teachers",
+  //     active: activeSettingsItem === "Teachers",
+  //     path: "/settings/teachersList",
+  //   },
+  //   {
+  //     icon: BookOpenText,
+  //     label: "Course",
+  //     active: activeSettingsItem === "Course",
+  //     path: "/settings/courseForm",
+  //   },
+  //   {
+  //     icon: UserRoundPlus,
+  //     label: "Student",
+  //     active: activeSettingsItem === "Student",
+  //     path: "/settings/studentForm",
+  //   },
+  //   // { icon: Palette, label: "Appearance", active: activeSettingsItem  === "Users", path: "/appearance" },
+  //   // { icon: Bell, label: "Notifications", active: activeSettingsItem  === "Users", path: "/settings/notifications" },
+  //   // { icon: Globe, label: "Language & Region", active: activeSettingsItem  === "Users", path: "/settings/language" },
+  // ];
 
   const notifications = [
     {
@@ -178,121 +255,64 @@ const SideNavBar = () => {
         {/* Sidebar Navigation */}
         <div className="flex flex-col h-full">
           <nav className="flex-1 px-2 py-6 space-y-2 overflow-y-auto">
-            {sidebarItems.map((item, index) => (
-              <div key={index}>
-                {/* <div
-                  href="#"
-                  className={`
-                    group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
-                    ${
-                      item.active
-                        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                        : "text-white hover:bg-pink-400 hover:text-black"
+            {menuItems.map((item, index) => {
+              const isActive =
+                (item.path === "/" && location.pathname === "/") ||
+                (item.path !== "/" && location.pathname.startsWith(item.path)) ||
+                item?.dropdown?.some((sub) => location.pathname === sub.path);
+
+              return (
+                <div key={index}>
+                  {/* Main Item */}
+                  <div
+                    className={`flex items-center justify-between px-2 py-2 cursor-pointer 
+                  hover:bg-gray-100 rounded-md 
+                  ${isActive ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950" : "text-white hover:bg-pink-400 hover:text-black"}
+                `}
+                    onClick={() =>
+                      item.dropdown && setOpenMenu(openMenu === index ? null : index)
                     }
-                  `}
-                >
-                  <div className="flex items-center">
-                    <item.icon
-                      className={`w-5 h-5 mr-3 ${
-                        item.active
-                          ? "text-[#8B0F4B]"
-                          : "text-white group-hover:text-gray-600"
-                      }`}
-                    />
-                    {item.label}
-                  </div>
-                  {item.badge && (
-                    <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
-                      {item.badge}
-                    </span>
-                  )}
-                </div> */}
-
-                <Link
-                  to={item.path}
-                  onClick={() => {
-                    setActiveMenuItem(item.label);
-                  }}
-                  className={`group flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
-    ${item.active
-                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                      : "text-white hover:bg-pink-400 hover:text-black"
-                    }
-  `}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <div className="flex items-center">
-                    <item.icon
-                      className={`w-5 h-5 mr-3 ${item.active
-                        ? "text-[#8B0F4B]"
-                        : "text-white group-hover:text-gray-600"
-                        }`}
-                    />
-                    {item.label}
-                  </div>
-                  {/* badge */}
-                  {item.badge && (
-                    <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              </div>
-            ))}
-
-            {/* Settings Dropdown */}
-            <div className="border-gray-100 mb-5">
-              <button
-                onClick={toggleSettings}
-                className="group w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-xl text-white hover:bg-pink-400 hover:text-gray-900 transition-all duration-200"
-              >
-                <div className="flex items-center text-white group-hover:text-gray-600">
-                  <Settings className="w-5 h-5 mr-3 group-hover:text-gray-600" />
-                  Settings
-                </div>
-                <div
-                  className={`transform transition-transform duration-200 ${settingsOpen ? "rotate-180" : ""
-                    }`}
-                >
-                  <ChevronDown className="w-4 h-4 text-white" />
-                </div>
-              </button>
-
-              {/* Settings Dropdown Menu */}
-              <div
-                className={`mt-2 space-y-1 transition-all duration-300 ease-out ${settingsOpen
-                  ? "max-h-64 opacity-100"
-                  : "max-h-0 opacity-0 overflow-hidden"
-                  }`}
-              >
-                {settingsItems.map((item, index) => (
-                  // <div
-                  //   key={index}
-                  //   href="#"
-                  //   className="flex items-center px-4 py-3 text-sm text-white hover:bg-pink-400 hover:text-gray-900 rounded-lg transition-colors duration-200"
-                  // >
-                  //   <item.icon className="w-4 h-4 mr-3" />
-                  //   {item.label}
-                  // </div>
-                  <Link
-                    onClick={() => {
-                      setActiveSettingsItem(item.label);
-                    }}
-                    key={index}
-                    to={item.path}
-                    className={`flex items-center px-4 py-3 text-sm hover:text-gray-900 rounded-lg transition-colors duration-200
-                      ${item.active
-                        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                        : "text-white hover:bg-pink-400 hover:text-black"
-                      }`}
-                    style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <item.icon className="w-4 h-4 mr-3" />
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
+                    <Link key={index} to={item.path} className="flex items-center space-x-2 w-full"
+                      style={{ textDecoration: "none", color: "inherit" }}>
+                      {item.icon}
+                      <span>{item.name}</span>
+                    </Link>
+                    {/* <div className="flex items-center space-x-2">
+                      {item.icon}
+                      <span>{item.name}</span>
+                    </div> */}
+                    {item.dropdown && (
+                      <ChevronDown
+                        className={`transform transition-transform ${openMenu === index ? "rotate-180" : ""
+                          }`}
+                        size={16}
+                      />
+                    )}
+                  </div>
+
+                  {/* Dropdown */}
+                  {item.dropdown && openMenu === index && (
+                    <div className="pl-6 mt-0.5">
+                      {item.dropdown.map((sub, subIndex) => (
+                        <Link
+                          key={subIndex}
+                          to={sub.path}
+                          className={`block py-1 rounded-md px-2 
+                        ${location.pathname === sub.path
+                              ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                              : "text-white hover:bg-pink-400 hover:text-black"
+                            }`}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </nav>
           <div className="h-1 mb-5"></div>
 
@@ -334,18 +354,18 @@ const SideNavBar = () => {
               >
                 <Menu className="w-6 h-6" />
               </button>
-              <div className="ml-4">
+              {/* <div className="ml-4">
                 <h1 className="text-2xl font-poppins text-gray-900">
                   Dashboard
                 </h1>
-                {/* <p className="text-sm text-gray-500 hidden sm:block">
+                <p className="text-sm text-gray-500 hidden sm:block">
                   Welcome back, John!
-                </p> */}
-              </div>
+                </p>
+              </div> */}
             </div>
 
             {/* Center - Search */}
-            <div className="hidden sm:flex flex-1 max-w-md mx-8">
+            {/* <div className="hidden sm:flex flex-1 max-w-md mx-8">
               <div className="relative w-full">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Search className="w-5 h-5 text-gray-400" />
@@ -356,7 +376,7 @@ const SideNavBar = () => {
                   className="block w-full pl-12 pr-4 py-2.5 border border-gray-200 rounded-xl bg-gray-50 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 focus:bg-white transition-all duration-200"
                 />
               </div>
-            </div>
+            </div> */}
 
             {/* Right side */}
             <div className="flex items-center space-x-2">
@@ -516,15 +536,26 @@ const SideNavBar = () => {
         </header>
 
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <div className="p-3 bg-white border-t-2 border-gray-300">
+          <div className="flex justify-between items-center p-3 bg-white border-t-2 border-gray-300">
             <BreadcrumbNav items={breadcrumbs} />
+
+            {sideNavButtons &&
+              <div >
+                {sideNavButtons.map((btn, i) => (
+                  <Button label={btn.label} key={i} onClick={btn.onClick} rounded className="m-2 rounded-full" />
+                  // <Button key={i} onClick={btn.onClick}>
+                  //   {btn.label}
+                  // </Button>
+                ))}
+              </div>
+            }
           </div>
         )}
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto bg-[#FCDDEC] p-4 sm:p-6 lg:p-8">
           <div className="max-w-7xl mx-auto space-y-8">
-            <Outlet context={{ setBreadcrumbs }} />
+            <Outlet context={{ setBreadcrumbs, setSideNavButtons }} />
 
             {/* Stats Cards */}
             {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -705,22 +736,28 @@ const SideNavBar = () => {
       </div>
 
       {/* Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
+      {
+        sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden"
+            onClick={toggleSidebar}
+          />
+        )
+      }
 
       {/* Click outside to close dropdowns */}
-      {notificationsOpen && (
-        <div className="fixed inset-0 z-30" onClick={toggleNotifications} />
-      )}
+      {
+        notificationsOpen && (
+          <div className="fixed inset-0 z-30" onClick={toggleNotifications} />
+        )
+      }
 
-      {userMenuOpen && (
-        <div className="fixed inset-0 z-30" onClick={toggleUserMenu} />
-      )}
-    </div>
+      {
+        userMenuOpen && (
+          <div className="fixed inset-0 z-30" onClick={toggleUserMenu} />
+        )
+      }
+    </div >
   );
 };
 
