@@ -7,7 +7,7 @@ export const LoginUser = createAsyncThunk(
     try {
       const response = await LoginApi(credentials);
       localStorage.setItem("token", response.data.token);
-      return response.data; // { token, user }
+      return response.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Login failed. Please try again."

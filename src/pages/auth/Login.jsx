@@ -1,16 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../../express/redux/LoginSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
-
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Button from "react-bootstrap/Button";
+import TextField from "@mui/material/TextField";
+import toasts from "react-hot-toast";
 
 export default function LoginPage() {
   const {
@@ -22,20 +17,11 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState({ username: '', password: '' });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+  useEffect(() => {
+    if (error) {
+      toasts.error(error);
     }
-  };
-
-  const onSubmit = (data) => {
-    console.log("Form submitted:", data);
-    dispatch(LoginUser(data));
-  };
+  }, [error]);
 
   useEffect(() => {
     if (user) {
@@ -43,24 +29,29 @@ export default function LoginPage() {
     }
   }, [user, navigate]);
 
+  const onSubmit = (data) => {
+    console.log("Form submitted:", data);
+    dispatch(LoginUser(data));
+  };
+
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6 lg:p-10">
-        <div className="flex w-full max-w-5xl bg-white rounded-xl sm:rounded-2xl md:rounded-3xl lg:rounded-4xl 
-        shadow-xl overflow-hidden h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] m-20">
-
+      <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-purple-700 flex items-center justify-center p-4">
+        <div className="flex w-full max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden h-[480px]">
           {/* Left Side */}
-          <div className="w-1/2 bg-pink-200 flex flex-col gap-5 items-center justify-center p-2 sm:p-4 md:p-6 lg:p-10 rounded-l-xl sm:rounded-l-2xl md:rounded-l-3xl lg:rounded-l-4xl">
-            <div className="flex flex-col items-center mb-2 sm:mb-4 md:mb-6 lg:mb-8">
-
+          <div className="hidden sm:w-1/2 bg-pink-200 sm:flex flex-col items-center justify-center p-8 rounded-l-3xl">
+            <div className="flex flex-col items-center mb-8 text-center">
               <div className="text-center mb-2 sm:mb-3 md:mb-4 text-[#C72571]">
                 <h1 className="text-sm sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl font-bold  mb-0 pb-1 sm:pb-2 border-b border-b-gray-400 sm:border-b-2 inline-block">
                   Nschool
                 </h1>
               </div>
-              <div className="flex justify-between w-full max-w-[120px] sm:max-w-[160px] md:max-w-[200px] lg:max-w-xs px-1 text-[#8B0F4B] text-xs sm:text-sm md:text-base font-bold mb-1 sm:mb-2">
+              <div className="flex justify-between w-full max-w-[120px] sm:max-w-[160px] md:max-w-[200px] lg:max-w-xs px-1 text-[#8B0F4B] text-xs sm:text-sm md:text-base font-bold">
                 {"Academy".split("").map((letter, i) => (
-                  <span className="mb-0 transition-transform hover:scale-110 text-xs sm:text-sm md:text-base" key={i}>
+                  <span
+                    className="mb-0 transition-transform hover:scale-110 text-xs sm:text-sm md:text-base"
+                    key={i}
+                  >
                     {letter}
                   </span>
                 ))}
@@ -82,55 +73,59 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="w-1/2 bg-pink-100 flex flex-col justify-center p-2 sm:p-4 md:p-6 lg:p-8 xl:p-12 rounded-r-xl sm:rounded-r-2xl md:rounded-r-3xl lg:rounded-r-4xl">
-            <div className="w-full max-w-sm mx-auto p-5">
-
-              <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4 md:mb-6 lg:mb-8 relative">
+          {/* Right Side */}
+          <div className="w-full sm:w-1/2 bg-gray-50 flex flex-col justify-center p-8 rounded-r-3xl">
+            <div className="w-full max-w-sm sm:max-w-xs mx-auto">
+              {/* <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4 md:mb-6 lg:mb-10 relative">
                 <span className="absolute -top-1 sm:-top-2 md:-top-3 left-0 w-4 sm:w-6 md:w-8 h-0.5 sm:h-0.5 md:h-1 bg-[#8B0F4B] rounded-full"></span>
+                Login
+              </h2> */}
+              <h2 className="text-xl font-semibold text-gray-800 relative mb-4">
+                <span className="absolute -top-3 left-0 w-8 h-1 bg-[#8B0F4B] rounded-4xl"></span>
                 Login
               </h2>
 
-              <Box
-                component="form"
-                onSubmit={handleSubmit}
-                sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
+              <form
+                onSubmit={handleSubmit(onSubmit)}
                 noValidate
                 autoComplete="off"
-                className="w-full"
+                className="grid gap-4"
               >
-                <div className="w-auto space-y-4 sm:space-y-6">
+                <div className="grid gap-4 w-full space-y-3">
                   <TextField
                     label="Name"
+                    placeholder="Name"
                     variant="outlined"
+                    size="small"
                     required
                     error={!!errors.name}
                     helperText={errors.name?.message}
                     {...register("name", { required: "Required" })}
-                    className="w-full mb-4"
                   />
 
                   <TextField
                     label="Password"
+                    placeholder="Password"
                     type="password"
                     variant="outlined"
+                    size="small"
                     required
                     error={!!errors.password}
                     helperText={errors.password?.message}
                     {...register("password", { required: "Required" })}
-                    className="w-full mb-4"
                   />
 
-                  <div className="flex justify-end pt-2">
+                  <div className="flex justify-center sm:justify-end pt-3">
                     <Button
+                      size="md"
                       type="submit"
-                      variant="contained"
-                      className="bg-black hover:bg-gray-800 rounded-3xl text-white px-6 py-2.5 sm:px-8 sm:py-3"
+                      className="bg-pink-700 text-white px-6 py-2 rounded-4xl hover:bg-pink-800"
                     >
-                      Submit
+                      Log in
                     </Button>
                   </div>
                 </div>
-              </Box>
+              </form>
 
               {/* Additional Options - Hidden on very small screens */}
               {/* <div className="hidden sm:block mt-3 md:mt-4 lg:mt-6 pt-3 md:pt-4 lg:pt-6 border-t border-pink-200/50">
@@ -154,15 +149,10 @@ export default function LoginPage() {
                   Forgot?
                 </a>
               </div> */}
-
-
             </div>
           </div>
-
         </div>
       </div>
-
-
     </>
   );
 }

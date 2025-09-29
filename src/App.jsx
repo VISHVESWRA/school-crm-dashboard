@@ -12,6 +12,7 @@ import CourseList from "./pages/course/CourseList";
 import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   // const [theme, setTheme] = useState(() => {
@@ -26,6 +27,9 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <div>
+          <Toaster position="top-right" reverseOrder={true} />
+        </div>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
 
