@@ -581,7 +581,7 @@ const SideNavBar = () => {
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto bg-[#FCDDEC]">
-          <div className="max-w-7xl mx-auto space-y-8">
+          <div className="max-w-screen mx-auto space-y-8">
             <Outlet context={{ setBreadcrumbs, setSideNavButtons }} />
 
             {/* Stats Cards */}

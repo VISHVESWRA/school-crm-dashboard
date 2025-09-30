@@ -11,7 +11,6 @@ import {
   updateTeacher,
 } from "../../express/redux/TeachersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Breadcrumb from "../../components/BreadCrumbaBtn";
 
 export default function TeachersForm() {
   const { selectedTeacher, loading, error } = useSelector(
@@ -102,13 +101,6 @@ export default function TeachersForm() {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          { label: "Students", path: "/students" },
-          { label: "Add Student" },
-        ]}
-      />
-
       <div className="p-4 sm:p-6 lg:p-8">
         <Card className="shadow">
           <Card.Header className="font-poppins text-lg font-medium">

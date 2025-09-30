@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
-import { duration } from "@mui/material/styles";
-import BreadCrumbaBtn from "../../components/BreadCrumbaBtn";
-import Breadcrumb from "../../components/BreadCrumbaBtn";
+import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 
 export default function StudentForm() {
   const {
@@ -33,21 +31,21 @@ export default function StudentForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setBreadcrumbs([
-      {
-        label: "Home",
-        href: "/",
-      },
-      {
-        label: "List",
-        href: "././studentList",
-      },
-      {
-        label: "Student Form",
-      },
-    ]);
+  const setBreadcrumb = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "List",
+      href: "././studentList",
+    },
+    {
+      label: "Student Form",
+    },
+  ];
 
+  useEffect(() => {
     setSideNavButtons([
       {
         label: "Save",
@@ -92,12 +90,7 @@ export default function StudentForm() {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          { label: "Students", path: "/students" },
-          { label: "Add Student" },
-        ]}
-      />
+      <BreadcrumbNav items={setBreadcrumb} />
       <Form
         noValidate
         className="p-4 sm:p-6 lg:p-8"
