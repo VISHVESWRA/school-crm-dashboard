@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 import { duration } from "@mui/material/styles";
+import BreadCrumbaBtn from "../../components/BreadCrumbaBtn";
+import Breadcrumb from "../../components/BreadCrumbaBtn";
 
 export default function StudentForm() {
   const {
@@ -59,6 +61,8 @@ export default function StudentForm() {
         onClick: () => {
           console.log("Cancel clicked");
           // maybe navigate back
+
+          onSubmit();
         },
       },
     ]);
@@ -88,7 +92,17 @@ export default function StudentForm() {
 
   return (
     <>
-      <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Breadcrumb
+        items={[
+          { label: "Students", path: "/students" },
+          { label: "Add Student" },
+        ]}
+      />
+      <Form
+        noValidate
+        className="p-4 sm:p-6 lg:p-8"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Card className="shadow">
           <Card.Header className="font-poppins text-lg font-medium">
             Personal Details

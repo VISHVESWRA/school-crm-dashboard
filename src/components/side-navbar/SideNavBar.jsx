@@ -20,10 +20,9 @@ import {
   CalendarCheck2,
   IndianRupee,
   BriefcaseBusiness,
-  FileChartLine
+  FileChartLine,
 } from "lucide-react";
-// import { Button } from "react-bootstrap";
-import { Button } from 'primereact/button';
+import { Button } from "react-bootstrap";
 
 const SideNavBar = () => {
   const dispatch = useDispatch();
@@ -39,7 +38,6 @@ const SideNavBar = () => {
 
   const [activeSettingsItem, setActiveSettingsItem] = useState();
   const [activeMenuItem, setActiveMenuItem] = useState("Home");
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -128,9 +126,7 @@ const SideNavBar = () => {
     {
       name: "Report",
       icon: <FileChartLine size={20} />,
-      dropdown: [
-        { name: "Manage Report", path: "/" },
-      ],
+      dropdown: [{ name: "Manage Report", path: "/" }],
     },
   ];
 
@@ -258,7 +254,8 @@ const SideNavBar = () => {
             {menuItems.map((item, index) => {
               const isActive =
                 (item.path === "/" && location.pathname === "/") ||
-                (item.path !== "/" && location.pathname.startsWith(item.path)) ||
+                (item.path !== "/" &&
+                  location.pathname.startsWith(item.path)) ||
                 item?.dropdown?.some((sub) => location.pathname === sub.path);
 
               return (
@@ -267,14 +264,23 @@ const SideNavBar = () => {
                   <div
                     className={`flex items-center justify-between px-2 py-2 cursor-pointer 
                   hover:bg-gray-100 rounded-md 
-                  ${isActive ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950" : "text-white hover:bg-pink-400 hover:text-black"}
+                  ${
+                    isActive
+                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                      : "text-white hover:bg-pink-400 hover:text-black"
+                  }
                 `}
                     onClick={() =>
-                      item.dropdown && setOpenMenu(openMenu === index ? null : index)
+                      item.dropdown &&
+                      setOpenMenu(openMenu === index ? null : index)
                     }
                   >
-                    <Link key={index} to={item.path} className="flex items-center space-x-2 w-full"
-                      style={{ textDecoration: "none", color: "inherit" }}>
+                    <Link
+                      key={index}
+                      to={item.path}
+                      className="flex items-center space-x-2 w-full"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
                       {item.icon}
                       <span>{item.name}</span>
                     </Link>
@@ -284,8 +290,9 @@ const SideNavBar = () => {
                     </div> */}
                     {item.dropdown && (
                       <ChevronDown
-                        className={`transform transition-transform ${openMenu === index ? "rotate-180" : ""
-                          }`}
+                        className={`transform transition-transform ${
+                          openMenu === index ? "rotate-180" : ""
+                        }`}
                         size={16}
                       />
                     )}
@@ -293,19 +300,22 @@ const SideNavBar = () => {
 
                   {/* Dropdown */}
                   {item.dropdown && openMenu === index && (
-                    <div className="pl-6 mt-0.5">
+                    <div>
                       {item.dropdown.map((sub, subIndex) => (
                         <Link
                           key={subIndex}
                           to={sub.path}
-                          className={`block py-1 rounded-md px-2 
-                        ${location.pathname === sub.path
-                              ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                              : "text-white hover:bg-pink-400 hover:text-black"
-                            }`}
+                          className={`block py-1 rounded-md px-2 my-0.5
+                        ${
+                          location.pathname === sub.path
+                            ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                            : "text-white hover:bg-pink-400 hover:text-black"
+                        }`}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
-                          {sub.name}
+                          <span className="flex text-center items-center gap-2 ml-4">
+                            <span>|</span> <span>{sub.name}</span>
+                          </span>
                         </Link>
                       ))}
                     </div>
@@ -410,10 +420,11 @@ const SideNavBar = () => {
                         >
                           <div className="flex items-start">
                             <div
-                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${notification.unread
-                                ? "bg-blue-500"
-                                : "bg-gray-300"
-                                }`}
+                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${
+                                notification.unread
+                                  ? "bg-blue-500"
+                                  : "bg-gray-300"
+                              }`}
                             ></div>
                             <div className="flex-1">
                               <h4 className="text-sm font-medium text-gray-900">
@@ -535,25 +546,41 @@ const SideNavBar = () => {
           </div>
         </header>
 
-        {breadcrumbs && breadcrumbs.length > 0 && (
+        {/* {breadcrumbs && breadcrumbs.length > 0 && (
           <div className="flex justify-between items-center p-3 bg-white border-t-2 border-gray-300">
             <BreadcrumbNav items={breadcrumbs} />
 
-            {sideNavButtons &&
-              <div >
+            {sideNavButtons && (
+              <div>
                 {sideNavButtons.map((btn, i) => (
-                  <Button label={btn.label} key={i} onClick={btn.onClick} rounded className="m-2 rounded-full" />
-                  // <Button key={i} onClick={btn.onClick}>
-                  //   {btn.label}
-                  // </Button>
+                  // <Button
+                  //   label={btn.label}
+                  //   key={i}
+                  //   onClick={btn.onClick}
+                  //   rounded
+                  //   className={`m-2 bg-[#C72571] border-0 hover:bg-[#8B0F4B] text-white font-semibold px-4 py-2 text-sm`}
+                  //   style={{ borderRadius: "20px" }}
+                  // />
+                  <Button
+                    key={i}
+                    onClick={btn.onClick}
+                    className="mx-1 px-4 py-2 text-sm font-semibold text-white"
+                    style={{
+                      backgroundColor: "#C72571",
+                      borderRadius: "20px",
+                      border: "none",
+                    }}
+                  >
+                    {btn.label}
+                  </Button>
                 ))}
               </div>
-            }
+            )}
           </div>
-        )}
+        )} */}
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto bg-[#FCDDEC] p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 overflow-auto bg-[#FCDDEC]">
           <div className="max-w-7xl mx-auto space-y-8">
             <Outlet context={{ setBreadcrumbs, setSideNavButtons }} />
 
@@ -736,139 +763,23 @@ const SideNavBar = () => {
       </div>
 
       {/* Overlay */}
-      {
-        sidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden"
-            onClick={toggleSidebar}
-          />
-        )
-      }
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 lg:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
 
       {/* Click outside to close dropdowns */}
-      {
-        notificationsOpen && (
-          <div className="fixed inset-0 z-30" onClick={toggleNotifications} />
-        )
-      }
+      {notificationsOpen && (
+        <div className="fixed inset-0 z-30" onClick={toggleNotifications} />
+      )}
 
-      {
-        userMenuOpen && (
-          <div className="fixed inset-0 z-30" onClick={toggleUserMenu} />
-        )
-      }
-    </div >
+      {userMenuOpen && (
+        <div className="fixed inset-0 z-30" onClick={toggleUserMenu} />
+      )}
+    </div>
   );
 };
 
 export default SideNavBar;
-
-// import { useState } from "react";
-// import NavBar from "../navbar/NavBar";
-// import { sideMenus } from "./list";
-// import { useNavigate } from "react-router-dom";
-// import { iconList } from "../../assets/iconMap";
-// import "./SideNavBar.css";
-// import { useDispatch } from "react-redux";
-// import { Logout } from "../../express/redux/LoginSlice";
-
-// function SideNavBar() {
-//   const dispatch = useDispatch();
-//   const [activeMenu, setActiveMenu] = useState("Home");
-//   const [activeSubMenu, setSubActiveMenu] = useState();
-//   const [isChildMenuOpen, setIsChildMenuOpen] = useState(false);
-//   const [sideNav, setSideNav] = useState(true);
-//   const navigate = useNavigate();
-
-//   const handleMenuClick = (menu) => {
-//     setActiveMenu(menu.name);
-
-//     if (menu.subItems) {
-//       setIsChildMenuOpen(!isChildMenuOpen && menu.subItems);
-//     } else {
-//       setIsChildMenuOpen(!isChildMenuOpen && menu.subItems);
-//       if (menu.path) {
-//         navigate(menu.path);
-//       }
-//     }
-//   };
-
-//   const handleSubMenuClick = (sub) => {
-//     setSubActiveMenu(sub.name);
-//     if (sub.path) {
-//       navigate(sub.path);
-//       setIsChildMenuOpen(!isChildMenuOpen);
-//     }
-//   };
-
-//   const searchIcon = (iconName) => {
-//     const IconComponent = iconList[iconName];
-//     return IconComponent ? <IconComponent size={20} /> : null;
-//   };
-
-//   return (
-//     <div className="flex h-screen overflow-hidden">
-//       {sideNav && (
-//         <aside className="w-20 md:w-24 bg-[#C72571] flex flex-col relative">
-//           <div className="p-4 flex flex-col items-center gap-2">
-//             <span className="font-poppins text-black text-lg hidden md:block">
-//               NSCHOOL
-//             </span>
-//           </div>
-
-//           <nav className="flex-1 p-2 space-y-2">
-//             {sideMenus.map((menu) => (
-//               <div
-//                 key={menu.name}
-//                 onClick={() => handleMenuClick(menu)}
-//                 className={`flex flex-col items-center gap-1 p-2 rounded-lg text-black hover:bg-[#FCDDEC] cursor-pointer ${activeMenu === menu.name ? "bg-[#FCDDEC] text-black" : ""
-//                   }`}
-//               >
-//                 {menu.icon && searchIcon(menu.icon)}
-//                 <span className="font-poppins hidden md:block">
-//                   {menu.name}
-//                 </span>
-//               </div>
-//             ))}
-//           </nav>
-//         </aside>
-//       )}
-
-//       {isChildMenuOpen && (
-//         <aside
-//           style={isChildMenuOpen ? { display: "block" } : { display: "none" }}
-//           className="md:absolute h-screen md:left-24 w-52 bg-[#C72571] border-x border-gray-200 p-4 overflow-y-auto"
-//         >
-//           <h3 className="text-xs font-bold text-white font-poppins uppercase mb-3">
-//             {activeMenu}
-//           </h3>
-//           <ul className="space-y-2" style={{ paddingLeft: "0px" }}>
-//             {sideMenus
-//               .find((m) => m.name === activeMenu)
-//               ?.subItems?.map((sub, idx) => (
-//                 <li
-//                   key={idx}
-//                   onClick={() => handleSubMenuClick(sub)}
-//                   style={
-//                     activeSubMenu === sub.name
-//                       ? { backgroundColor: "#FCDDEC", color: "black" }
-//                       : { backgroundColor: "", color: "" }
-//                   }
-//                   className="flex items-center gap-2 cursor-pointer p-2 rounded font-poppins text-black hover:bg-[#FCDDEC] text-md"
-//                 >
-//                   {sub.icon && searchIcon(sub.icon)}
-//                   {sub.name}
-//                 </li>
-//               ))}
-//           </ul>
-//         </aside>
-//       )}
-
-//       <main className="flex-1 bg-gray-50 overflow-auto">
-//         <NavBar sideNav={sideNav} onSetSideNav={setSideNav} />
-//       </main>
-//     </div>
-//   );
-// }
-
-// export default SideNavBar;
