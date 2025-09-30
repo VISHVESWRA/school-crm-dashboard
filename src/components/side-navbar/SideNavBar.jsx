@@ -1,43 +1,28 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import BreadcrumbNav from "../bredCrumbs/BredCrumb";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout } from "../../express/redux/LoginSlice";
 import {
   Menu,
   X,
-  Users,
   Bell,
   User,
   ChevronDown,
   LogOut,
   HelpCircle,
-  UserRoundPlus,
-  LayoutGrid,
-  BookUser,
-  BookOpenIcon,
-  CalendarCheck2,
-  IndianRupee,
-  BriefcaseBusiness,
-  FileChartLine,
 } from "lucide-react";
-import { Button } from "react-bootstrap";
+import { menuItems, notifications } from "./list";
 
 const SideNavBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
-  const [breadcrumbs, setBreadcrumbs] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [sideNavButtons, setSideNavButtons] = useState([]);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-
-  const [activeSettingsItem, setActiveSettingsItem] = useState();
-  const [activeMenuItem, setActiveMenuItem] = useState("Home");
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,155 +34,6 @@ const SideNavBar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const menuItems = [
-    {
-      name: "Dashboard",
-      path: "/",
-      icon: <LayoutGrid size={20} />,
-    },
-    {
-      name: "Students",
-      // path: "/students",
-      icon: <Users size={20} />,
-      dropdown: [
-        { name: "All Students", path: "/settings/studentForm" },
-        // { name: "Add Student", path: "/" },
-      ],
-    },
-    {
-      name: "Teachers",
-      // path: "/teachers",
-      icon: <BookUser size={20} />,
-      dropdown: [
-        { name: "All Teachers", path: "/settings/teachersList" },
-        // { name: "Add Teacher", path: "/teachers/add" },
-      ],
-    },
-    {
-      name: "Courses",
-      // path: "/courses",
-      icon: <BookOpenIcon size={20} />,
-      dropdown: [
-        { name: "All Courses", path: "/settings/courseForm" },
-        // { name: "Add Course", path: "/courses/add" },
-      ],
-    },
-    {
-      name: "Enquiry",
-      icon: <HelpCircle size={20} />,
-      dropdown: [
-        { name: "New Enquiry", path: "/" },
-        { name: "Manage Enquiry", path: "/" },
-      ],
-    },
-    {
-      name: "Enrollment",
-      icon: <UserRoundPlus size={20} />,
-      dropdown: [
-        { name: "New Enrollment", path: "/" },
-        { name: "Manage Enrollment", path: "/" },
-      ],
-    },
-    {
-      name: "Attendance",
-      icon: <CalendarCheck2 size={20} />,
-      dropdown: [
-        { name: "Take Attendance", path: "/" },
-        { name: "View Attendance", path: "/" },
-      ],
-    },
-    {
-      name: "Payment",
-      icon: <IndianRupee size={20} />,
-      dropdown: [
-        { name: "Take Payment", path: "/" },
-        { name: "View Payment", path: "/" },
-      ],
-    },
-    {
-      name: "Placement",
-      icon: <BriefcaseBusiness size={20} />,
-      dropdown: [
-        { name: "Add Placement", path: "/" },
-        { name: "Manage Placement", path: "/" },
-      ],
-    },
-    {
-      name: "Report",
-      icon: <FileChartLine size={20} />,
-      dropdown: [{ name: "Manage Report", path: "/" }],
-    },
-  ];
-
-  // const sidebarItems = [
-  //   {
-  //     icon: Home,
-  //     label: "Home",
-  //     active: activeMenuItem === "Home",
-  //     badge: null,
-  //     path: "/",
-  //   },
-  //   {
-  //     icon: BarChart3,
-  //     label: "Analytics",
-  //     active: activeMenuItem === "Analytics",
-  //     badge: null,
-  //     path: "/",
-  //   },
-  //   // { icon: Users, label: "Users", active: activeMenuItem  === "Users", badge: "24", path: "/users" },
-  //   // { icon: FileText, label: "Reports", active: activeMenuItem  === "Reports", badge: null, path: "/reports" },
-  //   // { icon: Mail, label: "Messages", active: activeMenuItem  === "Messages", badge: "12", path: "/messages" },
-  //   // { icon: Calendar, label: "Calendar", active: activeMenuItem  === "Calendar", badge: null, path: "/calendar" },
-  // ];
-
-  // const settingsItems = [
-  //   {
-  //     icon: Users,
-  //     label: "Teachers",
-  //     active: activeSettingsItem === "Teachers",
-  //     path: "/settings/teachersList",
-  //   },
-  //   {
-  //     icon: BookOpenText,
-  //     label: "Course",
-  //     active: activeSettingsItem === "Course",
-  //     path: "/settings/courseForm",
-  //   },
-  //   {
-  //     icon: UserRoundPlus,
-  //     label: "Student",
-  //     active: activeSettingsItem === "Student",
-  //     path: "/settings/studentForm",
-  //   },
-  //   // { icon: Palette, label: "Appearance", active: activeSettingsItem  === "Users", path: "/appearance" },
-  //   // { icon: Bell, label: "Notifications", active: activeSettingsItem  === "Users", path: "/settings/notifications" },
-  //   // { icon: Globe, label: "Language & Region", active: activeSettingsItem  === "Users", path: "/settings/language" },
-  // ];
-
-  const notifications = [
-    {
-      id: 1,
-      title: "New user registered",
-      message: "John Doe just signed up",
-      time: "2 min ago",
-      unread: true,
-    },
-    {
-      id: 2,
-      title: "Report generated",
-      message: "Monthly analytics ready",
-      time: "1 hour ago",
-      unread: true,
-    },
-    {
-      id: 3,
-      title: "System update",
-      message: "Maintenance completed successfully",
-      time: "3 hours ago",
-      unread: false,
-    },
-  ];
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -226,7 +62,7 @@ const SideNavBar = () => {
         className={`
         fixed inset-y-0 left-0 z-50 w-52 bg-[#C72571] shadow-2xl transform transition-all duration-300 ease-out
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:relative lg:translate-x-0
+        lg:relative lg:translate-x-0 overflow-y-auto
       `}
       >
         {/* Sidebar Header */}
@@ -249,8 +85,9 @@ const SideNavBar = () => {
         </div>
 
         {/* Sidebar Navigation */}
-        <div className="flex flex-col h-full">
-          <nav className="flex-1 px-2 py-6 space-y-2 overflow-y-auto">
+        <div className="flex flex-col">
+          <nav className="flex-1 px-2 py-6 space-y-2">
+            {/* overflow-y-auto */}
             {menuItems.map((item, index) => {
               const isActive =
                 (item.path === "/" && location.pathname === "/") ||
@@ -264,11 +101,10 @@ const SideNavBar = () => {
                   <div
                     className={`flex items-center justify-between px-2 py-2 cursor-pointer 
                   hover:bg-gray-100 rounded-md 
-                  ${
-                    isActive
-                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                      : "text-white hover:bg-pink-400 hover:text-black"
-                  }
+                  ${isActive
+                        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                        : "text-white hover:bg-pink-400 hover:text-black"
+                      }
                 `}
                     onClick={() =>
                       item.dropdown &&
@@ -290,9 +126,8 @@ const SideNavBar = () => {
                     </div> */}
                     {item.dropdown && (
                       <ChevronDown
-                        className={`transform transition-transform ${
-                          openMenu === index ? "rotate-180" : ""
-                        }`}
+                        className={`transform transition-transform ${openMenu === index ? "rotate-180" : ""
+                          }`}
                         size={16}
                       />
                     )}
@@ -306,11 +141,10 @@ const SideNavBar = () => {
                           key={subIndex}
                           to={sub.path}
                           className={`block py-1 rounded-md px-2 my-0.5
-                        ${
-                          location.pathname === sub.path
-                            ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                            : "text-white hover:bg-pink-400 hover:text-black"
-                        }`}
+                        ${location.pathname === sub.path
+                              ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                              : "text-white hover:bg-pink-400 hover:text-black"
+                            }`}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           <span className="flex text-center items-center gap-2 ml-4">
@@ -324,7 +158,6 @@ const SideNavBar = () => {
               );
             })}
           </nav>
-          <div className="h-1 mb-5"></div>
 
           {/* Sidebar Footer */}
           {/* <div className="px-4 py-4 border-t border-gray-100 bg-gray-50">
@@ -420,11 +253,10 @@ const SideNavBar = () => {
                         >
                           <div className="flex items-start">
                             <div
-                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${
-                                notification.unread
-                                  ? "bg-blue-500"
-                                  : "bg-gray-300"
-                              }`}
+                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${notification.unread
+                                ? "bg-blue-500"
+                                : "bg-gray-300"
+                                }`}
                             ></div>
                             <div className="flex-1">
                               <h4 className="text-sm font-medium text-gray-900">
@@ -454,7 +286,9 @@ const SideNavBar = () => {
               <div className="relative">
                 <button
                   onClick={toggleUserMenu}
-                  className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                  className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center 
+                  hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+                  style={{ borderRadius: "2rem" }}
                 >
                   <span className="text-white font-semibold text-sm">
                     {handleFirstLetter(user)}
@@ -496,6 +330,7 @@ const SideNavBar = () => {
                         <User className="w-4 h-4 mr-3 text-gray-400" />
                         View Profile
                       </Link>
+
                       {/* <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
@@ -546,218 +381,10 @@ const SideNavBar = () => {
           </div>
         </header>
 
-        {/* {breadcrumbs && breadcrumbs.length > 0 && (
-          <div className="flex justify-between items-center p-3 bg-white border-t-2 border-gray-300">
-            <BreadcrumbNav items={breadcrumbs} />
-
-            {sideNavButtons && (
-              <div>
-                {sideNavButtons.map((btn, i) => (
-                  // <Button
-                  //   label={btn.label}
-                  //   key={i}
-                  //   onClick={btn.onClick}
-                  //   rounded
-                  //   className={`m-2 bg-[#C72571] border-0 hover:bg-[#8B0F4B] text-white font-semibold px-4 py-2 text-sm`}
-                  //   style={{ borderRadius: "20px" }}
-                  // />
-                  <Button
-                    key={i}
-                    onClick={btn.onClick}
-                    className="mx-1 px-4 py-2 text-sm font-semibold text-white"
-                    style={{
-                      backgroundColor: "#C72571",
-                      borderRadius: "20px",
-                      border: "none",
-                    }}
-                  >
-                    {btn.label}
-                  </Button>
-                ))}
-              </div>
-            )}
-          </div>
-        )} */}
-
         {/* Main Content */}
         <main className="flex-1 overflow-auto bg-[#FCDDEC]">
           <div className="max-w-screen mx-auto space-y-8">
-            <Outlet context={{ setBreadcrumbs, setSideNavButtons }} />
-
-            {/* Stats Cards */}
-            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-xl bg-pink-50">
-                    <Users className="w-8 h-8 text-pink-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h2 className="text-3xl font-bold text-gray-900">2,847</h2>
-                    <p className="text-gray-600 text-sm">Total Users</p>
-                    <div className="flex items-center mt-1">
-                      <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-                      <span className="text-green-500 text-xs font-medium">
-                        +12.5%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-xl bg-green-50">
-                    <BarChart3 className="w-8 h-8 text-green-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h2 className="text-3xl font-bold text-gray-900">94.2%</h2>
-                    <p className="text-gray-600 text-sm">Success Rate</p>
-                    <div className="flex items-center mt-1">
-                      <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-                      <span className="text-green-500 text-xs font-medium">
-                        +2.1%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-xl bg-purple-50">
-                    <Mail className="w-8 h-8 text-purple-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h2 className="text-3xl font-bold text-gray-900">1,249</h2>
-                    <p className="text-gray-600 text-sm">Messages</p>
-                    <div className="flex items-center mt-1">
-                      <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-                      <span className="text-green-500 text-xs font-medium">
-                        +8.3%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
-                <div className="flex items-center">
-                  <div className="p-3 rounded-xl bg-orange-50">
-                    <Activity className="w-8 h-8 text-orange-600" />
-                  </div>
-                  <div className="ml-4">
-                    <h2 className="text-3xl font-bold text-gray-900">89.7%</h2>
-                    <p className="text-gray-600 text-sm">Uptime</p>
-                    <div className="flex items-center mt-1">
-                      <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-                      <span className="text-green-500 text-xs font-medium">
-                        +0.5%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-            {/* Main Content Grid */}
-            {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              Recent Activity
-              <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100">
-                <div className="p-6 border-b border-gray-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Recent Activity
-                    </h3>
-                    <button className="text-sm text-pink-600 hover:text-pink-700 font-medium">
-                      View All
-                    </button>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-6">
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                      <div className="ml-4 flex-1">
-                        <p className="text-sm font-medium text-gray-900">
-                          New user registration
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Sarah Johnson joined the platform
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-400">
-                        2 minutes ago
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                      <div className="ml-4 flex-1">
-                        <p className="text-sm font-medium text-gray-900">
-                          Report generated
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Monthly analytics report is ready
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-400">
-                        15 minutes ago
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                      <div className="ml-4 flex-1">
-                        <p className="text-sm font-medium text-gray-900">
-                          System maintenance
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Scheduled backup completed successfully
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-400">1 hour ago</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-                      <div className="ml-4 flex-1">
-                        <p className="text-sm font-medium text-gray-900">
-                          New message received
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Customer support ticket #1247
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-400">2 hours ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              Quick Actions
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-                <div className="p-6 border-b border-gray-100">
-                  <h3 className="text-xl font-semibold text-gray-900">
-                    Quick Actions
-                  </h3>
-                </div>
-                <div className="p-6 space-y-4">
-                  <button className="w-full flex items-center justify-center px-4 py-3 bg-pink-50 text-pink-700 rounded-xl hover:bg-pink-100 transition-colors duration-200">
-                    <Users className="w-5 h-5 mr-2" />
-                    Add New User
-                  </button>
-                  <button className="w-full flex items-center justify-center px-4 py-3 bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-colors duration-200">
-                    <FileText className="w-5 h-5 mr-2" />
-                    Generate Report
-                  </button>
-                  <button className="w-full flex items-center justify-center px-4 py-3 bg-purple-50 text-purple-700 rounded-xl hover:bg-purple-100 transition-colors duration-200">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Send Notification
-                  </button>
-                  <button className="w-full flex items-center justify-center px-4 py-3 bg-orange-50 text-orange-700 rounded-xl hover:bg-orange-100 transition-colors duration-200">
-                    <Settings className="w-5 h-5 mr-2" />
-                    System Settings
-                  </button>
-                </div>
-              </div>
-            </div> */}
+            <Outlet />
           </div>
         </main>
       </div>

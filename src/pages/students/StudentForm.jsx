@@ -3,8 +3,13 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { useEffect } from "react";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
+import TextField from "@mui/material/TextField";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { useState } from "react";
+import { Calendar } from 'primereact/calendar';
 
 export default function StudentForm() {
   const {
@@ -12,6 +17,7 @@ export default function StudentForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue
   } = useForm({
     defaultValues: {
       personalDetails: {
@@ -27,9 +33,11 @@ export default function StudentForm() {
       },
     },
   });
-  const { setBreadcrumbs, setSideNavButtons } = useOutletContext();
+  // const { setBreadcrumbs, setSideNavButtons } = useOutletContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [dob, setDob] = useState(null);
+  const [date, setDate] = useState(null);
 
   const setBreadcrumb = [
     {
@@ -45,31 +53,6 @@ export default function StudentForm() {
     },
   ];
 
-  useEffect(() => {
-    setSideNavButtons([
-      {
-        label: "Save",
-        onClick: () => {
-          console.log("Saving student...");
-          // trigger submit logic here
-        },
-      },
-      {
-        label: "Cancel",
-        onClick: () => {
-          console.log("Cancel clicked");
-          // maybe navigate back
-
-          onSubmit();
-        },
-      },
-    ]);
-  }, []);
-
-  const genders = ["Male", "Female", "Non-binary", "Prefer not to respond"];
-  const courses = ["Mern", "Mean"];
-  const mentors = ["Ram", "Sam", "Vish"];
-  const durations = ["2", "3", "6"];
 
   const onSubmit = (data) => {
     console.log(data);
@@ -88,21 +71,115 @@ export default function StudentForm() {
     // }
   };
 
+  const setSideNavButton = [
+    {
+      label: "Submit",
+      onClick: handleSubmit(onSubmit)
+    },
+    {
+      label: "Cancel",
+      onClick: () => {
+        navigate("/settings/studentList");
+        // setBreadcrumbs([]);
+      },
+    },
+  ];
+
+  const genders = ["Male", "Female", "Non-binary", "Prefer not to respond"];
+  const courses = ["Mern", "Mean"];
+  const mentors = ["Ram", "Sam", "Vish"];
+  const durations = ["2", "3", "6"];
+
   return (
     <>
-      <BreadcrumbNav items={setBreadcrumb} />
+      <BreadcrumbNav items={setBreadcrumb} sideNavButtons={setSideNavButton} />
       <Form
         noValidate
         className="p-4 sm:p-6 lg:p-8"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Card className="shadow">
+        <Card className="shadow mb-4">
           <Card.Header className="font-poppins text-lg font-medium">
             Personal Details
           </Card.Header>
           <Card.Body>
+            <div className="grid grid-cols-4 gap-4">
+              <TextField
+                label="First Name"
+                variant="outlined"
+                size="small"
+                required
+                error={!!errors.personalDetails?.firstName}
+                className="col-span-2"
+                helperText={errors.personalDetails?.firstName?.message}
+                {...register("personalDetails.firstName", { required: "Required" })}
+              />
+
+              <TextField
+                label="Last Name"
+                // type="password"
+                variant="outlined"
+                size="small"
+                required
+                error={!!errors.personalDetails?.lastName}
+                className="col-span-2"
+                helperText={errors.personalDetails?.lastName?.message}
+                {...register("personalDetails.lastName", { required: "Required" })}
+              />
+              <TextField
+                label="PhoneNumber"
+                variant="outlined"
+                size="small"
+                required
+                error={!!errors.personalDetails?.phoneNumber}
+                className="col-span-2"
+                helperText={errors.personalDetails?.phoneNumber?.message}
+                {...register("personalDetails.phoneNumber", {
+                  required: "Required",
+                  minLength: { value: 10, message: "Must be 10 digits" },
+                  maxLength: { value: 10, message: "Must be 10 digits" },
+                })}
+              />
+              <TextField
+                label="DOB"
+                variant="outlined"
+                size="small"
+                required
+                error={!!errors.personalDetails?.dateOfBirth}
+                className="col-span-2"
+                helperText={errors.personalDetails?.dateOfBirth?.message}
+                {...register("personalDetails.dateOfBirth", {
+                  required: "Required",
+                })}
+              />
+
+              <div className="flex-auto">
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Icon Display
+                </label>
+
+                <Calendar value={date} onChange={(e) => setDate(e.value)} showIcon />
+              </div>
+
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Date of Birth"
+                  value={dob}
+                  onChange={(newValue) => {
+                    setDob(newValue);
+                    setValue("personalDetails.dob", newValue, { shouldValidate: true });
+                  }}
+                  renderInput={(params) => <TextField {...params} fullWidth />}
+                />
+              </LocalizationProvider>
+
+              {/* hidden input that React Hook Form registers */}
+              <input type="hidden" {...register("personalDetails.dob")} />
+            </div>
+
             <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="personalDetails.firstName">
+              {/* <Form.Group as={Col} md="6" controlId="personalDetails.firstName">
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -114,9 +191,9 @@ export default function StudentForm() {
                 <Form.Control.Feedback type="invalid">
                   {errors.personalDetails?.firstName?.message}
                 </Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
 
-              <Form.Group as={Col} md="6" controlId="personalDetails.lastName">
+              {/* <Form.Group as={Col} md="6" controlId="personalDetails.lastName">
                 <Form.Label>Last name</Form.Label>
                 <Form.Control
                   type="text"
@@ -129,10 +206,10 @@ export default function StudentForm() {
                 <Form.Control.Feedback type="invalid">
                   {errors.personalDetails?.lastName?.message}
                 </Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
             </Row>
             <Row className="mb-3">
-              <Form.Group
+              {/* <Form.Group
                 as={Col}
                 md="4"
                 controlId="personalDetails.phoneNumber"
@@ -151,7 +228,7 @@ export default function StudentForm() {
                 <Form.Control.Feedback type="invalid">
                   {errors.personalDetails?.phoneNumber?.message}
                 </Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group
                 as={Col}
                 md="4"
@@ -320,7 +397,7 @@ export default function StudentForm() {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <div className="mt-5">
+              {/* <div className="mt-5">
                 <Button type="submit">Submit</Button>
                 <Button
                   className="mx-2"
@@ -332,7 +409,7 @@ export default function StudentForm() {
                 >
                   Cancel
                 </Button>
-              </div>
+              </div> */}
             </Row>
           </Card.Body>
         </Card>
