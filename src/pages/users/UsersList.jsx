@@ -7,6 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Card from "react-bootstrap/Card";
 import { deleteUser, fetchUsers } from "../../express/redux/UsersSlice";
+import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 
 export default function UsersList() {
   const dispatch = useDispatch();
@@ -19,11 +20,38 @@ export default function UsersList() {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
+  const setBreadcrumb = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "List",
+    },
+  ];
+
+  const setSideNavButton = [
+    {
+      label: "Submit",
+      // onClick: handleSubmit(onSubmit),
+    },
+    {
+      label: "Cancel",
+      onClick: () => {
+        navigate("/settings/studentList");
+        // setBreadcrumbs([]);
+      },
+    },
+  ];
+
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
   const handleAddUser = () => navigate("/settings/usersForm");
+  // useEffect(() => {
+  //   setBreadcrumbs([{ label: "Home", href: "/" }, { label: "List" }]);
+  // }, []);
 
   const handleEdit = (user) => {
     navigate(`/settings/usersForm/${user._id}`);
@@ -69,7 +97,9 @@ export default function UsersList() {
 
   return (
     <div>
-      <Card>
+      <BreadcrumbNav items={setBreadcrumb} sideNavButtons={setSideNavButton} />
+
+      <Card className="mt-4">
         <Card.Body>
           <div className="flex flex-row gap-3 items-center mb-4">
             <Form.Select
