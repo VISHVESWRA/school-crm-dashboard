@@ -85,3 +85,23 @@ Material Text Field
 /* .MuiFormHelperText-root.Mui-error {
   color: #6a5565 !important;
 } */
+
+.custom-datepicker
+  .MuiOutlinedInput-root.Mui-error
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #8b0f4b !important;
+}
+
+.custom-datepicker .MuiInputLabel-root.Mui-error {
+  color: black !important;
+}
+
+.custom-datepicker
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #8b0f4b !important;
+}
+
+.custom-datepicker .MuiInputLabel-root.Mui-focused {
+  color: black !important;
+}

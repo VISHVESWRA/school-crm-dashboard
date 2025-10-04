@@ -28,6 +28,7 @@
     "primereact": "^10.9.7",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
+    "react-datepicker": "^8.7.0",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
     "react-hot-toast": "^2.6.0",
