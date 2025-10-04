@@ -190,7 +190,7 @@ export default function Home() {
           <span className="flex justify-end">200</span>
         </div>
         <div className="col-span-3 sm:col-span-1 border-2 border-gray-500 p-2 relative">
-          <GiTeacher
+          <GiUser
             size={35}
             className="bg-[#FCDDEC] relative sm:absolute bottom-8 sm:bottom-13"
           />

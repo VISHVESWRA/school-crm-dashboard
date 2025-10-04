@@ -1,22 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  createTeacherApi,
-  updateTeacherApi,
-  deleteTeacherApi,
-  getTeachersApi,
-  getTeacherByIdApi,
-} from "../api/TeachersApi";
+  createUserApi,
+  updateUserApi,
+  deleteUserApi,
+  getUsersApi,
+  getUserByIdApi,
+} from "../api/UsersApi";
 
-export const fetchTeachers = createAsyncThunk("teachers/fetchAll", async () => {
-  const response = await getTeachersApi();
+export const fetchUsers = createAsyncThunk("users/fetchAll", async () => {
+  const response = await getUsersApi();
   return response.data;
 });
 
-export const fetchTeacherById = createAsyncThunk(
-  "teachers/fetchById",
+export const fetchUserById = createAsyncThunk(
+  "users/fetchById",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await getTeacherByIdApi(id);
+      const response = await getUserByIdApi(id);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -24,11 +24,11 @@ export const fetchTeacherById = createAsyncThunk(
   }
 );
 
-export const createTeacher = createAsyncThunk(
-  "teachers/create",
+export const createUser = createAsyncThunk(
+  "users/create",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await createTeacherApi(data);
+      const response = await createUserApi(data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -36,11 +36,11 @@ export const createTeacher = createAsyncThunk(
   }
 );
 
-export const updateTeacher = createAsyncThunk(
-  "teachers/update",
+export const updateUser = createAsyncThunk(
+  "users/update",
   async ({ id, data }, { rejectWithValue }) => {
     try {
-      const response = await updateTeacherApi(id, data);
+      const response = await updateUserApi(id, data);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -48,59 +48,59 @@ export const updateTeacher = createAsyncThunk(
   }
 );
 
-export const deleteTeacher = createAsyncThunk("teachers/delete", async (id) => {
-  await deleteTeacherApi(id);
+export const deleteUser = createAsyncThunk("users/delete", async (id) => {
+  await deleteUserApi(id);
   return id;
 });
 
-const teachersSlice = createSlice({
-  name: "teachers",
+const usersSlice = createSlice({
+  name: "users",
   initialState: {
     list: [],
-    selectedTeacher: null,
+    selectedUser: null,
     loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTeachers.pending, (state) => {
+      .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchTeachers.fulfilled, (state, action) => {
+      .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
         state.list = action.payload;
       })
-      .addCase(fetchTeachers.rejected, (state, action) => {
+      .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(createTeacher.fulfilled, (state, action) => {
+      .addCase(createUser.fulfilled, (state, action) => {
         state.list.push(action.payload);
       })
-      .addCase(fetchTeacherById.pending, (state) => {
+      .addCase(fetchUserById.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchTeacherById.fulfilled, (state, action) => {
+      .addCase(fetchUserById.fulfilled, (state, action) => {
         state.loading = false;
 
-        state.selectedTeacher = action.payload;
+        state.selectedUser = action.payload;
       })
-      .addCase(fetchTeacherById.rejected, (state, action) => {
+      .addCase(fetchUserById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(updateTeacher.fulfilled, (state, action) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
         console.log(action.payload);
 
         const index = state.list.findIndex((t) => t._id === action.payload._id);
         if (index !== -1) state.list[index] = action.payload;
       })
-      .addCase(deleteTeacher.fulfilled, (state, action) => {
+      .addCase(deleteUser.fulfilled, (state, action) => {
         state.list = state.list.filter((t) => t._id !== action.payload);
       });
   },
 });
 
-export default teachersSlice.reducer;
+export default usersSlice.reducer;

@@ -39,6 +39,23 @@ export default function StudentForm() {
   const [dob, setDob] = useState(null);
   const [date, setDate] = useState(null);
 
+  const onSubmit = (data) => {
+    console.log(data);
+
+    // if (id) {
+    //   console.log(data, id);
+    //   dispatch(updateUser({ id, data }));
+    //   reset();
+    //   setBreadcrumbs([]);
+    //   navigate("/settings/usersList");
+    // } else {
+    //   createUserApi(data);
+    //   setBreadcrumbs([]);
+    //   reset();
+    //   navigate("/settings/usersList");
+    // }
+  };
+
   const setBreadcrumb = [
     {
       label: "Home",
@@ -52,24 +69,6 @@ export default function StudentForm() {
       label: "Student Form",
     },
   ];
-
-
-  const onSubmit = (data) => {
-    console.log(data);
-
-    // if (id) {
-    //   console.log(data, id);
-    //   dispatch(updateTeacher({ id, data }));
-    //   reset();
-    //   setBreadcrumbs([]);
-    //   navigate("/settings/teachersList");
-    // } else {
-    //   createTeacherApi(data);
-    //   setBreadcrumbs([]);
-    //   reset();
-    //   navigate("/settings/teachersList");
-    // }
-  };
 
   const setSideNavButton = [
     {

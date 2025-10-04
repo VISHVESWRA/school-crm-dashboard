@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import TeachersList from "./pages/teachers/TeachersList";
-import TeachersForm from "./pages/teachers/TeachersForm";
+import UsersList from "./pages/users/UsersList";
+import UsersForm from "./pages/users/UsersForm";
 import Home from "./components/home/Home";
 import LoginPage from "./pages/auth/Login";
 import PrivateRoute from "./redux/authRoutes";
@@ -15,7 +15,6 @@ import StudentList from "./pages/students/StudentList";
 import { Toaster } from "react-hot-toast";
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
-// import 'primeicons/primeicons.css';
 
 function App() {
   // const [theme, setTheme] = useState(() => {
@@ -38,16 +37,16 @@ function App() {
 
           <Route
             element={
-              <PrivateRoute role={["superAdmin", "teacher"]}>
+              <PrivateRoute role={["superAdmin", "user"]}>
                 <SideNavBar />
               </PrivateRoute>
             }
           >
             <Route path="/" element={<Home />} />
             <Route path="settings">
-              <Route path="teachersList" element={<TeachersList />} />
-              <Route path="teachersForm" element={<TeachersForm />} />
-              <Route path="teachersForm/:id" element={<TeachersForm />} />
+              <Route path="usersList" element={<UsersList />} />
+              <Route path="usersForm" element={<UsersForm />} />
+              <Route path="usersForm/:id" element={<UsersForm />} />
               <Route path="courseForm" element={<CourseForm />} />
               <Route path="courseForm/:id" element={<CourseForm />} />
               <Route path="courseList" element={<CourseList />} />

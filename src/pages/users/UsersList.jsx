@@ -1,8 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  deleteTeacher,
-  fetchTeachers,
-} from "../../express/redux/TeachersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Form } from "react-bootstrap";
@@ -10,49 +6,45 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Card from "react-bootstrap/Card";
+import { deleteUser, fetchUsers } from "../../express/redux/UsersSlice";
 
-export default function TeachersList() {
+export default function UsersList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { list, loading, error } = useSelector((state) => state.teachers);
+  const { list, loading, error } = useSelector((state) => state.users);
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
-  const { setBreadcrumbs } = useOutletContext();
 
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
   useEffect(() => {
-    dispatch(fetchTeachers());
+    dispatch(fetchUsers());
   }, [dispatch]);
 
-  useEffect(() => {
-    setBreadcrumbs([{ label: "Home", href: "/" }, { label: "List" }]);
-  }, []);
+  const handleAddUser = () => navigate("/settings/usersForm");
 
-  const handleAddTeacher = () => navigate("/settings/teachersForm");
-
-  const handleEdit = (teacher) => {
-    navigate(`/settings/teachersForm/${teacher._id}`);
+  const handleEdit = (user) => {
+    navigate(`/settings/usersForm/${user._id}`);
   };
 
   const handleDelete = (id) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this teacher?"
+      "Are you sure you want to delete this user?"
     );
     if (!confirmed) return;
 
-    dispatch(deleteTeacher(id));
+    dispatch(deleteUser(id));
   };
 
-  const filteredList = list.filter((teacher) => {
-    const fullName = `${teacher.firstName} ${teacher.lastName}`.toLowerCase();
+  const filteredList = list.filter((user) => {
+    const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
     const matchSearch =
       fullName.includes(searchTerm.toLowerCase()) ||
-      teacher.phoneNumber.includes(searchTerm);
-    const matchRole = roleFilter ? teacher.role === roleFilter : true;
-    const matchDate = dateFilter ? teacher.dateOfJoin === dateFilter : true;
+      user.phoneNumber.includes(searchTerm);
+    const matchRole = roleFilter ? user.role === roleFilter : true;
+    const matchDate = dateFilter ? user.dateOfJoin === dateFilter : true;
     return matchSearch && matchRole && matchDate;
   });
 
@@ -86,7 +78,7 @@ export default function TeachersList() {
               onChange={(e) => setRoleFilter(e.target.value)}
             >
               <option value="">All Roles</option>
-              <option value="Teacher">Teacher</option>
+              <option value="Staff">Staff</option>
               <option value="Admin">Admin</option>
             </Form.Select>
 
@@ -107,7 +99,7 @@ export default function TeachersList() {
 
             <button
               type="button"
-              onClick={handleAddTeacher}
+              onClick={handleAddUser}
               className="flex items-center px-2 py-2 gap-0.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
             >
               <IoMdAddCircleOutline size={18} />
@@ -127,9 +119,8 @@ export default function TeachersList() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <button
                 key={num}
-                className={`px-3 py-1 border rounded ${
-                  num === currentPage ? "bg-blue-500 text-white" : ""
-                }`}
+                className={`px-3 py-1 border rounded ${num === currentPage ? "bg-blue-500 text-white" : ""
+                  }`}
                 onClick={() => goToPage(num)}
               >
                 {num}
@@ -158,25 +149,29 @@ export default function TeachersList() {
                 </tr>
               </thead>
               <tbody>
-                {currentRows.map((teacher, idx) => (
-                  <tr key={teacher._id} className="hover:bg-gray-50 bg-white">
+                {currentRows.map((user, idx) => (
+                  <tr key={user._id} className="hover:bg-gray-50 bg-white">
                     <td className="border px-4 py-2 text-center">
                       {indexOfFirstRow + idx + 1}
                     </td>
-                    <td className="border px-4 py-2">{teacher.firstName}</td>
-                    <td className="border px-4 py-2">{teacher.lastName}</td>
-                    <td className="border px-4 py-2">{teacher.phoneNumber}</td>
-                    <td className="border px-4 py-2">{teacher.role}</td>
+                    <td className="border px-4 py-2">{user.firstName}</td>
+                    <td className="border px-4 py-2">{user.lastName}</td>
+                    <td className="border px-4 py-2">{user.phoneNumber}</td>
+                    <td className="border px-4 py-2">
+                      <span className="bg-violet-200 px-3 py-1 rounded-4xl">
+                        {user.role}
+                      </span>
+                    </td>
                     <td className="border px-4 py-2 flex text-center justify-center gap-2">
                       <FiEdit
                         className="text-blue-500 cursor-pointer hover:text-blue-700"
                         size={18}
-                        onClick={() => handleEdit(teacher)}
+                        onClick={() => handleEdit(user)}
                       />
                       <FiTrash2
                         className="text-red-500 cursor-pointer hover:text-red-700"
                         size={18}
-                        onClick={() => handleDelete(teacher._id)}
+                        onClick={() => handleDelete(user._id)}
                       />
                     </td>
                   </tr>

@@ -24,21 +24,21 @@ export const menuItems = [
         icon: <LayoutGrid size={20} />,
     },
     {
+        name: "New User",
+        // path: "/users",
+        icon: <BookUser size={20} />,
+        dropdown: [
+            { name: "All Users", path: "/settings/usersList" },
+            // { name: "Add Users", path: "/users/add" },
+        ],
+    },
+    {
         name: "Students",
         // path: "/students",
         icon: <Users size={20} />,
         dropdown: [
             { name: "All Students", path: "/settings/studentForm" },
             // { name: "Add Student", path: "/" },
-        ],
-    },
-    {
-        name: "Staff",
-        // path: "/teachers",
-        icon: <BookUser size={20} />,
-        dropdown: [
-            { name: "All Staff", path: "/settings/teachersList" },
-            // { name: "Add Teacher", path: "/teachers/add" },
         ],
     },
     {

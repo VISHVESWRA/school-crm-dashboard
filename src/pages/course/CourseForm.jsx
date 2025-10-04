@@ -42,15 +42,15 @@ export default function CourseForm() {
 
     // if (id) {
     //   console.log(data, id);
-    //   dispatch(updateTeacher({ id, data }));
+    //   dispatch(updateUser({ id, data }));
     //   reset();
     //   setBreadcrumbs([]);
-    //   navigate("/settings/teachersList");
+    //   navigate("/settings/usersList");
     // } else {
-    //   createTeacherApi(data);
+    //   createUserApi(data);
     //   setBreadcrumbs([]);
     //   reset();
-    //   navigate("/settings/teachersList");
+    //   navigate("/settings/usersList");
     // }
   };
 

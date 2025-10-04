@@ -1,27 +1,30 @@
 import { useForm } from "react-hook-form";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { createTeacherApi } from "../../express/api/TeachersApi";
+// import { createUserApi } from "../../express/api/UsersApi";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  fetchTeacherById,
-  fetchTeachers,
-  updateTeacher,
-} from "../../express/redux/TeachersSlice";
+  fetchUserById,
+  fetchUsers,
+  updateUser,
+} from "../../express/redux/UsersSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Checkbox } from 'primereact/checkbox';
+import { createUserApi } from "../../express/api/UsersApi";
 
-export default function TeachersForm() {
-  const { selectedTeacher, loading, error } = useSelector(
-    (state) => state.teachers
+export default function UsersForm() {
+  const { selectedUser, loading, error } = useSelector(
+    (state) => state.users
   );
 
   const roles = [
     "Admin",
     "Principal",
     "Management Staff",
-    "Teacher",
+    // "User",
+    "Staff",
     "Accountant",
     "Store Manager",
   ];
@@ -39,68 +42,88 @@ export default function TeachersForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { setBreadcrumbs } = useOutletContext();
-
-  useEffect(() => {
-    setBreadcrumbs([
-      {
-        label: "Home",
-        href: "/",
-        // onClick: (e) => {
-        //   e.preventDefault();
-        //   console.log("Clicked Home");
-        // },
-      },
-      {
-        label: "List",
-        href: "././teachersList",
-      },
-      {
-        label: "Form",
-      },
-    ]);
-  }, []);
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchTeacherById(id));
+      dispatch(fetchUserById(id));
     }
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (selectedTeacher) {
+    if (selectedUser) {
       reset({
-        firstName: selectedTeacher.firstName,
-        lastName: selectedTeacher.lastName,
-        phoneNumber: selectedTeacher.phoneNumber,
-        dateOfJoin: selectedTeacher.dateOfJoin
-          ? new Date(selectedTeacher.dateOfJoin).toISOString().split("T")[0]
+        firstName: selectedUser.firstName,
+        lastName: selectedUser.lastName,
+        phoneNumber: selectedUser.phoneNumber,
+        dateOfJoin: selectedUser.dateOfJoin
+          ? new Date(selectedUser.dateOfJoin).toISOString().split("T")[0]
           : new Date().toISOString().split("T")[0],
-        role: selectedTeacher.role,
-        city: selectedTeacher.city,
-        state: selectedTeacher.state,
-        zip: selectedTeacher.zip,
+        role: selectedUser.role,
+        city: selectedUser.city,
+        state: selectedUser.state,
+        zip: selectedUser.zip,
       });
     }
-  }, [selectedTeacher, reset]);
+  }, [selectedUser, reset]);
 
   const onSubmit = (data) => {
     if (id) {
       console.log(data, id);
-      dispatch(updateTeacher({ id, data }));
+      dispatch(updateUser({ id, data }));
       reset();
-      setBreadcrumbs([]);
-      navigate("/settings/teachersList");
+      navigate("/settings/usersList");
     } else {
-      createTeacherApi(data);
-      setBreadcrumbs([]);
+      createUserApi(data);
       reset();
-      navigate("/settings/teachersList");
+      navigate("/settings/usersList");
     }
   };
 
+  const setBreadcrumb = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "List",
+      href: "././usersList",
+    },
+    {
+      label: "User Form",
+    },
+  ];
+
+  const setSideNavButton = [
+    {
+      label: id ? "Update" : "Submit",
+      onClick: handleSubmit(onSubmit)
+    },
+    {
+      label: "Cancel",
+      onClick: () => {
+        navigate("/settings/usersList");
+        // setBreadcrumbs([]);
+      },
+    },
+  ];
+
+  const [ingredients, setIngredients] = useState([]);
+
+  const onIngredientsChange = (e) => {
+    let _ingredients = [...ingredients];
+
+    if (e.checked)
+      _ingredients.push(e.value);
+    else
+      _ingredients.splice(_ingredients.indexOf(e.value), 1);
+
+    setIngredients(_ingredients);
+  }
+
   return (
     <>
+      <BreadcrumbNav items={setBreadcrumb} sideNavButtons={setSideNavButton} />
+
       <div className="p-4 sm:p-6 lg:p-8">
         <Card className="shadow">
           <Card.Header className="font-poppins text-lg font-medium">
@@ -229,17 +252,42 @@ export default function TeachersForm() {
                 />
               </Form.Group>
 
-              <Button type="submit">Submit</Button>
+              <div className="grid grid-cols-4 gap-4">
+
+                <div className="flex flex-wrap justify-content-center gap-3">
+                  <div className="flex align-items-center">
+                    <Checkbox inputId="ingredient1" name="pizza" value="Cheese" onChange={onIngredientsChange} checked={ingredients.includes('Cheese')} />
+                    <label htmlFor="ingredient1" className="ml-2">Cheese</label>
+                  </div>
+                  <div className="flex align-items-center">
+                    <Checkbox inputId="ingredient2" name="pizza" value="Mushroom" onChange={onIngredientsChange} checked={ingredients.includes('Mushroom')} />
+                    <label htmlFor="ingredient2" className="ml-2">Mushroom</label>
+                  </div>
+                  <div className="flex align-items-center">
+                    <Checkbox inputId="ingredient3" name="pizza" value="Pepper" onChange={onIngredientsChange} checked={ingredients.includes('Pepper')} />
+                    <label htmlFor="ingredient3" className="ml-2">Pepper</label>
+                  </div>
+                  <div className="flex align-items-center">
+                    <Checkbox inputId="ingredient4" name="pizza" value="Onion" onChange={onIngredientsChange} checked={ingredients.includes('Onion')} />
+                    <label htmlFor="ingredient4" className="ml-2">Onion</label>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* <Button type="submit">Submit</Button>
               <Button
                 className="mx-2"
                 type="button"
                 onClick={() => {
-                  navigate("/settings/teachersList");
+                  navigate("/settings/usersList");
                   setBreadcrumbs([]);
                 }}
               >
                 Cancel
-              </Button>
+              </Button> */}
+
+
             </Form>
           </Card.Body>
         </Card>
