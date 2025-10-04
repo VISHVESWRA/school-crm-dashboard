@@ -8,6 +8,7 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Card from "react-bootstrap/Card";
 import { deleteUser, fetchUsers } from "../../express/redux/UsersSlice";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
 export default function UsersList() {
   const dispatch = useDispatch();
@@ -32,14 +33,10 @@ export default function UsersList() {
 
   const setSideNavButton = [
     {
-      label: "Submit",
-      // onClick: handleSubmit(onSubmit),
-    },
-    {
-      label: "Cancel",
+      label: "Add",
+      icon: <AddCircleOutlineRoundedIcon fontSize="small" />,
       onClick: () => {
-        navigate("/settings/studentList");
-        // setBreadcrumbs([]);
+        navigate("/settings/usersForm")
       },
     },
   ];
@@ -47,11 +44,6 @@ export default function UsersList() {
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-
-  const handleAddUser = () => navigate("/settings/usersForm");
-  // useEffect(() => {
-  //   setBreadcrumbs([{ label: "Home", href: "/" }, { label: "List" }]);
-  // }, []);
 
   const handleEdit = (user) => {
     navigate(`/settings/usersForm/${user._id}`);
@@ -126,15 +118,6 @@ export default function UsersList() {
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
             />
-
-            <button
-              type="button"
-              onClick={handleAddUser}
-              className="flex items-center px-2 py-2 gap-0.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-            >
-              <IoMdAddCircleOutline size={18} />
-              Add
-            </button>
           </div>
 
           <div className="flex justify-end items-center mb-2 gap-2">
@@ -187,10 +170,12 @@ export default function UsersList() {
                     <td className="border px-4 py-2">{user.firstName}</td>
                     <td className="border px-4 py-2">{user.lastName}</td>
                     <td className="border px-4 py-2">{user.phoneNumber}</td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-2 w-2xl">
+                      {user.role && 
                       <span className="bg-violet-200 px-3 py-1 rounded-4xl">
                         {user.role}
                       </span>
+                }
                     </td>
                     <td className="border px-4 py-2 flex text-center justify-center gap-2">
                       <FiEdit

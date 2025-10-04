@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 // import { createUserApi } from "../../express/api/UsersApi";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useEffect, useState } from "react";
@@ -11,8 +11,15 @@ import {
   updateUser,
 } from "../../express/redux/UsersSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Checkbox } from 'primereact/checkbox';
 import { createUserApi } from "../../express/api/UsersApi";
+import {
+  FormControl,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  FormHelperText,
+} from "@mui/material";
 
 export default function UsersForm() {
   const { selectedUser, loading, error } = useSelector(
@@ -34,14 +41,24 @@ export default function UsersForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch
   } = useForm({
     defaultValues: {
       dateOfJoin: new Date().toISOString().split("T")[0],
+      permission: {
+        enquiry: false,
+        enrollment: false,
+        attendance: false,
+        staff: false,
+        placement: false,
+        report: false,
+      },
     },
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+   const permissionValues = watch("permission");
 
   useEffect(() => {
     if (id) {
@@ -67,6 +84,8 @@ export default function UsersForm() {
   }, [selectedUser, reset]);
 
   const onSubmit = (data) => {
+    console.log(data);
+    
     if (id) {
       console.log(data, id);
       dispatch(updateUser({ id, data }));
@@ -77,6 +96,12 @@ export default function UsersForm() {
       reset();
       navigate("/settings/usersList");
     }
+  };
+
+     const atLeastOneChecked = (value) => {
+      console.log(value);
+      
+    return Object.values(permissionValues).some(Boolean) || "At least one permission is required";
   };
 
   const setBreadcrumb = [
@@ -243,37 +268,60 @@ export default function UsersForm() {
                 </Form.Group>
               </Row>
 
-              <Form.Group className="mb-3">
+              {/* <Form.Group className="mb-3">
                 <Form.Check
                   required
                   label="Agree to terms and conditions"
                   feedback="You must agree before submitting."
                   feedbackType="invalid"
                 />
-              </Form.Group>
+              </Form.Group> */}
 
-              <div className="grid grid-cols-4 gap-4">
-
-                <div className="flex flex-wrap justify-content-center gap-3">
-                  <div className="flex align-items-center">
-                    <Checkbox inputId="ingredient1" name="pizza" value="Cheese" onChange={onIngredientsChange} checked={ingredients.includes('Cheese')} />
-                    <label htmlFor="ingredient1" className="ml-2">Cheese</label>
-                  </div>
-                  <div className="flex align-items-center">
-                    <Checkbox inputId="ingredient2" name="pizza" value="Mushroom" onChange={onIngredientsChange} checked={ingredients.includes('Mushroom')} />
-                    <label htmlFor="ingredient2" className="ml-2">Mushroom</label>
-                  </div>
-                  <div className="flex align-items-center">
-                    <Checkbox inputId="ingredient3" name="pizza" value="Pepper" onChange={onIngredientsChange} checked={ingredients.includes('Pepper')} />
-                    <label htmlFor="ingredient3" className="ml-2">Pepper</label>
-                  </div>
-                  <div className="flex align-items-center">
-                    <Checkbox inputId="ingredient4" name="pizza" value="Onion" onChange={onIngredientsChange} checked={ingredients.includes('Onion')} />
-                    <label htmlFor="ingredient4" className="ml-2">Onion</label>
-                  </div>
-                </div>
-
-              </div>
+        <FormControl component="fieldset" 
+        error={!!errors.permission }>
+        <FormLabel component="legend">Department Permission</FormLabel>
+        <FormGroup row>
+          <FormControlLabel
+            control={<Checkbox {...register("permission.enquiry", { validate: atLeastOneChecked })} />}
+            label="Enquiry"
+            labelPlacement="end"
+            className="col-span-1"
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("permission.enrollment", { validate: atLeastOneChecked })} />}
+            label="Enrollment"
+            labelPlacement="end"
+            className="col-span-1"
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("permission.attendance")} />}
+            label="Attendance"
+            labelPlacement="end"
+            className="col-span-1"
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("permission.staff", { validate: atLeastOneChecked })} />}
+            label="Staff"
+            labelPlacement="end"
+            className="col-span-1"
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("permission.placement", { validate: atLeastOneChecked })} />}
+            label="Placement"
+            labelPlacement="end"
+            className="col-span-1"
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("permission.report", {validate: atLeastOneChecked })} />}
+            label="Report"
+            labelPlacement="end"
+            className="col-span-1"
+          />
+           {errors.permission && (
+          <FormHelperText>{errors.permission.message}sd</FormHelperText>
+        )}
+        </FormGroup>
+      </FormControl>
 
               {/* <Button type="submit">Submit</Button>
               <Button

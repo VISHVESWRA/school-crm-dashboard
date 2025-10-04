@@ -55,7 +55,14 @@ const BreadcrumbNav = ({ items, sideNavButtons }) => {
                 border: "none",
               }}
             >
+              <div className="flex items-center justify-center gap-1">
+              <span>
+               {btn.icon} 
+              </span>
+              <span>
               {btn.label}
+              </span>
+              </div>
             </Button>
           ))}
         </div>

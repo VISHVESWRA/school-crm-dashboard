@@ -37,7 +37,7 @@ export const menuItems = [
         // path: "/students",
         icon: <Users size={20} />,
         dropdown: [
-            { name: "All Students", path: "/settings/studentForm" },
+            { name: "All Students", path: "/settings/studentList" },
             // { name: "Add Student", path: "/" },
         ],
     },
