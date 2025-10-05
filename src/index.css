@@ -5,10 +5,10 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-@theme {
+/* @theme {
   --font-sans: InterVariable, sans-serif;
   --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-}
+} */
 
 /* BootStrap Text Field */
 
@@ -119,8 +119,29 @@ Material Text Field
   background: #8b0f4b !important;
 }
 
-/* Hover effect */
-.p-checkbox-box:hover {
-  border-color: #5c0a33 !important;
+/* Prime Table */
+/* Force visible gridlines */
+.p-datatable .p-datatable-tbody > tr > td,
+.p-datatable .p-datatable-thead > tr > th {
+  border-bottom: 1px solid #ccc !important;
 }
 
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #ccc;
+}
+
+.p-datatable .p-datatable-thead > tr > th .p-column-title {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Remove highlight from table rows */
+.my-table .p-datatable-tbody > tr.p-highlight {
+  /* background-color: transparent !important; */
+  color: #c72571;
+}
+
+/* Keep the checkbox highlighted */
+.my-table .p-selection-column .p-checkbox.p-highlight .p-checkbox-box {
+  background-color: #c72571 !important; /* keeps the checkbox checked color */
+  border-color: #c72571 !important;
+}

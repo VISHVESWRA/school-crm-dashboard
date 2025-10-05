@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
@@ -36,7 +36,7 @@ export default function UsersList() {
       label: "Add",
       icon: <AddCircleOutlineRoundedIcon fontSize="small" />,
       onClick: () => {
-        navigate("/settings/usersForm")
+        navigate("/settings/usersForm");
       },
     },
   ];
@@ -91,7 +91,7 @@ export default function UsersList() {
     <div>
       <BreadcrumbNav items={setBreadcrumb} sideNavButtons={setSideNavButton} />
 
-      <Card className="mt-4">
+      <Card className="m-4">
         <Card.Body>
           <div className="flex flex-row gap-3 items-center mb-4">
             <Form.Select
@@ -132,8 +132,9 @@ export default function UsersList() {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <button
                 key={num}
-                className={`px-3 py-1 border rounded ${num === currentPage ? "bg-blue-500 text-white" : ""
-                  }`}
+                className={`px-3 py-1 border rounded ${
+                  num === currentPage ? "bg-blue-500 text-white" : ""
+                }`}
                 onClick={() => goToPage(num)}
               >
                 {num}
@@ -171,11 +172,11 @@ export default function UsersList() {
                     <td className="border px-4 py-2">{user.lastName}</td>
                     <td className="border px-4 py-2">{user.phoneNumber}</td>
                     <td className="border px-4 py-2 w-2xl">
-                      {user.role && 
-                      <span className="bg-violet-200 px-3 py-1 rounded-4xl">
-                        {user.role}
-                      </span>
-                }
+                      {user.role && (
+                        <span className="bg-violet-200 px-3 py-1 rounded-4xl">
+                          {user.role}
+                        </span>
+                      )}
                     </td>
                     <td className="border px-4 py-2 flex text-center justify-center gap-2">
                       <FiEdit
