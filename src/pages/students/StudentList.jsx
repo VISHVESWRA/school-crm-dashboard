@@ -8,6 +8,7 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useNavigate } from "react-router-dom";
 import { InputSwitch } from "primereact/inputswitch";
+import { fetchStudents } from "../../express/redux/StudentsSlice";
 
 export default function StudentList() {
   const [customers, setCustomers] = useState([]);
@@ -46,8 +47,21 @@ export default function StudentList() {
   // }, []);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchStudents());
   }, [dispatch]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-600">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
+  if (error) return <p className="text-danger">Error: {error}</p>;
+
   return (
     <>
       <BreadcrumbNav items={setBreadcrumb} sideNavButtons={setSideNavButton} />

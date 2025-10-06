@@ -22,9 +22,7 @@ import {
 } from "@mui/material";
 
 export default function UsersForm() {
-  const { selectedUser, loading, error } = useSelector(
-    (state) => state.users
-  );
+  const { selectedUser, loading, error } = useSelector((state) => state.users);
 
   const roles = [
     "Admin",
@@ -41,7 +39,7 @@ export default function UsersForm() {
     handleSubmit,
     formState: { errors },
     reset,
-    watch
+    watch,
   } = useForm({
     defaultValues: {
       dateOfJoin: new Date().toISOString().split("T")[0],
@@ -58,7 +56,7 @@ export default function UsersForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-   const permissionValues = watch("permission");
+  const permissionValues = watch("permission");
 
   useEffect(() => {
     if (id) {
@@ -84,8 +82,6 @@ export default function UsersForm() {
   }, [selectedUser, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
-    
     if (id) {
       console.log(data, id);
       dispatch(updateUser({ id, data }));
@@ -98,10 +94,13 @@ export default function UsersForm() {
     }
   };
 
-     const atLeastOneChecked = (value) => {
-      console.log(value);
-      
-    return Object.values(permissionValues).some(Boolean) || "At least one permission is required";
+  const atLeastOneChecked = (value) => {
+    console.log(value);
+
+    return (
+      Object.values(permissionValues).some(Boolean) ||
+      "At least one permission is required"
+    );
   };
 
   const setBreadcrumb = [
@@ -121,7 +120,7 @@ export default function UsersForm() {
   const setSideNavButton = [
     {
       label: id ? "Update" : "Submit",
-      onClick: handleSubmit(onSubmit)
+      onClick: handleSubmit(onSubmit),
     },
     {
       label: "Cancel",
@@ -137,13 +136,11 @@ export default function UsersForm() {
   const onIngredientsChange = (e) => {
     let _ingredients = [...ingredients];
 
-    if (e.checked)
-      _ingredients.push(e.value);
-    else
-      _ingredients.splice(_ingredients.indexOf(e.value), 1);
+    if (e.checked) _ingredients.push(e.value);
+    else _ingredients.splice(_ingredients.indexOf(e.value), 1);
 
     setIngredients(_ingredients);
-  }
+  };
 
   return (
     <>
@@ -277,51 +274,84 @@ export default function UsersForm() {
                 />
               </Form.Group> */}
 
-        <FormControl component="fieldset" 
-        error={!!errors.permission }>
-        <FormLabel component="legend">Department Permission</FormLabel>
-        <FormGroup row>
-          <FormControlLabel
-            control={<Checkbox {...register("permission.enquiry", { validate: atLeastOneChecked })} />}
-            label="Enquiry"
-            labelPlacement="end"
-            className="col-span-1"
-          />
-          <FormControlLabel
-            control={<Checkbox {...register("permission.enrollment", { validate: atLeastOneChecked })} />}
-            label="Enrollment"
-            labelPlacement="end"
-            className="col-span-1"
-          />
-          <FormControlLabel
-            control={<Checkbox {...register("permission.attendance")} />}
-            label="Attendance"
-            labelPlacement="end"
-            className="col-span-1"
-          />
-          <FormControlLabel
-            control={<Checkbox {...register("permission.staff", { validate: atLeastOneChecked })} />}
-            label="Staff"
-            labelPlacement="end"
-            className="col-span-1"
-          />
-          <FormControlLabel
-            control={<Checkbox {...register("permission.placement", { validate: atLeastOneChecked })} />}
-            label="Placement"
-            labelPlacement="end"
-            className="col-span-1"
-          />
-          <FormControlLabel
-            control={<Checkbox {...register("permission.report", {validate: atLeastOneChecked })} />}
-            label="Report"
-            labelPlacement="end"
-            className="col-span-1"
-          />
-           {errors.permission && (
-          <FormHelperText>{errors.permission.message}sd</FormHelperText>
-        )}
-        </FormGroup>
-      </FormControl>
+              <FormControl component="fieldset" error={!!errors.permission}>
+                <FormLabel component="legend">Department Permission</FormLabel>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.enquiry", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Enquiry"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.enrollment", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Enrollment"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox {...register("permission.attendance")} />
+                    }
+                    label="Attendance"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.staff", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Staff"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.placement", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Placement"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.report", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Report"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  {errors.permission && (
+                    <FormHelperText>
+                      {errors.permission.message}sd
+                    </FormHelperText>
+                  )}
+                </FormGroup>
+              </FormControl>
 
               {/* <Button type="submit">Submit</Button>
               <Button
@@ -334,8 +364,6 @@ export default function UsersForm() {
               >
                 Cancel
               </Button> */}
-
-
             </Form>
           </Card.Body>
         </Card>

@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import { Col, Form, Row } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
@@ -15,6 +15,8 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addStudents, updateStudents } from "../../express/redux/StudentsSlice";
 
 export default function StudentForm() {
   const {
@@ -43,23 +45,23 @@ export default function StudentForm() {
     },
   });
   // const { setBreadcrumbs, setSideNavButtons } = useOutletContext();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const onSubmit = (data) => {
     console.log(data);
 
-    // if (id) {
-    //   console.log(data, id);
-    //   dispatch(updateUser({ id, data }));
-    //   reset();
-    //   setBreadcrumbs([]);
-    //   navigate("/settings/usersList");
-    // } else {
-    //   createUserApi(data);
-    //   setBreadcrumbs([]);
-    //   reset();
-    //   navigate("/settings/usersList");
-    // }
+    if (id) {
+      console.log(data, id);
+      dispatch(updateStudents({ id, data }));
+      reset();
+      navigate("/settings/studentList");
+    } else {
+      addStudents(data);
+      reset();
+      navigate("/settings/studentList");
+    }
   };
 
   const setBreadcrumb = [
