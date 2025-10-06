@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import {
   createStudentsApi,
   deleteStudentsApi,
+  getStudentsApi,
   getStudentsByIdApi,
   updateStudentsApi,
 } from "../api/StudentApi";
@@ -10,7 +11,7 @@ export const fetchStudents = createAsyncThunk(
   "students/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await createStudentsApi();
+      const response = await getStudentsApi();
       // console.log(response.data);
 
       return response.data;
@@ -47,7 +48,7 @@ export const fetchStudentById = createAsyncThunk(
       const response = await getStudentsByIdApi(id);
       return (await response).data;
     } catch (e) {
-      rejectWithValue(e.response?.data || e.message);
+      return rejectWithValue(e.response?.data || e.message);
     }
   }
 );
@@ -56,24 +57,22 @@ export const addStudents = createAsyncThunk(
   "students/create",
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data);
-
       const response = await createStudentsApi(data);
       return response.data;
     } catch (e) {
-      rejectWithValue(e.response?.data || e.message);
+      return rejectWithValue(e.response?.data || e.message);
     }
   }
 );
 
 export const updateStudents = createAsyncThunk(
   "students/update",
-  async (id, data, { rejectWithValue }) => {
+  async ({id, data}, { rejectWithValue }) => {
     try {
       const response = await updateStudentsApi(id, data);
       return response.data;
     } catch (e) {
-      rejectWithValue(e.response?.data || e.message);
+      return rejectWithValue(e.response?.data || e.message);
     }
   }
 );
@@ -85,7 +84,7 @@ export const removeStudents = createAsyncThunk(
       await deleteStudentsApi(id);
       return id;
     } catch (e) {
-      rejectWithValue(e.response?.data || e.message);
+      return rejectWithValue(e.response?.data || e.message);
     }
   }
 );
@@ -106,6 +105,7 @@ const studentSlice = createSlice({
   name: "students",
   initialState: {
     list: [],
+        selectedStudent: null,
     loading: false,
     error: null,
   },
@@ -120,15 +120,24 @@ const studentSlice = createSlice({
         state.loading = false;
         state.list.push(action.payload);
       })
+      .addCase(fetchStudentById.fulfilled, (state, action) => {
+              state.loading = false;
+              state.selectedStudent = action.payload.student;
+            })
       .addCase(updateStudents.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = state.list.map((student) =>
-          student._id === action.payload._id ? action.payload : student
-        );
+        console.log(action.payload);
+
+        console.log(state.list);
+        
+        
+        // state.list = state.list.map((student) =>
+        //   student._id === action.payload?.student._id ? action.payload : student
+        // );
       })
       .addCase(removeStudents.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = state.list.filter((s) => s._id !== action.payload);
+        state.list = state.list.filter((s) => s._id !== action.payload?.student);
       })
 
       // Delete Multiple - Use filter with includes ✅

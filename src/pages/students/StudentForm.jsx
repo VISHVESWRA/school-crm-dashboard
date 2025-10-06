@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 import {
@@ -15,10 +15,11 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { addStudents, updateStudents } from "../../express/redux/StudentsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addStudents, fetchStudentById, updateStudents } from "../../express/redux/StudentsSlice";
 
 export default function StudentForm() {
+    const { selectedStudent, loading, error } = useSelector((state) => state.students);
   const {
     register,
     handleSubmit,
@@ -49,16 +50,48 @@ export default function StudentForm() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const onSubmit = (data) => {
-    console.log(data);
+    useEffect(() => {
+      if (id) {
+        dispatch(fetchStudentById(id));
+      }
+    }, [dispatch, id]);
 
+    // console.log(selectedStudent);
+    
+
+    useEffect(() => {
+      if (!selectedStudent) { return }
+      
+      console.log("Selected student:", selectedStudent);
+    reset({
+      personalDetails: {
+        firstName: selectedStudent?.personalDetails?.firstName || "",
+        lastName: selectedStudent?.personalDetails?.lastName || "",
+        phoneNumber: selectedStudent?.personalDetails?.phoneNumber || "",
+        dob: selectedStudent?.personalDetails?.dob
+          ? new Date(selectedStudent?.personalDetails.dob).toISOString().split("T")[0]
+          : "",
+        gender: selectedStudent?.personalDetails?.gender || "",
+        city: selectedStudent?.personalDetails?.city || "",
+        state: selectedStudent?.personalDetails?.state || "",
+      },
+      courseDetails: {
+        course: selectedStudent?.courseDetails?.course || "",
+        mentor: selectedStudent?.courseDetails?.mentor || "",
+        duration: selectedStudent?.courseDetails?.duration || "",
+      },
+    });
+}, [selectedStudent, reset]);
+
+  const onSubmit = (data) => {
     if (id) {
-      console.log(data, id);
-      dispatch(updateStudents({ id, data }));
+      
+      dispatch(updateStudents({id, data}));
+      console.log("update");
       reset();
       navigate("/settings/studentList");
     } else {
-      addStudents(data);
+      dispatch(addStudents(data));
       reset();
       navigate("/settings/studentList");
     }
@@ -80,7 +113,7 @@ export default function StudentForm() {
 
   const setSideNavButton = [
     {
-      label: "Submit",
+      label: id ? "Update" : "Submit",
       onClick: handleSubmit(onSubmit),
     },
     {

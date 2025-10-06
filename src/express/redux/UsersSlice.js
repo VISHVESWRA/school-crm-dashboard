@@ -84,6 +84,7 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         state.loading = false;
+console.log(action.payload);
 
         state.selectedUser = action.payload;
       })
