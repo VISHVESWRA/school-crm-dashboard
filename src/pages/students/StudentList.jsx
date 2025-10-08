@@ -118,7 +118,7 @@ export default function StudentList() {
           <Column
             field="personalDetails.firstName"
             header="First Name"
-            style={{ width: "25%" }}
+            style={{ width: "25%"}}
           ></Column>
           <Column
             field="personalDetails.lastName"

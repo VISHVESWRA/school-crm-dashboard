@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 
 const BreadcrumbNav = ({ items, sideNavButtons }) => {
   return (
-    <div className="flex justify-between items-center space-x-2 text-sm p-3 bg-white border-t-2 border-gray-300">
+    <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between items-center space-x-2 text-sm p-3 bg-white border-t-2 border-gray-300">
       <Stack spacing={2}>
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}

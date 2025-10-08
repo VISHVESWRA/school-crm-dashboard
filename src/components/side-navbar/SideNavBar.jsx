@@ -20,28 +20,17 @@ const SideNavBar = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  // const [settingsOpen, setSettingsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setSidebarOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const toggleSettings = () => {
-    setSettingsOpen(!settingsOpen);
-  };
+  // const toggleSettings = () => {
+  //   setSettingsOpen(!settingsOpen);
+  // };
 
   const toggleNotifications = () => {
     setNotificationsOpen(!notificationsOpen);
@@ -62,7 +51,7 @@ const SideNavBar = () => {
         className={`
         fixed inset-y-0 left-0 z-50 w-52 bg-[#C72571] shadow-2xl transform transition-all duration-300 ease-out
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:relative lg:translate-x-0 overflow-y-auto
+        md:relative md:translate-x-0 overflow-y-auto
       `}
       >
         {/* Sidebar Header */}
@@ -78,7 +67,7 @@ const SideNavBar = () => {
           </div>
           <button
             onClick={toggleSidebar}
-            className="lg:hidden p-2 rounded-lg text-white hover:bg-white hover:bg-opacity-20 transition-colors duration-200"
+            className="md:hidden p-2 rounded-lg text-white hover:bg-pink-400 hover:bg-opacity-20 hover:rounded-2xl transition-colors duration-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -193,7 +182,7 @@ const SideNavBar = () => {
             <div className="flex items-center">
               <button
                 onClick={toggleSidebar}
-                className="lg:hidden p-2 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
+                className="md:hidden p-2 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
               >
                 <Menu className="w-6 h-6" />
               </button>

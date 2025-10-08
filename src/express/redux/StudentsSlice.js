@@ -6,6 +6,7 @@ import {
   getStudentsByIdApi,
   updateStudentsApi,
 } from "../api/StudentApi";
+import { act } from "react";
 
 export const fetchStudents = createAsyncThunk(
   "students/fetch",
@@ -116,21 +117,22 @@ const studentSlice = createSlice({
         state.loading = false;
         state.list = action.payload;
       })
-      .addCase(addStudents.fulfilled, (state, action) => {
-        state.loading = false;
-        state.list.push(action.payload);
-      })
       .addCase(fetchStudentById.fulfilled, (state, action) => {
               state.loading = false;
               state.selectedStudent = action.payload.student;
             })
+
+      .addCase(addStudents.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action.payload);
+        
+        state.error = action.payload
+        state.list.push(action.payload);
+      })
       .addCase(updateStudents.fulfilled, (state, action) => {
         state.loading = false;
         console.log(action.payload);
-
         console.log(state.list);
-        
-        
         // state.list = state.list.map((student) =>
         //   student._id === action.payload?.student._id ? action.payload : student
         // );
@@ -169,6 +171,8 @@ const studentSlice = createSlice({
         ),
         (state, action) => {
           state.loading = false;
+          console.log(action.payload);
+          
           state.error = action.payload?.message || "Something went wrong";
         }
       );

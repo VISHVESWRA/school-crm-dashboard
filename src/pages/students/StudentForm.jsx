@@ -1,10 +1,10 @@
 import Card from "react-bootstrap/Card";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row, Spinner } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import dayjs from "dayjs";
 
 import {
@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudents, fetchStudentById, updateStudents } from "../../express/redux/StudentsSlice";
+import { toast } from "react-hot-toast";
 
 export default function StudentForm() {
     const { selectedStudent, loading, error } = useSelector((state) => state.students);
@@ -83,9 +84,13 @@ export default function StudentForm() {
     });
 }, [selectedStudent, reset]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    await console.log(loading);
+    if(error){
+      toast.error(error);
+    return    
+    }
     if (id) {
-      
       dispatch(updateStudents({id, data}));
       console.log("update");
       reset();
@@ -135,6 +140,7 @@ export default function StudentForm() {
   const courses = [
     { id: 1, label: "Mern" },
     { id: 2, label: "Mean" },
+    { id: 2, label: "P" },
   ];
 
   const mentors = [

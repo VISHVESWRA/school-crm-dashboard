@@ -164,14 +164,14 @@ export default function UsersList() {
               </thead>
               <tbody>
                 {currentRows.map((user, idx) => (
-                  <tr key={user._id} className="hover:bg-gray-50 bg-white">
+                  <tr key={user._id} className="hover:bg-gray-50 bg-white text-sm">
                     <td className="border px-4 py-2 text-center">
                       {indexOfFirstRow + idx + 1}
                     </td>
                     <td className="border px-4 py-2">{user.firstName}</td>
                     <td className="border px-4 py-2">{user.lastName}</td>
                     <td className="border px-4 py-2">{user.phoneNumber}</td>
-                    <td className="border px-4 py-2 w-2xl">
+                    <td className="border px-4 py-2 min-w-60">
                       {user.role && (
                         <span className="bg-violet-200 px-3 py-1 rounded-4xl">
                           {user.role}
