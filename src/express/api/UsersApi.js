@@ -10,4 +10,3 @@ export const getUserByIdApi = (id) => axios.get(`${URL}/${id}`);
 export const updateUserApi = (id, data) => axios.put(`${URL}/${id}`, data);
 
 export const deleteUserApi = (id) => axios.delete(`${URL}/${id}`);
-
