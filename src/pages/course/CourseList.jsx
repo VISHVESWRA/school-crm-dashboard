@@ -8,7 +8,7 @@ import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { fetchCourses } from "../../express/redux/Course";
+import { fetchCourses } from "../../express/redux/CourseSlice";
 
 export default function CourseList() {
   const [customers, setCustomers] = useState([]);
@@ -113,23 +113,25 @@ export default function CourseList() {
             headerStyle={{ width: "3rem" }}
           ></Column>
           <Column
-            field="personalDetails.firstName"
-            header="First Name"
+            field="courseName"
+            header="Course Name"
             style={{ width: "25%" }}
           ></Column>
           <Column
-            field="personalDetails.lastName"
-            header="Last Name"
+            field="duration"
+            header="Duration"
             style={{ width: "25%" }}
           ></Column>
           <Column
-            field="courseDetails.mentor"
+            field="mentor"
             header="Mentor"
             style={{ width: "25%" }}
           ></Column>
+          <Column field="mode" header="Mode" style={{ width: "25%" }}></Column>
+
           <Column
-            field="courseDetails.duration"
-            header="Duration"
+            field="courseFees"
+            header="Course Name"
             style={{ width: "25%" }}
           ></Column>
           <Column body={actionTemplate} headerClassName="w-10rem" />

@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import { fetchStudentById } from "../../express/redux/StudentsSlice";
 import {
   TextField,
   FormControl,
@@ -14,8 +13,17 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
+import {
+  createCourse,
+  fetchCourseById,
+  updateCourse,
+} from "../../express/redux/CourseSlice";
 
 export default function CourseForm() {
+  const { selectedCourse, loading, error } = useSelector(
+    (state) => state.courses
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,27 +38,48 @@ export default function CourseForm() {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchStudentById(id));
+      dispatch(fetchCourseById(id));
     }
   }, [dispatch, id]);
 
-  const modes = ["Online", "Offline", "Hybrid"];
-  const durations = ["2", "3", "6"];
-  const mentors = ["Vish", "Sam", "Ram"];
+  useEffect(() => {
+    if (selectedCourse && id) {
+      reset({
+        courseName: selectedCourse.courseName || "",
+        courseFees: selectedCourse.courseFees || "",
+        mode: selectedCourse.mode || "Online",
+        duration: selectedCourse.duration || "",
+        mentor: selectedCourse.mentor || "",
+      });
+    }
+  }, [selectedCourse, reset]);
+
+  const modes = [
+    { id: 1, label: "Online" },
+    { id: 2, label: "Offline" },
+    { id: 3, label: "Hybrid" },
+  ];
+  const durations = [
+    { id: 1, label: "2" },
+    { id: 2, label: "3" },
+    { id: 3, label: "6" },
+  ];
+  const mentors = [
+    { id: 1, label: "Vish" },
+    { id: 2, label: "Sam" },
+    { id: 3, label: "Ram" },
+  ];
 
   const onSubmit = (data) => {
-    console.log(data);
-
-    // if (id) {
-    //   console.log(data, id);
-    //   dispatch(updateUser({ id, data }));
-    //   reset();
-    //   navigate("/settings/usersList");
-    // } else {
-    //   createUserApi(data);
-    //   reset();
-    //   navigate("/settings/usersList");
-    // }
+    if (id) {
+      dispatch(updateCourse({ id, data }));
+      reset();
+      navigate("/settings/courseList");
+    } else {
+      dispatch(createCourse(data));
+      reset();
+      navigate("/settings/courseList");
+    }
   };
 
   const setBreadcrumb = [
@@ -60,10 +89,10 @@ export default function CourseForm() {
     },
     {
       label: "List",
-      href: "././studentList",
+      href: "././courseList",
     },
     {
-      label: "Student Form",
+      label: "Course Form",
     },
   ];
 
@@ -75,7 +104,7 @@ export default function CourseForm() {
     {
       label: "Cancel",
       onClick: () => {
-        navigate("/settings/studentList");
+        navigate("/settings/courseList");
       },
     },
   ];
@@ -148,8 +177,11 @@ export default function CourseForm() {
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          <MenuItem value="Online">Online</MenuItem>
-                          <MenuItem value="Offline">Offline</MenuItem>
+                          {modes.map((option) => (
+                            <MenuItem key={option.id} value={option.label}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
                         </Select>
                         {error && (
                           <FormHelperText>{error.message}</FormHelperText>

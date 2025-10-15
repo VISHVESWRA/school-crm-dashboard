@@ -84,8 +84,6 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         state.loading = false;
-console.log(action.payload);
-
         state.selectedUser = action.payload;
       })
       .addCase(fetchUserById.rejected, (state, action) => {
@@ -93,8 +91,6 @@ console.log(action.payload);
         state.error = action.payload;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         const index = state.list.findIndex((t) => t._id === action.payload._id);
         if (index !== -1) state.list[index] = action.payload;
       })

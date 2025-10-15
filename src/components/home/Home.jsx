@@ -8,31 +8,31 @@ import {
   X,
   // Home,
   Users,
-  Settings,
-  BarChart3,
-  Mail,
-  Bell,
-  Search,
-  User,
-  ChevronDown,
-  Shield,
-  Palette,
-  Globe,
-  LogOut,
-  HelpCircle,
-  FileText,
-  Calendar,
   TrendingUp,
   Activity,
-  Split,
   SquareCode,
-  GraduationCap,
-  BookOpenText,
-  UserRoundPlus,
   FileSearch2,
+  ShieldUser,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { getTotalLength } from "../../express/api/GetDataApi";
 
 export default function Home() {
+  const [stats, setStats] = useState({ students: 0, courses: 0, users: 0 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data } = await getTotalLength();
+        setStats(data);
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      }
+    };
+    fetchStats();
+  }, []);
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 sm:p-6 lg:p-8">
@@ -43,7 +43,47 @@ export default function Home() {
             </div>
             <div className="ml-4">
               <p className="text-gray-600 text-sm">Total Students</p>
-              <h2 className="text-3xl font-bold text-gray-900 mb-0">200</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">
+                {stats.students}
+              </h2>
+              {/* <div className="flex items-center mt-2">
+                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                <span className="text-green-500 text-xs font-medium">
+                  +12.5%
+                </span>
+              </div> */}
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-center bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+          <div className="flex items-center justify-between w-full">
+            <div className="p-3 rounded-xl bg-pink-50">
+              <SquareCode className="w-8 h-8 text-pink-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-gray-600 text-sm">Total Courses</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">
+                {stats.courses}
+              </h2>
+              {/* <div className="flex items-center mt-2">
+                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                <span className="text-green-500 text-xs font-medium">
+                  +12.5%
+                </span>
+              </div> */}
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-center bg-white rounded-2xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+          <div className="flex items-center justify-between w-full">
+            <div className="p-3 rounded-xl bg-pink-50">
+              <ShieldUser className="w-8 h-8 text-pink-600" />
+            </div>
+            <div className="ml-4">
+              <p className="text-gray-600 text-sm">Total Users</p>
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">
+                {stats.users}
+              </h2>
               {/* <div className="flex items-center mt-2">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-green-500 text-xs font-medium">

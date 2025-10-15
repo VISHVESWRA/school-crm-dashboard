@@ -30,7 +30,6 @@ export default function LoginPage() {
   }, [user, navigate]);
 
   const onSubmit = (data) => {
-    console.log("Form submitted:", data);
     dispatch(LoginUser(data));
   };
 

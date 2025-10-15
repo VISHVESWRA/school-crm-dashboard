@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useEffect, useState } from "react";
 import {
+  createUser,
   fetchUserById,
   fetchUsers,
   updateUser,
@@ -65,7 +66,7 @@ export default function UsersForm() {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (selectedUser) {
+    if (selectedUser && id) {
       reset({
         firstName: selectedUser.firstName,
         lastName: selectedUser.lastName,
@@ -83,12 +84,11 @@ export default function UsersForm() {
 
   const onSubmit = (data) => {
     if (id) {
-      console.log(data, id);
       dispatch(updateUser({ id, data }));
       reset();
       navigate("/settings/usersList");
     } else {
-      createUserApi(data);
+      createUser(data);
       reset();
       navigate("/settings/usersList");
     }

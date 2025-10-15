@@ -16,11 +16,24 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { addStudents, fetchStudentById, updateStudents } from "../../express/redux/StudentsSlice";
+import {
+  addStudents,
+  fetchStudentById,
+  updateStudents,
+} from "../../express/redux/StudentsSlice";
 import { toast } from "react-hot-toast";
+import { fetchCourses } from "../../express/redux/CourseSlice";
+import { useState } from "react";
+import { fetchUsers } from "../../express/redux/UsersSlice";
 
 export default function StudentForm() {
-    const { selectedStudent, loading, error } = useSelector((state) => state.students);
+  const { selectedStudent, loading, error } = useSelector(
+    (state) => state.students
+  );
+  const { list } = useSelector((state) => state.courses);
+  const usersList = useSelector((state) => state.users);
+  // const [users, setUsers] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -51,26 +64,25 @@ export default function StudentForm() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-    useEffect(() => {
-      if (id) {
-        dispatch(fetchStudentById(id));
-      }
-    }, [dispatch, id]);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchStudentById(id));
+    }
+  }, [dispatch, id]);
 
-    // console.log(selectedStudent);
-    
-
-    useEffect(() => {
-      if (!selectedStudent) { return }
-      
-      console.log("Selected student:", selectedStudent);
+  useEffect(() => {
+    if (!selectedStudent || !id) {
+      return;
+    }
     reset({
       personalDetails: {
         firstName: selectedStudent?.personalDetails?.firstName || "",
         lastName: selectedStudent?.personalDetails?.lastName || "",
         phoneNumber: selectedStudent?.personalDetails?.phoneNumber || "",
         dob: selectedStudent?.personalDetails?.dob
-          ? new Date(selectedStudent?.personalDetails.dob).toISOString().split("T")[0]
+          ? new Date(selectedStudent?.personalDetails.dob)
+              .toISOString()
+              .split("T")[0]
           : "",
         gender: selectedStudent?.personalDetails?.gender || "",
         city: selectedStudent?.personalDetails?.city || "",
@@ -82,17 +94,23 @@ export default function StudentForm() {
         duration: selectedStudent?.courseDetails?.duration || "",
       },
     });
-}, [selectedStudent, reset]);
+  }, [selectedStudent, reset]);
+
+  useEffect(() => {
+    dispatch(fetchCourses());
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  const users = usersList.list.filter((user) => user.role === "Staff");
+  console.log(users);
 
   const onSubmit = async (data) => {
-    await console.log(loading);
-    if(error){
+    if (error) {
       toast.error(error);
-    return    
+      return;
     }
     if (id) {
-      dispatch(updateStudents({id, data}));
-      console.log("update");
+      dispatch(updateStudents({ id, data }));
       reset();
       navigate("/settings/studentList");
     } else {
@@ -137,22 +155,13 @@ export default function StudentForm() {
     { id: "notPrefer", label: "Prefer not to respond" },
   ];
 
-  const courses = [
-    { id: 1, label: "Mern" },
-    { id: 2, label: "Mean" },
-    { id: 2, label: "P" },
-  ];
-
-  const mentors = [
-    { id: 1, label: "Ram" },
-    { id: 2, label: "Sam" },
-    { id: 3, label: "Vish" },
-  ];
-
   const durations = [
-    { id: 1, label: "2" },
-    { id: 2, label: "3" },
-    { id: 3, label: "6" },
+    { id: 1, label: "1" },
+    { id: 2, label: "2" },
+    { id: 3, label: "3" },
+    { id: 4, label: "4" },
+    { id: 5, label: "5" },
+    { id: 6, label: "6" },
   ];
 
   return (
@@ -377,9 +386,9 @@ export default function StudentForm() {
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          {courses.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.label}
+                          {list?.courses?.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>
+                              {option.courseName}
                             </MenuItem>
                           ))}
                         </Select>
@@ -414,9 +423,10 @@ export default function StudentForm() {
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          {mentors.map((option) => (
-                            <MenuItem key={option.id} value={option.label}>
-                              {option.label}
+                          {users.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>
+                              {option.firstName} &nbsp;
+                              {option.lastName}
                             </MenuItem>
                           ))}
                         </Select>

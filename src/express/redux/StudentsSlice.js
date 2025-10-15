@@ -13,8 +13,6 @@ export const fetchStudents = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getStudentsApi();
-      // console.log(response.data);
-
       return response.data;
     } catch (e) {
       //   return rejectWithValue(e.response?.data || e.message);
@@ -68,7 +66,7 @@ export const addStudents = createAsyncThunk(
 
 export const updateStudents = createAsyncThunk(
   "students/update",
-  async ({id, data}, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
       const response = await updateStudentsApi(id, data);
       return response.data;
@@ -106,7 +104,7 @@ const studentSlice = createSlice({
   name: "students",
   initialState: {
     list: [],
-        selectedStudent: null,
+    selectedStudent: null,
     loading: false,
     error: null,
   },
@@ -118,28 +116,26 @@ const studentSlice = createSlice({
         state.list = action.payload;
       })
       .addCase(fetchStudentById.fulfilled, (state, action) => {
-              state.loading = false;
-              state.selectedStudent = action.payload.student;
-            })
+        state.loading = false;
+        state.selectedStudent = action.payload.student;
+      })
 
       .addCase(addStudents.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
-        
-        state.error = action.payload
+        state.error = action.payload;
         state.list.push(action.payload);
       })
       .addCase(updateStudents.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
-        console.log(state.list);
         // state.list = state.list.map((student) =>
         //   student._id === action.payload?.student._id ? action.payload : student
         // );
       })
       .addCase(removeStudents.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = state.list.filter((s) => s._id !== action.payload?.student);
+        state.list = state.list.filter(
+          (s) => s._id !== action.payload?.student
+        );
       })
 
       // Delete Multiple - Use filter with includes ✅
@@ -171,8 +167,6 @@ const studentSlice = createSlice({
         ),
         (state, action) => {
           state.loading = false;
-          console.log(action.payload);
-          
           state.error = action.payload?.message || "Something went wrong";
         }
       );
