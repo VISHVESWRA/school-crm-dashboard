@@ -23,7 +23,6 @@ import {
 } from "../../express/redux/StudentsSlice";
 import { toast } from "react-hot-toast";
 import { fetchCourses } from "../../express/redux/CourseSlice";
-import { useState } from "react";
 import { fetchUsers } from "../../express/redux/UsersSlice";
 
 export default function StudentForm() {
@@ -32,8 +31,7 @@ export default function StudentForm() {
   );
   const { list } = useSelector((state) => state.courses);
   const usersList = useSelector((state) => state.users);
-  // const [users, setUsers] = useState([]);
-
+  const users = usersList.list.filter((user) => user.role === "Staff");
   const {
     register,
     handleSubmit,
@@ -41,6 +39,7 @@ export default function StudentForm() {
     reset,
     setValue,
     control,
+    watch,
   } = useForm({
     defaultValues: {
       personalDetails: {
@@ -59,10 +58,14 @@ export default function StudentForm() {
       },
     },
   });
-  // const { setBreadcrumbs, setSideNavButtons } = useOutletContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+
+  // const selectedCourseId = watch("courseDetails.course");
+  // const selectedCourse = list?.courses?.find(
+  //   (course) => course._id === selectedCourseId
+  // );
 
   useEffect(() => {
     if (id) {
@@ -100,9 +103,6 @@ export default function StudentForm() {
     dispatch(fetchCourses());
     dispatch(fetchUsers());
   }, [dispatch]);
-
-  const users = usersList.list.filter((user) => user.role === "Staff");
-  console.log(users);
 
   const onSubmit = async (data) => {
     if (error) {
@@ -425,8 +425,7 @@ export default function StudentForm() {
                           </MenuItem>
                           {users.map((option) => (
                             <MenuItem key={option._id} value={option._id}>
-                              {option.firstName} &nbsp;
-                              {option.lastName}
+                              {option.firstName} {option.lastName}
                             </MenuItem>
                           ))}
                         </Select>

@@ -33,21 +33,21 @@ export const menuItems = [
     ],
   },
   {
-    name: "Students",
-    // path: "/students",
-    icon: <Users size={20} />,
-    dropdown: [
-      { name: "All Students", path: "/settings/studentList" },
-      // { name: "Add Student", path: "/" },
-    ],
-  },
-  {
     name: "Courses",
     // path: "/courses",
     icon: <BookOpenIcon size={20} />,
     dropdown: [
       { name: "All Courses", path: "/settings/courseList" },
       // { name: "Add Course", path: "/courses/add" },
+    ],
+  },
+  {
+    name: "Students",
+    // path: "/students",
+    icon: <Users size={20} />,
+    dropdown: [
+      { name: "All Students", path: "/settings/studentList" },
+      // { name: "Add Student", path: "/" },
     ],
   },
   {

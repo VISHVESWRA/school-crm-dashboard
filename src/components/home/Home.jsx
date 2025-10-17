@@ -4,9 +4,6 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaPersonSwimming } from "react-icons/fa6";
 import { BsPersonSlash } from "react-icons/bs";
 import {
-  Menu,
-  X,
-  // Home,
   Users,
   TrendingUp,
   Activity,
@@ -15,7 +12,6 @@ import {
   ShieldUser,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { getTotalLength } from "../../express/api/GetDataApi";
 
 export default function Home() {

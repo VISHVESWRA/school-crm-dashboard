@@ -23,6 +23,8 @@ export default function CourseForm() {
   const { selectedCourse, loading, error } = useSelector(
     (state) => state.courses
   );
+  const usersList = useSelector((state) => state.users);
+  const users = usersList.list.filter((user) => user.role === "Staff");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,11 +65,6 @@ export default function CourseForm() {
     { id: 1, label: "2" },
     { id: 2, label: "3" },
     { id: 3, label: "6" },
-  ];
-  const mentors = [
-    { id: 1, label: "Vish" },
-    { id: 2, label: "Sam" },
-    { id: 3, label: "Ram" },
   ];
 
   const onSubmit = (data) => {
@@ -255,9 +252,9 @@ export default function CourseForm() {
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          {mentors.map((option) => (
-                            <MenuItem key={option.id} value={option.label}>
-                              {option.label}
+                          {users.map((option) => (
+                            <MenuItem key={option._id} value={option.firstName}>
+                              {option.firstName} {option.lastName}
                             </MenuItem>
                           ))}
                         </Select>
