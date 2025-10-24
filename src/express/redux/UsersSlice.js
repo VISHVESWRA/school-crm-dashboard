@@ -29,6 +29,8 @@ export const createUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await createUserApi(data);
+      console.log(response);
+      
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);

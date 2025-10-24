@@ -1,18 +1,40 @@
 import { DataTable } from "primereact/datatable";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../express/redux/UsersSlice";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useNavigate } from "react-router-dom";
-import { InputSwitch } from "primereact/inputswitch";
 import { fetchStudents } from "../../express/redux/StudentsSlice";
 import { Spinner } from "react-bootstrap";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { getTotalLength } from "../../express/api/GetDataApi";
 
 export default function StudentList() {
+    const [stats, setStats] = useState({ students: 0, courses: 0, users: 0 });
+    const hasAlerted = useRef(false);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data } = await getTotalLength();
+        setStats(data);
+
+        // Use useRef for prevent double render on strict mode
+ if ((!data.courses || data.courses === 0) && !hasAlerted.current) {
+        alert("Create Courses First");
+        hasAlerted.current = true;
+      }
+  
+      } catch (error) {
+        console.error("Error fetching dashboard stats:", error);
+      }
+    };
+    fetchStats();
+  }, []);
+
   const [customers, setCustomers] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();

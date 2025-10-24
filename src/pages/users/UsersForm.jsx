@@ -1,7 +1,7 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Col, Form, Row } from "react-bootstrap";
 // import { createUserApi } from "../../express/api/UsersApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useEffect, useState } from "react";
@@ -21,6 +21,9 @@ import {
   Checkbox,
   FormHelperText,
 } from "@mui/material";
+import InputFileUpload from "../../components/FileUpload";
+// import Image from 'react-bootstrap/Image';
+import { Image } from 'primereact/image';
 
 export default function UsersForm() {
   const { selectedUser, loading, error } = useSelector((state) => state.users);
@@ -58,6 +61,11 @@ export default function UsersForm() {
   const navigate = useNavigate();
   const { id } = useParams();
   const permissionValues = watch("permission");
+  
+  const [preview, setPreview] = useState(null);
+  console.log(watch("image"));
+
+  console.log("preview", preview);
 
   useEffect(() => {
     if (id) {
@@ -88,15 +96,14 @@ export default function UsersForm() {
       reset();
       navigate("/settings/usersList");
     } else {
-      createUser(data);
+      dispatch(createUser(data));
+      console.log(data);
       reset();
       navigate("/settings/usersList");
     }
   };
 
   const atLeastOneChecked = (value) => {
-    console.log(value);
-
     return (
       Object.values(permissionValues).some(Boolean) ||
       "At least one permission is required"
@@ -153,6 +160,25 @@ export default function UsersForm() {
           </Card.Header>
           <Card.Body>
             <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+
+<div className="flex flex-col justify-center items-center gap-2 my-3">
+
+        <div className="card flex justify-content-center">
+            <Image src="https://primefaces.org/cdn/primereact/images/galleria/galleria10.jpg" alt="Image" width="250" preview />
+        </div>
+
+        <pre>
+          {data}
+        </pre>
+
+           <InputFileUpload register={register} name="image"  onChange={(e) => {
+          onChange(e); // keep react-hook-form updated
+          const file = e.target.files[0];
+          if (file) setPreview(URL.createObjectURL(file));
+        }} />
+
+</div>
+
               <Row className="mb-3">
                 <Form.Group as={Col} md="6" controlId="firstName">
                   <Form.Label>First name</Form.Label>

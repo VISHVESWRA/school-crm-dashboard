@@ -45,6 +45,7 @@ export default function StudentForm() {
       personalDetails: {
         firstName: "",
         lastName: "",
+        regNumber: "",
         phoneNumber: "",
         dob: "",
         gender: "",
@@ -81,6 +82,7 @@ export default function StudentForm() {
       personalDetails: {
         firstName: selectedStudent?.personalDetails?.firstName || "",
         lastName: selectedStudent?.personalDetails?.lastName || "",
+        regNumber: selectedStudent?.personalDetails?.regNumber || "",
         phoneNumber: selectedStudent?.personalDetails?.phoneNumber || "",
         dob: selectedStudent?.personalDetails?.dob
           ? new Date(selectedStudent?.personalDetails.dob)
@@ -178,7 +180,7 @@ export default function StudentForm() {
               Personal Details
             </Card.Header>
             <Card.Body className="p-4">
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                 <TextField
                   label="First Name"
                   variant="outlined"
@@ -203,6 +205,20 @@ export default function StudentForm() {
                   helperText={errors.personalDetails?.lastName?.message}
                   {...register("personalDetails.lastName", {
                     required: "Required",
+                  })}
+                />
+                <TextField
+                  label="Registration Number"
+                  variant="outlined"
+                  size="small"
+                  required
+                  error={!!errors.personalDetails?.regNumber}
+                  className="col-span-1 sm:col-span-2"
+                  helperText={errors.personalDetails?.regNumber?.message}
+                  {...register("personalDetails.regNumber", {
+                    required: "Required",
+                    minLength: { value: 10, message: "Must be 10 digits" },
+                    maxLength: { value: 10, message: "Must be 10 digits" },
                   })}
                 />
                 <TextField
@@ -364,43 +380,6 @@ export default function StudentForm() {
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div className="col-span-1 sm:col-span-2">
                   <Controller
-                    name="courseDetails.course"
-                    control={control}
-                    defaultValue=""
-                    rules={{ required: "Required" }}
-                    render={({ field, fieldState: { error } }) => (
-                      <FormControl
-                        sx={{ minWidth: 100 }}
-                        size="small"
-                        error={!!error}
-                        fullWidth
-                      >
-                        <InputLabel id="course-label">Course</InputLabel>
-                        <Select
-                          {...field}
-                          value={field.value || ""}
-                          labelId="course-label"
-                          id="course-select"
-                          label="Course"
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {list?.courses?.map((option) => (
-                            <MenuItem key={option._id} value={option._id}>
-                              {option.courseName}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {error && (
-                          <FormHelperText>{error.message}</FormHelperText>
-                        )}
-                      </FormControl>
-                    )}
-                  />
-                </div>
-                <div className="col-span-1 sm:col-span-2">
-                  <Controller
                     name="courseDetails.mentor"
                     control={control}
                     defaultValue=""
@@ -426,6 +405,43 @@ export default function StudentForm() {
                           {users.map((option) => (
                             <MenuItem key={option._id} value={option._id}>
                               {option.firstName} {option.lastName}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {error && (
+                          <FormHelperText>{error.message}</FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  />
+                </div>
+                <div className="col-span-1 sm:col-span-2">
+                  <Controller
+                    name="courseDetails.course"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Required" }}
+                    render={({ field, fieldState: { error } }) => (
+                      <FormControl
+                        sx={{ minWidth: 100 }}
+                        size="small"
+                        error={!!error}
+                        fullWidth
+                      >
+                        <InputLabel id="course-label">Course</InputLabel>
+                        <Select
+                          {...field}
+                          value={field.value || ""}
+                          labelId="course-label"
+                          id="course-select"
+                          label="Course"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {list?.courses?.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>
+                              {option.courseName}
                             </MenuItem>
                           ))}
                         </Select>
