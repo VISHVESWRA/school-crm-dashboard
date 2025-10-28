@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import UsersList from "./pages/users/UsersList";
 import UsersForm from "./pages/users/UsersForm";
 import Home from "./components/home/Home";
@@ -10,7 +10,8 @@ import CourseList from "./pages/course/CourseList";
 import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
-import { Toaster } from "react-hot-toast";
+import {Toaster} from "react-hot-toast";
+import RegisterPage from "./pages/auth/Register";
 
 function App() {
   // const [theme, setTheme] = useState(() => {
@@ -30,7 +31,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             element={
               <PrivateRoute role={["superAdmin", "user"]}>

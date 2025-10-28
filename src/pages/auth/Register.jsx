@@ -1,13 +1,12 @@
+import {useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {LoginUser} from "../../express/redux/LoginSlice";
-import {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import toasts from "react-hot-toast";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const {
     register,
     handleSubmit,
@@ -23,14 +22,10 @@ export default function LoginPage() {
     }
   }, [error]);
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
-
   const onSubmit = (data) => {
-    dispatch(LoginUser(data));
+    console.log(data);
+
+    //   dispatch(LoginUser(data));
   };
 
   return (
@@ -81,7 +76,7 @@ export default function LoginPage() {
               </h2> */}
               <h2 className="text-xl font-semibold text-gray-800 relative mb-4">
                 <span className="absolute -top-3 left-0 w-8 h-1 bg-[#8B0F4B] rounded-4xl"></span>
-                Login
+                Sign up
               </h2>
 
               <form
@@ -92,16 +87,22 @@ export default function LoginPage() {
               >
                 <div className="grid gap-4 w-full space-y-3">
                   <TextField
-                    label="Name"
+                    label="Email"
                     variant="outlined"
                     size="small"
                     required
-                    error={!!errors.name}
-                    helperText={errors.name?.message}
-                    {...register("name", {required: "Required"})}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    {...register("email", {
+                      required: "Required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email address",
+                      },
+                    })}
                   />
 
-                  <TextField
+                  {/* <TextField
                     label="Password"
                     type="password"
                     variant="outlined"
@@ -109,17 +110,17 @@ export default function LoginPage() {
                     required
                     error={!!errors.password}
                     helperText={errors.password?.message}
-                    {...register("password", {required: "Required"})}
-                  />
+                    {...register("password", { required: "Required" })}
+                  /> */}
 
                   <div className="flex items-center justify-between pt-3">
                     <Link
                       href="#"
-                      to="/register"
+                      to="/login"
                       underline="hover"
                       className="text-sm"
                     >
-                      Forgot Password
+                      Sigin
                     </Link>
                     <Button
                       size="md"
@@ -127,7 +128,7 @@ export default function LoginPage() {
                       className="text-white px-6 py-2 rounded-3xl border"
                       style={{backgroundColor: "#8B0F4B"}}
                     >
-                      Log in
+                      Send reset email
                     </Button>
                   </div>
                 </div>
@@ -141,28 +142,20 @@ export default function LoginPage() {
                       type="checkbox"
                       className="w-3 h-3 sm:w-4 sm:h-4 text-[#C72571] bg-gray-100 border-gray-300 rounded focus:ring-[#C72571] focus:ring-1"
                     />
-                    <span className="ml-1 sm:ml-2 text-gray-600">
-                      Remember me
-                    </span>
+                    <span className="ml-1 sm:ml-2 text-gray-600">Remember me</span>
                   </label>
-                  <a
-                    href="#"
-                    className="text-[#C72571] hover:text-[#8B0F4B] font-medium transition-colors duration-200 text-xs sm:text-sm"
-                  >
+                  <a href="#" className="text-[#C72571] hover:text-[#8B0F4B] font-medium transition-colors duration-200 text-xs sm:text-sm">
                     Forgot password?
                   </a>
                 </div>
               </div> */}
 
               {/* Mobile-only forgot password for very small screens */}
-              <div className="sm:hidden mt-2 text-center">
-                <a
-                  href="#"
-                  className="text-[#C72571] hover:text-[#8B0F4B] font-medium text-xs transition-colors duration-200"
-                >
+              {/* <div className="sm:hidden mt-2 text-center">
+                <a href="#" className="text-[#C72571] hover:text-[#8B0F4B] font-medium text-xs transition-colors duration-200">
                   Forgot?
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
