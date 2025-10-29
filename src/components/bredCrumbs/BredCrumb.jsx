@@ -25,14 +25,13 @@ const BreadcrumbNav = ({ items, sideNavButtons }) => {
                 {item.label}
               </Link>
             ) : (
-              <Typography key={index} color="text.primary">
+              <Typography key={index} fontSize={25} color="text.primary">
                 {item.label}
               </Typography>
             )
           )}
         </Breadcrumbs>
       </Stack>
-
 
       {sideNavButtons && (
         <div>
@@ -56,12 +55,8 @@ const BreadcrumbNav = ({ items, sideNavButtons }) => {
               }}
             >
               <div className="flex items-center justify-center gap-1">
-              <span>
-               {btn.icon} 
-              </span>
-              <span>
-              {btn.label}
-              </span>
+                <span>{btn.icon}</span>
+                <span>{btn.label}</span>
               </div>
             </Button>
           ))}
@@ -73,7 +68,8 @@ const BreadcrumbNav = ({ items, sideNavButtons }) => {
 
 export default BreadcrumbNav;
 
-{/* {breadcrumbs && breadcrumbs.length > 0 && (
+{
+  /* {breadcrumbs && breadcrumbs.length > 0 && (
           <div className="flex justify-between items-center p-3 bg-white border-t-2 border-gray-300">
             <BreadcrumbNav items={breadcrumbs} />
 
@@ -104,4 +100,5 @@ export default BreadcrumbNav;
               </div>
             )}
           </div>
-        )} */}
+        )} */
+}

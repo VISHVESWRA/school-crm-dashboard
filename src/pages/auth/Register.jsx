@@ -1,18 +1,19 @@
-import {useEffect} from "react";
-import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import toasts from "react-hot-toast";
+import { RegisterApi } from "../../express/api/LoginApi";
 
 export default function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
-  const {user, loading, error} = useSelector((state) => state.auth);
+  const { user, loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,7 +26,7 @@ export default function RegisterPage() {
   const onSubmit = (data) => {
     console.log(data);
 
-    //   dispatch(LoginUser(data));
+    dispatch(RegisterApi(data));
   };
 
   return (
@@ -76,7 +77,7 @@ export default function RegisterPage() {
               </h2> */}
               <h2 className="text-xl font-semibold text-gray-800 relative mb-4">
                 <span className="absolute -top-3 left-0 w-8 h-1 bg-[#8B0F4B] rounded-4xl"></span>
-                Sign up
+                Sign Up
               </h2>
 
               <form
@@ -101,8 +102,7 @@ export default function RegisterPage() {
                       },
                     })}
                   />
-
-                  {/* <TextField
+                  <TextField
                     label="Password"
                     type="password"
                     variant="outlined"
@@ -111,7 +111,7 @@ export default function RegisterPage() {
                     error={!!errors.password}
                     helperText={errors.password?.message}
                     {...register("password", { required: "Required" })}
-                  /> */}
+                  />
 
                   <div className="flex items-center justify-between pt-3">
                     <Link
@@ -126,7 +126,7 @@ export default function RegisterPage() {
                       size="md"
                       type="submit"
                       className="text-white px-6 py-2 rounded-3xl border"
-                      style={{backgroundColor: "#8B0F4B"}}
+                      style={{ backgroundColor: "#8B0F4B" }}
                     >
                       Send reset email
                     </Button>

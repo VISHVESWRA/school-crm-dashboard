@@ -59,7 +59,7 @@ input[type="date"] {
 }
 
 /* 
-Material Text Field 
+------ Material Text Field ------
 */
 
 /* Focused border */
@@ -119,7 +119,10 @@ Material Text Field
   background: #8b0f4b !important;
 }
 
-/* Prime Table */
+/* 
+---------- Prime Table ---------- 
+*/
+
 /* Force visible gridlines */
 .p-datatable .p-datatable-tbody > tr > td,
 .p-datatable .p-datatable-thead > tr > th {
