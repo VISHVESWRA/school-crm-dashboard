@@ -11,7 +11,7 @@ import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
 import {Toaster} from "react-hot-toast";
-import RegisterPage from "./pages/auth/Register";
+import ResetPage from "./pages/auth/Reset";
 
 function App() {
   // const [theme, setTheme] = useState(() => {
@@ -31,7 +31,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/reset" element={<ResetPage />} />
           <Route
             element={
               <PrivateRoute role={["superAdmin", "user"]}>

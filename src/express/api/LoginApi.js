@@ -13,7 +13,9 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
-export const RegisterApi = (data) => axiosInstance.post("/auth/register", data);
+export const VerifyEmailApi = (data) =>
+  axiosInstance.post("/auth/verify", data);
+export const ResetApi = (data) => axiosInstance.post("/auth/reset", data);
 
 // const URL = "http://localhost:9900/api/auth/login";
 

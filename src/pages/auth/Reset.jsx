@@ -1,32 +1,47 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {useEffect} from "react";
+import {useForm} from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux";
+import {Link, useNavigate} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
-import toasts from "react-hot-toast";
-import { RegisterApi } from "../../express/api/LoginApi";
+import toast from "react-hot-toast";
+import {ResetApi} from "../../express/api/LoginApi";
+import {verifyEmail} from "../../express/redux/VerifyEmail";
 
-export default function RegisterPage() {
+export default function ResetPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
+    watch,
   } = useForm();
-  const { user, loading, error } = useSelector((state) => state.auth);
+  // const {user, loading, error} = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const {getUser, loading, error} = useSelector((state) => state.verifyEmail);
+
   useEffect(() => {
     if (error) {
-      toasts.error(error);
+      toast.error(error, {
+        duration: 1000,
+      });
     }
   }, [error]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-
-    dispatch(RegisterApi(data));
+  const onSubmit = async (data) => {
+    if (error) {
+      await toast.error(error, {
+        duration: 1000,
+      });
+    }
+    if (!getUser && watch("email")) {
+      console.log("getUser");
+      dispatch(verifyEmail(data));
+    } else {
+      console.log("reset");
+      dispatch(ResetApi(data));
+    }
   };
 
   return (
@@ -102,7 +117,7 @@ export default function RegisterPage() {
                       },
                     })}
                   />
-                  <TextField
+                  {/* <TextField
                     label="Password"
                     type="password"
                     variant="outlined"
@@ -110,8 +125,8 @@ export default function RegisterPage() {
                     required
                     error={!!errors.password}
                     helperText={errors.password?.message}
-                    {...register("password", { required: "Required" })}
-                  />
+                    {...register("password", {required: "Required"})}
+                  /> */}
 
                   <div className="flex items-center justify-between pt-3">
                     <Link
@@ -126,7 +141,7 @@ export default function RegisterPage() {
                       size="md"
                       type="submit"
                       className="text-white px-6 py-2 rounded-3xl border"
-                      style={{ backgroundColor: "#8B0F4B" }}
+                      style={{backgroundColor: "#8B0F4B"}}
                     >
                       Send reset email
                     </Button>
