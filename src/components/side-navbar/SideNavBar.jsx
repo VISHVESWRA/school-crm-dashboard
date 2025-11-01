@@ -1,8 +1,8 @@
-import {useState} from "react";
-import {Link, useLocation} from "react-router-dom";
-import {Outlet} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {Logout} from "../../express/redux/LoginSlice";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Logout } from "../../express/redux/LoginSlice";
 import {
   Menu,
   X,
@@ -12,14 +12,13 @@ import {
   LogOut,
   HelpCircle,
 } from "lucide-react";
-import {menuItems, notifications} from "./list";
+import { menuItems, notifications } from "./list";
 
 const SideNavBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
-  const {user} = useSelector((state) => state.auth);
-  console.log(user);
+  const { user } = useSelector((state) => state.auth);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // const [settingsOpen, setSettingsOpen] = useState(false);
@@ -121,7 +120,7 @@ const SideNavBar = () => {
                         key={index}
                         to={item.path}
                         className="flex items-center space-x-2 w-full"
-                        style={{textDecoration: "none", color: "inherit"}}
+                        style={{ textDecoration: "none", color: "inherit" }}
                       >
                         {item.icon}
                         <span>{item.name}</span>
@@ -153,7 +152,7 @@ const SideNavBar = () => {
                             ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
                             : "text-white hover:bg-pink-400 hover:text-black"
                         }`}
-                            style={{textDecoration: "none", color: "inherit"}}
+                            style={{ textDecoration: "none", color: "inherit" }}
                           >
                             <span className="flex text-center items-center gap-2 ml-4">
                               <span>|</span> <span>{sub.name}</span>
@@ -297,7 +296,7 @@ const SideNavBar = () => {
                   onClick={toggleUserMenu}
                   className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center 
                   hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
-                  style={{borderRadius: "2rem"}}
+                  style={{ borderRadius: "2rem" }}
                 >
                   <span className="text-white font-semibold text-sm">
                     {handleFirstLetter(user)}
@@ -334,7 +333,7 @@ const SideNavBar = () => {
                       <Link
                         href="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                        style={{textDecoration: "none", color: "inherit"}}
+                        style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <User className="w-4 h-4 mr-3 text-gray-400" />
                         View Profile

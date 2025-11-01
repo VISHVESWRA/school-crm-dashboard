@@ -1,12 +1,10 @@
-import {useDispatch, useSelector} from "react-redux";
-import {Navigate} from "react-router-dom";
-import {Logout} from "../express/redux/LoginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { Logout } from "../express/redux/LoginSlice";
 
-export default function PrivateRoute({children, role}) {
-  const {user} = useSelector((state) => state.auth);
+export default function PrivateRoute({ children, role }) {
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  console.log(user);
 
   if (!user) return <Navigate to="/login" />;
   if (role && !role.includes(user.role))

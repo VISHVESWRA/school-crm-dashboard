@@ -6,8 +6,6 @@ export const LoginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await LoginApi(credentials);
-      console.log(response);
-
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.token);
       return response.data;
@@ -46,8 +44,6 @@ const authSlice = createSlice({
         state.role = null;
       })
       .addCase(LoginUser.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.user;

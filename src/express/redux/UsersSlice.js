@@ -29,8 +29,6 @@ export const createUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await createUserApi(data);
-      console.log(response);
-
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -42,8 +40,6 @@ export const updateUser = createAsyncThunk(
   "users/update",
   async ({ id, data }, { rejectWithValue }) => {
     try {
-      console.log(id, data);
-
       const response = await updateUserApi(id, data);
       return response.data;
     } catch (err) {
