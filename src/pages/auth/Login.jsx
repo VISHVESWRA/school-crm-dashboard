@@ -1,11 +1,21 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../../express/redux/LoginSlice";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import TextField from "@mui/material/TextField";
 import toasts from "react-hot-toast";
+import {
+  TextField,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function LoginPage() {
   const {
@@ -16,6 +26,9 @@ export default function LoginPage() {
   const { user, loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   useEffect(() => {
     if (error) {
@@ -107,7 +120,7 @@ export default function LoginPage() {
                     })}
                   />
 
-                  <TextField
+                  {/* <TextField
                     label="Password"
                     type="password"
                     variant="outlined"
@@ -116,7 +129,46 @@ export default function LoginPage() {
                     error={!!errors.password}
                     helperText={errors.password?.message}
                     {...register("password", { required: "Required" })}
-                  />
+                  /> */}
+
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    required
+                    error={!!errors.password}
+                  >
+                    <InputLabel
+                      htmlFor="outlined-adornment-password"
+                      className="flex items-center justify-center text-center"
+                    >
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      label="Password"
+                      {...register("password", { required: "Required" })}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label={
+                              showPassword
+                                ? "hide the password"
+                                : "display the password"
+                            }
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {errors.password && (
+                      <FormHelperText>{errors.password.message}</FormHelperText>
+                    )}
+                  </FormControl>
 
                   <div className="flex items-center justify-between pt-3">
                     <Link
