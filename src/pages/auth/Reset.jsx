@@ -1,46 +1,75 @@
-import {useEffect} from "react";
-import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
+import { useEffect } from "react";
+import { get, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import toast from "react-hot-toast";
-import {ResetApi} from "../../express/api/LoginApi";
-import {verifyEmail} from "../../express/redux/VerifyEmail";
+import { ResetApi } from "../../express/api/LoginApi";
+import {
+  clearVerifyError,
+  resetPassword,
+  verifyEmail,
+} from "../../express/redux/VerifyEmail";
 
 export default function ResetPage() {
   const {
     register,
     handleSubmit,
-    formState: {errors},
-    watch,
+    formState: { errors },
+    reset,
   } = useForm();
   // const {user, loading, error} = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {getUser, loading, error} = useSelector((state) => state.verifyEmail);
+  const { getUser, loading, error } = useSelector((state) => state.verifyEmail);
 
   useEffect(() => {
     if (error) {
-      toast.error(error, {
-        duration: 1000,
-      });
+      toast.error(error, { duration: 1000 });
     }
-  }, [error]);
+    dispatch(clearVerifyError());
+  }, [error, dispatch]);
+
+  useEffect(() => {
+    if (getUser) {
+      const data = {
+        name: getUser.name,
+        email: getUser.email,
+      };
+      reset(data);
+    }
+  }, [reset, getUser]);
 
   const onSubmit = async (data) => {
-    if (error) {
-      await toast.error(error, {
-        duration: 1000,
-      });
-    }
-    if (!getUser && watch("email")) {
-      console.log("getUser");
-      dispatch(verifyEmail(data));
-    } else {
-      console.log("reset");
-      dispatch(ResetApi(data));
+    try {
+      if (!getUser) {
+        console.log("Verifying email...");
+        const result = await dispatch(verifyEmail(data));
+
+        // Optional: check if it succeeded
+        if (verifyEmail.fulfilled.match(result)) {
+          toast.success(
+            "Email verified successfully! You can now reset your password."
+          );
+        } else {
+          toast.error(result.payload?.message || "Verification failed");
+        }
+      } else {
+        console.log("Resetting password...");
+        const result = await dispatch(resetPassword(data));
+
+        if (resetPassword.fulfilled.match(result)) {
+          toast.success("Password reset successful!");
+          navigate("/login");
+        } else {
+          toast.error(result.payload?.message || "Password reset failed");
+        }
+      }
+    } catch (err) {
+      toast.error("Something went wrong. Please try again later.");
+      console.error(err);
     }
   };
 
@@ -102,11 +131,24 @@ export default function ResetPage() {
                 className="grid gap-4"
               >
                 <div className="grid gap-4 w-full space-y-3">
+                  {getUser && (
+                    <TextField
+                      label="Name"
+                      variant="outlined"
+                      size="small"
+                      disabled
+                      error={!!errors.name}
+                      helperText={errors.name?.message}
+                      {...register("name")}
+                      className="text-black"
+                    />
+                  )}
                   <TextField
                     label="Email"
                     variant="outlined"
                     size="small"
                     required
+                    disabled={getUser ? true : false}
                     error={!!errors.email}
                     helperText={errors.email?.message}
                     {...register("email", {
@@ -117,16 +159,18 @@ export default function ResetPage() {
                       },
                     })}
                   />
-                  {/* <TextField
-                    label="Password"
-                    type="password"
-                    variant="outlined"
-                    size="small"
-                    required
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                    {...register("password", {required: "Required"})}
-                  /> */}
+                  {getUser && (
+                    <TextField
+                      label="Password"
+                      type="password"
+                      variant="outlined"
+                      size="small"
+                      required
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                      {...register("password", { required: "Required" })}
+                    />
+                  )}
 
                   <div className="flex items-center justify-between pt-3">
                     <Link
@@ -141,9 +185,9 @@ export default function ResetPage() {
                       size="md"
                       type="submit"
                       className="text-white px-6 py-2 rounded-3xl border"
-                      style={{backgroundColor: "#8B0F4B"}}
+                      style={{ backgroundColor: "#8B0F4B" }}
                     >
-                      Send reset email
+                      {getUser ? "Reset Password" : "Verify"}
                     </Button>
                   </div>
                 </div>

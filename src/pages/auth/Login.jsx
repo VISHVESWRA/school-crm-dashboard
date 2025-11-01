@@ -1,8 +1,8 @@
-import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {LoginUser} from "../../express/redux/LoginSlice";
-import {useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginUser } from "../../express/redux/LoginSlice";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import toasts from "react-hot-toast";
@@ -11,9 +11,9 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
-  const {user, loading, error} = useSelector((state) => state.auth);
+  const { user, loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -92,13 +92,19 @@ export default function LoginPage() {
               >
                 <div className="grid gap-4 w-full space-y-3">
                   <TextField
-                    label="Name"
+                    label="Email"
                     variant="outlined"
                     size="small"
                     required
-                    error={!!errors.name}
-                    helperText={errors.name?.message}
-                    {...register("name", {required: "Required"})}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    {...register("email", {
+                      required: "Required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email address",
+                      },
+                    })}
                   />
 
                   <TextField
@@ -109,7 +115,7 @@ export default function LoginPage() {
                     required
                     error={!!errors.password}
                     helperText={errors.password?.message}
-                    {...register("password", {required: "Required"})}
+                    {...register("password", { required: "Required" })}
                   />
 
                   <div className="flex items-center justify-between pt-3">
@@ -125,7 +131,7 @@ export default function LoginPage() {
                       size="md"
                       type="submit"
                       className="text-white px-6 py-2 rounded-3xl border"
-                      style={{backgroundColor: "#8B0F4B"}}
+                      style={{ backgroundColor: "#8B0F4B" }}
                     >
                       Log in
                     </Button>

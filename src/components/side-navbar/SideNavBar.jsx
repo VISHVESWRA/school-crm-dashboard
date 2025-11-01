@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,8 @@ const SideNavBar = () => {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // const [settingsOpen, setSettingsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -90,10 +92,11 @@ const SideNavBar = () => {
                   <div
                     className={`flex items-center justify-between px-2 py-2 cursor-pointer 
                   hover:bg-gray-100 rounded-md 
-                  ${isActive
-                        ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                        : "text-white hover:bg-pink-400 hover:text-black"
-                      }
+                  ${
+                    isActive
+                      ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                      : "text-white hover:bg-pink-400 hover:text-black"
+                  }
                 `}
                     onClick={() =>
                       item.dropdown &&
@@ -115,8 +118,9 @@ const SideNavBar = () => {
                     </div> */}
                     {item.dropdown && (
                       <ChevronDown
-                        className={`transform transition-transform ${openMenu === index ? "rotate-180" : ""
-                          }`}
+                        className={`transform transition-transform ${
+                          openMenu === index ? "rotate-180" : ""
+                        }`}
                         size={16}
                       />
                     )}
@@ -130,10 +134,11 @@ const SideNavBar = () => {
                           key={subIndex}
                           to={sub.path}
                           className={`block py-1 rounded-md px-2 my-0.5
-                        ${location.pathname === sub.path
-                              ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
-                              : "text-white hover:bg-pink-400 hover:text-black"
-                            }`}
+                        ${
+                          location.pathname === sub.path
+                            ? "bg-pink-200 text-[#8B0F4B] shadow-sm border border-pink-950"
+                            : "text-white hover:bg-pink-400 hover:text-black"
+                        }`}
                           style={{ textDecoration: "none", color: "inherit" }}
                         >
                           <span className="flex text-center items-center gap-2 ml-4">
@@ -242,10 +247,11 @@ const SideNavBar = () => {
                         >
                           <div className="flex items-start">
                             <div
-                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${notification.unread
-                                ? "bg-blue-500"
-                                : "bg-gray-300"
-                                }`}
+                              className={`w-2 h-2 rounded-full mt-2 mr-3 ${
+                                notification.unread
+                                  ? "bg-blue-500"
+                                  : "bg-gray-300"
+                              }`}
                             ></div>
                             <div className="flex-1">
                               <h4 className="text-sm font-medium text-gray-900">

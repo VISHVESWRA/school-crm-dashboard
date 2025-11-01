@@ -4,7 +4,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import { data, useNavigate, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   createUser,
   fetchUserById,
@@ -14,16 +14,37 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createUserApi } from "../../express/api/UsersApi";
 import {
+  TextField,
   FormControl,
-  FormLabel,
-  FormGroup,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
   FormControlLabel,
   Checkbox,
-  FormHelperText,
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import {
+//   FormControl,
+//   FormLabel,
+//   FormGroup,
+//   FormControlLabel,
+//   Checkbox,
+//   FormHelperText,
+//   InputAdornment,
+//   IconButton,
+//   InputLabel,
+//   OutlinedInput,
+// } from "@mui/material";
 import InputFileUpload from "../../components/FileUpload";
 // import Image from 'react-bootstrap/Image';
-import { Image } from 'primereact/image';
+import { Image } from "primereact/image";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function UsersForm() {
   const { selectedUser, loading, error } = useSelector((state) => state.users);
@@ -39,6 +60,7 @@ export default function UsersForm() {
   ];
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -47,6 +69,7 @@ export default function UsersForm() {
   } = useForm({
     defaultValues: {
       dateOfJoin: new Date().toISOString().split("T")[0],
+      skills: [],
       permission: {
         enquiry: false,
         enrollment: false,
@@ -60,12 +83,18 @@ export default function UsersForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const permissionValues = watch("permission");
-  
-  const [preview, setPreview] = useState(null);
-  console.log(watch("image"));
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  console.log("preview", preview);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -78,6 +107,7 @@ export default function UsersForm() {
       reset({
         firstName: selectedUser.firstName,
         lastName: selectedUser.lastName,
+        email: selectedUser.email,
         phoneNumber: selectedUser.phoneNumber,
         dateOfJoin: selectedUser.dateOfJoin
           ? new Date(selectedUser.dateOfJoin).toISOString().split("T")[0]
@@ -88,7 +118,7 @@ export default function UsersForm() {
         zip: selectedUser.zip,
       });
     }
-  }, [selectedUser, reset]);
+  }, [selectedUser, reset, id]);
 
   const onSubmit = (data) => {
     if (id) {
@@ -97,17 +127,9 @@ export default function UsersForm() {
       navigate("/settings/usersList");
     } else {
       dispatch(createUser(data));
-      console.log(data);
       reset();
       navigate("/settings/usersList");
     }
-  };
-
-  const atLeastOneChecked = (value) => {
-    return (
-      Object.values(permissionValues).some(Boolean) ||
-      "At least one permission is required"
-    );
   };
 
   const setBreadcrumb = [
@@ -153,246 +175,319 @@ export default function UsersForm() {
     <>
       <BreadcrumbNav items={setBreadcrumb} sideNavButtons={setSideNavButton} />
 
-      <div className="p-4 sm:p-6 lg:p-8">
-        <Card className="shadow">
-          <Card.Header className="font-poppins text-lg font-medium">
-            General Details
-          </Card.Header>
-          <Card.Body>
-            <Form noValidate onSubmit={handleSubmit(onSubmit)}>
-
-<div className="flex flex-col justify-center items-center gap-2 my-3">
-
-        <div className="card flex justify-content-center">
-            <Image src="https://primefaces.org/cdn/primereact/images/galleria/galleria10.jpg" alt="Image" width="250" preview />
-        </div>
-
-        <pre>
-          {data}
-        </pre>
-
-           <InputFileUpload register={register} name="image"  onChange={(e) => {
-          onChange(e); // keep react-hook-form updated
-          const file = e.target.files[0];
-          if (file) setPreview(URL.createObjectURL(file));
-        }} />
-
-</div>
-
-              <Row className="mb-3">
-                <Form.Group as={Col} md="6" controlId="firstName">
-                  <Form.Label>First name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    isInvalid={!!errors.firstName}
-                    {...register("firstName", { required: "Required" })}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.firstName?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="6" controlId="lastName">
-                  <Form.Label>Last name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    isInvalid={!!errors.lastName}
-                    {...register("lastName", { required: "Required" })}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.lastName?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-
-              <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="phoneNumber">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control
-                    type="tel"
-                    isInvalid={!!errors.phoneNumber}
-                    {...register("phoneNumber", {
-                      required: "Required",
-                      minLength: { value: 10, message: "Must be 10 digits" },
-                      maxLength: { value: 10, message: "Must be 10 digits" },
-                    })}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.phoneNumber?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="dateOfJoin">
-                  <Form.Label>Date of Joining</Form.Label>
-                  <Form.Control
-                    type="date"
-                    isInvalid={!!errors.dateOfJoin}
-                    {...register("dateOfJoin", { required: "Required" })}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.dateOfJoin?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="role">
-                  <Form.Label>Role</Form.Label>
-                  <Form.Select
-                    defaultValue=""
-                    isInvalid={!!errors.role}
-                    {...register("role", { required: "Required" })}
-                  >
-                    <option value="">Select</option>
-                    {roles.map((role, index) => (
-                      <option key={index} value={role}>
-                        {role}
-                      </option>
-                    ))}
-                  </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.role?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-
-              <Row className="mb-3">
-                <Form.Group as={Col} md="4" controlId="city">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control
-                    type="text"
-                    isInvalid={!!errors.city}
-                    {...register("city")}
-                  />
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="state">
-                  <Form.Label>State</Form.Label>
-                  <Form.Control
-                    type="text"
-                    isInvalid={!!errors.state}
-                    {...register("state")}
-                  />
-                </Form.Group>
-
-                <Form.Group as={Col} md="4" controlId="zip">
-                  <Form.Label>Zip</Form.Label>
-                  <Form.Control
-                    type="text"
-                    isInvalid={!!errors.zip}
-                    {...register("zip", {
-                      pattern: {
-                        value: /^[0-9]{6}$/,
-                        message: "Zip must be 6 digits",
-                      },
-                    })}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.zip?.message}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-
-              {/* <Form.Group className="mb-3">
-                <Form.Check
+      <div className="flex justify-center items-center">
+        <Form
+          noValidate
+          className="p-4 sm:p-6 lg:p-8 w-4xl"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Card className="shadow mb-4">
+            <Card.Header className="font-poppins text-lg font-medium">
+              Personal Details
+            </Card.Header>
+            <Card.Body className="p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <TextField
+                  label="First Name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
                   required
-                  label="Agree to terms and conditions"
-                  feedback="You must agree before submitting."
-                  feedbackType="invalid"
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
+                  className="col-span-1 sm:col-span-2"
+                  {...register("firstName", {
+                    required: "First name is required",
+                  })}
                 />
-              </Form.Group> */}
 
-              <FormControl component="fieldset" error={!!errors.permission}>
-                <FormLabel component="legend">Department Permission</FormLabel>
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("permission.enquiry", {
-                          validate: atLeastOneChecked,
-                        })}
-                      />
-                    }
-                    label="Enquiry"
-                    labelPlacement="end"
-                    className="col-span-1"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("permission.enrollment", {
-                          validate: atLeastOneChecked,
-                        })}
-                      />
-                    }
-                    label="Enrollment"
-                    labelPlacement="end"
-                    className="col-span-1"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox {...register("permission.attendance")} />
-                    }
-                    label="Attendance"
-                    labelPlacement="end"
-                    className="col-span-1"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("permission.staff", {
-                          validate: atLeastOneChecked,
-                        })}
-                      />
-                    }
-                    label="Staff"
-                    labelPlacement="end"
-                    className="col-span-1"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("permission.placement", {
-                          validate: atLeastOneChecked,
-                        })}
-                      />
-                    }
-                    label="Placement"
-                    labelPlacement="end"
-                    className="col-span-1"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("permission.report", {
-                          validate: atLeastOneChecked,
-                        })}
-                      />
-                    }
-                    label="Report"
-                    labelPlacement="end"
-                    className="col-span-1"
-                  />
-                  {errors.permission && (
-                    <FormHelperText>
-                      {errors.permission.message}sd
-                    </FormHelperText>
+                <TextField
+                  label="Last Name"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  required
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
+                  className="col-span-1 sm:col-span-2"
+                  {...register("lastName", {
+                    required: "Last name is required",
+                  })}
+                />
+
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  size="small"
+                  required
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  className="col-span-1 sm:col-span-2"
+                  {...register("email", {
+                    required: "Required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Enter a valid email address",
+                    },
+                  })}
+                />
+
+                <div className="col-start-1 col-span-2 sm:col-span-2">
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    required
+                    error={!!errors.password}
+                  >
+                    <InputLabel
+                      htmlFor="outlined-adornment-password"
+                      className="flex items-center justify-center text-center"
+                    >
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      label="Password"
+                      {...register("password", { required: "Required" })}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label={
+                              showPassword
+                                ? "hide the password"
+                                : "display the password"
+                            }
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            onMouseUp={handleMouseUpPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {errors.password && (
+                      <FormHelperText>{errors.password.message}</FormHelperText>
+                    )}
+                  </FormControl>
+                </div>
+                {/* Phone Number */}
+                <TextField
+                  label="Phone Number"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  required
+                  error={!!errors.phoneNumber}
+                  helperText={errors.phoneNumber?.message}
+                  {...register("phoneNumber", {
+                    required: "Phone number is required",
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message: "Phone number must be 10 digits",
+                    },
+                  })}
+                />
+
+                {/* Date of Birth */}
+                {/* <Controller
+                  name="dateOfJoin"
+                  control={control}
+                  rules={{
+                    required: "Required",
+                    // validate: (value) =>
+                    //   (value && new Date(value) <= new Date()) ||
+                    //   "DOJ cannot be in the future",
+                  }}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      label="dateOfJoin"
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                          size: "small",
+                          error: !!errors.dateOfJoin,
+                          helperText: errors.dateOfJoin?.message,
+                        },
+                      }}
+                    />
                   )}
-                </FormGroup>
-              </FormControl>
+                /> */}
 
-              {/* <Button type="submit">Submit</Button>
-              <Button
-                className="mx-2"
-                type="button"
-                onClick={() => {
-                  navigate("/settings/usersList");
-                  setBreadcrumbs([]);
-                }}
-              >
-                Cancel
-              </Button> */}
-            </Form>
-          </Card.Body>
-        </Card>
+                {/* Gender */}
+                <div className="col-start-1 col-span-1">
+                  <Controller
+                    name="gender"
+                    control={control}
+                    rules={{ required: "Gender is required" }}
+                    render={({ field }) => (
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        error={!!errors.gender}
+                      >
+                        <InputLabel id="gender-label">Gender</InputLabel>
+                        <Select
+                          labelId="gender-label"
+                          label="Gender"
+                          {...field}
+                        >
+                          <MenuItem value="male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                          <MenuItem value="other">Other</MenuItem>
+                        </Select>
+                        <FormHelperText>
+                          {errors.gender?.message}
+                        </FormHelperText>
+                      </FormControl>
+                    )}
+                  />
+                </div>
+
+                {/* Mentor */}
+                <Controller
+                  name="role"
+                  control={control}
+                  rules={{ required: "Required" }}
+                  render={({ field }) => (
+                    <FormControl fullWidth size="small" error={!!errors.mentor}>
+                      <InputLabel id="mentor-label">Role</InputLabel>
+                      <Select
+                        labelId="mentor-label"
+                        label="Role"
+                        {...register("role")}
+                      >
+                        {roles.map((role, index) => (
+                          <MenuItem key={index} value={role}>
+                            {role}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      <FormHelperText>{errors.role?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+
+                <TextField
+                  label="City"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  error={!!errors.city}
+                  helperText={errors.city?.message}
+                  {...register("city")}
+                  className="col-start-1 col-span-1"
+                />
+
+                <TextField
+                  label="State"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  error={!!errors.state}
+                  helperText={errors.state?.message}
+                  {...register("state")}
+                />
+
+                <TextField
+                  label="Pincode"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  error={!!errors.pincode}
+                  helperText={errors.pincode?.message}
+                  {...register("pincode")}
+                />
+                {/* Course */}
+                {/* <Controller
+                  name="course"
+                  control={control}
+                  rules={{ required: "Course is required" }}
+                  render={({ field }) => (
+                    <FormControl fullWidth size="small" error={!!errors.course}>
+                      <InputLabel id="course-label">Course</InputLabel>
+                      <Select labelId="course-label" label="Course" {...field}>
+                        {list.courses.map((course) => (
+                          <MenuItem key={course._id} value={course._id}>
+                            {course.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      <FormHelperText>{errors.course?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                /> */}
+
+                {/* Duration */}
+                {/* <Controller
+                  name="duration"
+                  control={control}
+                  rules={{ required: "Duration is required" }}
+                  render={({ field }) => (
+                    <FormControl
+                      fullWidth
+                      size="small"
+                      error={!!errors.duration}
+                    >
+                      <InputLabel id="duration-label">Duration</InputLabel>
+                      <Select
+                        labelId="duration-label"
+                        label="Duration"
+                        {...field}
+                      >
+                        {durations.map((d) => (
+                          <MenuItem key={d} value={d}>
+                            {d}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      <FormHelperText>
+                        {errors.duration?.message}
+                      </FormHelperText>
+                    </FormControl>
+                  )}
+                /> */}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                <FormControlLabel
+                  control={<Checkbox value="enquiry" {...register("skills")} />}
+                  label="Enquiry"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox value="enrollment" {...register("skills")} />
+                  }
+                  label="Enrollment"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox value="attendance" {...register("skills")} />
+                  }
+                  label="Attendance"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="staff" {...register("skills")} />}
+                  label="Staff"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox value="placement" {...register("skills")} />
+                  }
+                  label="Placement"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="report" {...register("skills")} />}
+                  label="Report"
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Form>
       </div>
     </>
   );

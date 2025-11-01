@@ -1,0 +1,327 @@
+   <div className="p-4 sm:p-6 lg:p-8">
+        <Card className="shadow">
+          <Card.Header className="font-poppins text-lg font-medium">
+            General Details
+          </Card.Header>
+          <Card.Body>
+            <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-col justify-center items-center gap-2 my-3">
+                <div className="card flex justify-content-center">
+                  <Image
+                    src="https://primefaces.org/cdn/primereact/images/galleria/galleria10.jpg"
+                    alt="Image"
+                    width="250"
+                    preview
+                  />
+                </div>
+
+                <InputFileUpload
+                  register={register}
+                  name="image"
+                  onChange={(e) => {
+                    onChange(e); // keep react-hook-form updated
+                    const file = e.target.files[0];
+                    if (file) setPreview(URL.createObjectURL(file));
+                  }}
+                />
+              </div>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} md="6" controlId="firstName">
+                  <Form.Label>First name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.firstName}
+                    {...register("firstName", { required: "Required" })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.firstName?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="6" controlId="lastName">
+                  <Form.Label>Last name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.lastName}
+                    {...register("lastName", { required: "Required" })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.lastName?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="6" controlId="email" className="mt-2">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    isInvalid={!!errors.email}
+                    {...register("email", { required: "Required" })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group
+                  as={Col}
+                  md="6"
+                  controlId="password"
+                  className="mt-2"
+                >
+                  {/* <Form.Label>Password</Form.Label> */}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    error={!!errors.password}
+                  >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      label="Password"
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                            aria-label="toggle password visibility"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+
+                    {errors.password && (
+                      <FormHelperText>{errors.password.message}</FormHelperText>
+                    )}
+                  </FormControl>
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} md="4" controlId="phoneNumber">
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    isInvalid={!!errors.phoneNumber}
+                    {...register("phoneNumber", {
+                      required: "Required",
+                      minLength: { value: 10, message: "Must be 10 digits" },
+                      maxLength: { value: 10, message: "Must be 10 digits" },
+                    })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.phoneNumber?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="4" controlId="dateOfJoin">
+                  <Form.Label>Date of Joining</Form.Label>
+                  <Form.Control
+                    type="date"
+                    isInvalid={!!errors.dateOfJoin}
+                    {...register("dateOfJoin", { required: "Required" })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.dateOfJoin?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group as={Col} md="4" controlId="role">
+                  <Form.Label>Role</Form.Label>
+                  <Form.Select
+                    defaultValue=""
+                    isInvalid={!!errors.role}
+                    {...register("role", { required: "Required" })}
+                  >
+                    <option value="">Select</option>
+                    {roles.map((role, index) => (
+                      <option key={index} value={role}>
+                        {role}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.role?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} md="4" controlId="city">
+                  <Form.Label>City</Form.Label>
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.city}
+                    {...register("city")}
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} md="4" controlId="state">
+                  <Form.Label>State</Form.Label>
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.state}
+                    {...register("state")}
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} md="4" controlId="zip">
+                  <Form.Label>Zip</Form.Label>
+                  <Form.Control
+                    type="text"
+                    isInvalid={!!errors.zip}
+                    {...register("zip", {
+                      pattern: {
+                        value: /^[0-9]{6}$/,
+                        message: "Zip must be 6 digits",
+                      },
+                    })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.zip?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+
+              {/* <Form.Group className="mb-3">
+                <Form.Check
+                  required
+                  label="Agree to terms and conditions"
+                  feedback="You must agree before submitting."
+                  feedbackType="invalid"
+                />
+              </Form.Group> */}
+
+              <FormControlLabel
+                control={<Checkbox value="enquiry" {...register("skills")} />}
+                label="Enquiry"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox value="enrollment" {...register("skills")} />
+                }
+                label="Enrollment"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox value="attendance" {...register("skills")} />
+                }
+                label="Attendance"
+              />
+              <FormControlLabel
+                control={<Checkbox value="staff" {...register("skills")} />}
+                label="Staff"
+              />
+              <FormControlLabel
+                control={<Checkbox value="placement" {...register("skills")} />}
+                label="Placement"
+              />
+              <FormControlLabel
+                control={<Checkbox value="report" {...register("skills")} />}
+                label="Report"
+              />
+
+              {/* <FormControl component="fieldset" error={!!errors.permission}>
+                <FormLabel component="legend">Department Permission</FormLabel>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.enquiry", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Enquiry"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.enrollment", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Enrollment"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox {...register("permission.attendance")} />
+                    }
+                    label="Attendance"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.staff", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Staff"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.placement", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Placement"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("permission.report", {
+                          validate: atLeastOneChecked,
+                        })}
+                      />
+                    }
+                    label="Report"
+                    labelPlacement="end"
+                    className="col-span-1"
+                  />
+                  {errors.permission && (
+                    <FormHelperText>
+                      {errors.permission.message}sd
+                    </FormHelperText>
+                  )}
+                </FormGroup>
+              </FormControl> */}
+
+              {/* <Button type="submit">Submit</Button>
+              <Button
+                className="mx-2"
+                type="button"
+                onClick={() => {
+                  navigate("/settings/usersList");
+                  setBreadcrumbs([]);
+                }}
+              >
+                Cancel
+              </Button> */}
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
