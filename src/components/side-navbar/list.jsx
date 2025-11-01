@@ -22,95 +22,133 @@ export const menuItems = [
     name: "Dashboard",
     path: "/",
     icon: <LayoutGrid size={20} />,
-    roles: ["admin", "staff", "student", "parent"],
+    roles: ["superAdmin", "admin", "staff", "student", "parent"],
   },
   {
     name: "New User",
     // path: "/users",
     icon: <BookUser size={20} />,
-    roles: ["admin"],
+    roles: ["superAdmin", "admin", "staff"],
     dropdown: [
-      {name: "All Users", path: "/settings/usersList", roles: ["admin"]},
-      // { name: "Add Users", path: "/users/add", roles: ["admin"]  },
+      {
+        name: "All Users",
+        path: "/settings/usersList",
+        roles: ["superAdmin", "admin"],
+      },
+      // { name: "Add Users", path: "/users/add", roles: ["superAdmin", "admin"]  },
     ],
   },
   {
     name: "Courses",
     // path: "/courses",
     icon: <BookOpenIcon size={20} />,
-    roles: ["admin", "staff"],
+    roles: ["superAdmin", "admin", "staff"],
     dropdown: [
       {
         name: "All Courses",
         path: "/settings/courseList",
-        roles: ["admin", "staff"],
+        roles: ["superAdmin", "admin", "staff"],
       },
-      // { name: "Add Course", path: "/courses/add", roles: ["admin"]  },
+      // { name: "Add Course", path: "/courses/add", roles: ["superAdmin", "admin"]  },
     ],
   },
   {
     name: "Students",
     // path: "/students",
     icon: <Users size={20} />,
-    roles: ["admin", "staff"],
+    roles: ["superAdmin", "admin", "staff"],
     dropdown: [
       {
         name: "All Students",
         path: "/settings/studentList",
-        roles: ["admin", "staff"],
+        roles: ["superAdmin", "admin", "staff"],
       },
-      // { name: "Add Student", path: "/", roles: ["admin"] },
+      // { name: "Add Student", path: "/", roles: ["superAdmin", "admin"] },
     ],
   },
   {
     name: "Enquiry",
     icon: <HelpCircle size={20} />,
-    roles: ["admin", "staff"],
+    roles: ["superAdmin", "admin"],
     dropdown: [
-      {name: "New Enquiry", path: "/", roles: ["admin", "staff"]},
-      {name: "Manage Enquiry", path: "/", roles: ["admin"]},
+      {name: "New Enquiry", path: "/", roles: ["superAdmin", "admin"]},
+      {name: "Manage Enquiry", path: "/", roles: ["superAdmin", "admin"]},
     ],
   },
   {
     name: "Enrollment",
     icon: <UserRoundPlus size={20} />,
     dropdown: [
-      {name: "New Enrollment", path: "/", roles: ["admin", "staff"]},
-      {name: "Manage Enrollment", path: "/", roles: ["admin"]},
+      {
+        name: "New Enrollment",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
+      {name: "Manage Enrollment", path: "/", roles: ["superAdmin", "admin"]},
     ],
   },
   {
     name: "Attendance",
     icon: <CalendarCheck2 size={20} />,
-    roles: ["admin", "staff"],
+    roles: ["superAdmin", "admin"],
     dropdown: [
-      {name: "Take Attendance", path: "/", roles: ["admin", "staff"]},
-      {name: "View Attendance", path: "/", roles: ["admin", "staff"]},
+      {
+        name: "Take Attendance",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
+      {
+        name: "View Attendance",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
     ],
   },
   {
     name: "Payment",
     icon: <IndianRupee size={20} />,
-    roles: ["admin", "staff"],
+    roles: ["superAdmin", "admin"],
     dropdown: [
-      {name: "Take Payment", path: "/", roles: ["admin", "staff"]},
-      {name: "View Payment", path: "/", roles: ["admin", "staff"]},
+      {
+        name: "Take Payment",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
+      {
+        name: "View Payment",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
     ],
   },
   {
     name: "Placement",
     icon: <BriefcaseBusiness size={20} />,
-    roles: ["admin", "staff"],
+    roles: ["superAdmin", "admin"],
     dropdown: [
-      {name: "Add Placement", path: "/", roles: ["admin", "staff"]},
-      {name: "Manage Placement", path: "/", roles: ["admin", "staff"]},
+      {
+        name: "Add Placement",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
+      {
+        name: "Manage Placement",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
     ],
   },
   {
     name: "Report",
     icon: <FileChartLine size={20} />,
-    roles: ["admin", "staff"],
-    dropdown: [{name: "Manage Report", path: "/", roles: ["admin", "staff"]}],
+    roles: ["superAdmin", "admin"],
+    dropdown: [
+      {
+        name: "Manage Report",
+        path: "/",
+        roles: ["superAdmin", "admin"],
+      },
+    ],
   },
 ];
 

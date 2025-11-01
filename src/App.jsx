@@ -34,7 +34,7 @@ function App() {
           <Route path="/reset" element={<ResetPage />} />
           <Route
             element={
-              <PrivateRoute role={["superAdmin", "user"]}>
+              <PrivateRoute role={["superAdmin", "user", "staff"]}>
                 <SideNavBar />
               </PrivateRoute>
             }

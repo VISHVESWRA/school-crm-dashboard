@@ -1,18 +1,18 @@
-import { useForm, Controller } from "react-hook-form";
-import { Col, Form, Row } from "react-bootstrap";
+import {useForm, Controller} from "react-hook-form";
+import {Col, Form, Row} from "react-bootstrap";
 // import { createUserApi } from "../../express/api/UsersApi";
-import { data, useNavigate, useParams } from "react-router-dom";
+import {data, useNavigate, useParams} from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   createUser,
   fetchUserById,
   fetchUsers,
   updateUser,
 } from "../../express/redux/UsersSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { createUserApi } from "../../express/api/UsersApi";
+import {useDispatch, useSelector} from "react-redux";
+import {createUserApi} from "../../express/api/UsersApi";
 import {
   TextField,
   FormControl,
@@ -27,7 +27,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 // import {
 //   FormControl,
 //   FormLabel,
@@ -42,12 +42,12 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // } from "@mui/material";
 import InputFileUpload from "../../components/FileUpload";
 // import Image from 'react-bootstrap/Image';
-import { Image } from "primereact/image";
+import {Image} from "primereact/image";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function UsersForm() {
-  const { selectedUser, loading, error } = useSelector((state) => state.users);
+  const {selectedUser, loading, error} = useSelector((state) => state.users);
 
   const roles = [
     "Admin",
@@ -63,7 +63,7 @@ export default function UsersForm() {
     control,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     reset,
     watch,
   } = useForm({
@@ -82,7 +82,7 @@ export default function UsersForm() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const {id} = useParams();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -109,6 +109,7 @@ export default function UsersForm() {
         lastName: selectedUser.lastName,
         email: selectedUser.email,
         phoneNumber: selectedUser.phoneNumber,
+        password: selectedUser.password,
         dateOfJoin: selectedUser.dateOfJoin
           ? new Date(selectedUser.dateOfJoin).toISOString().split("T")[0]
           : new Date().toISOString().split("T")[0],
@@ -122,7 +123,7 @@ export default function UsersForm() {
 
   const onSubmit = (data) => {
     if (id) {
-      dispatch(updateUser({ id, data }));
+      dispatch(updateUser({id, data}));
       reset();
       navigate("/settings/usersList");
     } else {
@@ -236,6 +237,7 @@ export default function UsersForm() {
                   <FormControl
                     variant="outlined"
                     size="small"
+                    disabled={id ? true : false}
                     fullWidth
                     required
                     error={!!errors.password}
@@ -250,7 +252,7 @@ export default function UsersForm() {
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
                       label="Password"
-                      {...register("password", { required: "Required" })}
+                      {...register("password", {required: "Required"})}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -323,8 +325,8 @@ export default function UsersForm() {
                   <Controller
                     name="gender"
                     control={control}
-                    rules={{ required: "Gender is required" }}
-                    render={({ field }) => (
+                    rules={{required: "Gender is required"}}
+                    render={({field}) => (
                       <FormControl
                         fullWidth
                         size="small"
@@ -352,8 +354,8 @@ export default function UsersForm() {
                 <Controller
                   name="role"
                   control={control}
-                  rules={{ required: "Required" }}
-                  render={({ field }) => (
+                  rules={{required: "Required"}}
+                  render={({field}) => (
                     <FormControl fullWidth size="small" error={!!errors.mentor}>
                       <InputLabel id="mentor-label">Role</InputLabel>
                       <Select
