@@ -133,7 +133,7 @@ export default function Home() {
             </div>
             <div className="ml-4">
               <p className="text-gray-600 text-sm">Discontinued Students</p>
-              <h2 className="text-3xl font-bold text-gray-900">10</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">10</h2>
               {/* <div className="flex items-center mt-1">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-green-500 text-xs font-medium">
@@ -151,7 +151,7 @@ export default function Home() {
             </div>
             <div className="ml-4">
               <p className="text-gray-600 text-sm">Placement Details</p>
-              <h2 className="text-3xl font-bold text-gray-900">180</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">180</h2>
               {/* <div className="flex items-center mt-1">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-green-500 text-xs font-medium">
@@ -168,14 +168,14 @@ export default function Home() {
               <Activity className="w-8 h-8 text-orange-600" />
             </div>
             <div className="ml-4">
-              <h2 className="text-3xl font-bold text-gray-900">89.7%</h2>
               <p className="text-gray-600 text-sm">Course Completion</p>
-              <div className="flex items-center mt-1">
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">89.7%</h2>
+              {/* <div className="flex items-center mt-1">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-green-500 text-xs font-medium">
                   +0.5%
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -186,14 +186,14 @@ export default function Home() {
               <Activity className="w-8 h-8 text-orange-600" />
             </div>
             <div className="ml-4">
-              <h2 className="text-3xl font-bold text-gray-900">89.7%</h2>
               <p className="text-gray-600 text-sm">Total Collections</p>
-              <div className="flex items-center mt-1">
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">89.7%</h2>
+              {/* <div className="flex items-center mt-1">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-green-500 text-xs font-medium">
                   +0.5%
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -204,14 +204,14 @@ export default function Home() {
               <Activity className="w-8 h-8 text-orange-600" />
             </div>
             <div className="ml-4">
-              <h2 className="text-3xl font-bold text-gray-900">89.7%</h2>
               <p className="text-gray-600 text-sm">Payment Pending</p>
-              <div className="flex items-center mt-1">
+              <h2 className="text-3xl font-bold text-gray-900 mb-0">89.7%</h2>
+              {/* <div className="flex items-center mt-1">
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <span className="text-green-500 text-xs font-medium">
                   +0.5%
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

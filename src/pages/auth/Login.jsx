@@ -152,6 +152,7 @@ export default function LoginPage() {
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
+                            size="small"
                             aria-label={
                               showPassword
                                 ? "hide the password"

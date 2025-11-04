@@ -25,7 +25,7 @@ const BreadcrumbNav = ({ items, sideNavButtons }) => {
                 {item.label}
               </Link>
             ) : (
-              <Typography key={index} fontSize={25} color="text.primary">
+              <Typography key={index} fontSize={25} color="#C72571">
                 {item.label}
               </Typography>
             )

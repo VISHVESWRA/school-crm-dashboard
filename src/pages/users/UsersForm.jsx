@@ -1,18 +1,18 @@
-import {useForm, Controller} from "react-hook-form";
-import {Col, Form, Row} from "react-bootstrap";
+import { useForm, Controller } from "react-hook-form";
+import { Col, Form, Row } from "react-bootstrap";
 // import { createUserApi } from "../../express/api/UsersApi";
-import {data, useNavigate, useParams} from "react-router-dom";
+import { data, useNavigate, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   createUser,
   fetchUserById,
   fetchUsers,
   updateUser,
 } from "../../express/redux/UsersSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {createUserApi} from "../../express/api/UsersApi";
+import { useDispatch, useSelector } from "react-redux";
+import { createUserApi } from "../../express/api/UsersApi";
 import {
   TextField,
   FormControl,
@@ -27,7 +27,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // import {
 //   FormControl,
 //   FormLabel,
@@ -42,12 +42,12 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 // } from "@mui/material";
 import InputFileUpload from "../../components/FileUpload";
 // import Image from 'react-bootstrap/Image';
-import {Image} from "primereact/image";
+import { Image } from "primereact/image";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function UsersForm() {
-  const {selectedUser, loading, error} = useSelector((state) => state.users);
+  const { selectedUser, loading, error } = useSelector((state) => state.users);
 
   const roles = [
     "Admin",
@@ -63,13 +63,15 @@ export default function UsersForm() {
     control,
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     reset,
     watch,
   } = useForm({
     defaultValues: {
       dateOfJoin: new Date().toISOString().split("T")[0],
       skills: [],
+      gender: "",
+      role: "",
       permission: {
         enquiry: false,
         enrollment: false,
@@ -82,7 +84,7 @@ export default function UsersForm() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -122,8 +124,10 @@ export default function UsersForm() {
   }, [selectedUser, reset, id]);
 
   const onSubmit = (data) => {
+    console.log(data);
+
     if (id) {
-      dispatch(updateUser({id, data}));
+      dispatch(updateUser({ id, data }));
       reset();
       navigate("/settings/usersList");
     } else {
@@ -186,54 +190,57 @@ export default function UsersForm() {
             <Card.Header className="font-poppins text-lg font-medium">
               Personal Details
             </Card.Header>
-            <Card.Body className="p-4">
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                <TextField
-                  label="First Name"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  required
-                  error={!!errors.firstName}
-                  helperText={errors.firstName?.message}
-                  className="col-span-1 sm:col-span-2"
-                  {...register("firstName", {
-                    required: "First name is required",
-                  })}
-                />
+            <Card.Body className="px-5 py-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="First Name"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    required
+                    error={!!errors.firstName}
+                    helperText={errors.firstName?.message}
+                    {...register("firstName", {
+                      required: "First name is required",
+                    })}
+                  />
+                </div>
 
-                <TextField
-                  label="Last Name"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  required
-                  error={!!errors.lastName}
-                  helperText={errors.lastName?.message}
-                  className="col-span-1 sm:col-span-2"
-                  {...register("lastName", {
-                    required: "Last name is required",
-                  })}
-                />
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="Last Name"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    required
+                    error={!!errors.lastName}
+                    helperText={errors.lastName?.message}
+                    {...register("lastName", {
+                      required: "Last name is required",
+                    })}
+                  />
+                </div>
 
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  size="small"
-                  required
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  className="col-span-1 sm:col-span-2"
-                  {...register("email", {
-                    required: "Required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Enter a valid email address",
-                    },
-                  })}
-                />
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="Email"
+                    variant="outlined"
+                    size="small"
+                    required
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    {...register("email", {
+                      required: "Required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Enter a valid email address",
+                      },
+                    })}
+                  />
+                </div>
 
-                <div className="col-start-1 col-span-2 sm:col-span-2">
+                <div className="col-start-1 col-span-2">
                   <FormControl
                     variant="outlined"
                     size="small"
@@ -252,7 +259,7 @@ export default function UsersForm() {
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
                       label="Password"
-                      {...register("password", {required: "Required"})}
+                      {...register("password", { required: "Required" })}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -277,22 +284,24 @@ export default function UsersForm() {
                   </FormControl>
                 </div>
                 {/* Phone Number */}
-                <TextField
-                  label="Phone Number"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  required
-                  error={!!errors.phoneNumber}
-                  helperText={errors.phoneNumber?.message}
-                  {...register("phoneNumber", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^[0-9]{10}$/,
-                      message: "Phone number must be 10 digits",
-                    },
-                  })}
-                />
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="Phone Number"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    required
+                    error={!!errors.phoneNumber}
+                    helperText={errors.phoneNumber?.message}
+                    {...register("phoneNumber", {
+                      required: "Phone number is required",
+                      pattern: {
+                        value: /^[0-9]{10}$/,
+                        message: "Phone number must be 10 digits",
+                      },
+                    })}
+                  />
+                </div>
 
                 {/* Date of Birth */}
                 {/* <Controller
@@ -321,12 +330,12 @@ export default function UsersForm() {
                 /> */}
 
                 {/* Gender */}
-                <div className="col-start-1 col-span-1">
+                <div className="col-span-1 sm:col-span-2">
                   <Controller
                     name="gender"
                     control={control}
-                    rules={{required: "Gender is required"}}
-                    render={({field}) => (
+                    rules={{ required: "Gender is required" }}
+                    render={({ field }) => (
                       <FormControl
                         fullWidth
                         size="small"
@@ -337,6 +346,8 @@ export default function UsersForm() {
                           labelId="gender-label"
                           label="Gender"
                           {...field}
+                          value={field.value || ""}
+                          onChange={field.onChange}
                         >
                           <MenuItem value="male">Male</MenuItem>
                           <MenuItem value="female">Female</MenuItem>
@@ -351,59 +362,72 @@ export default function UsersForm() {
                 </div>
 
                 {/* Mentor */}
-                <Controller
-                  name="role"
-                  control={control}
-                  rules={{required: "Required"}}
-                  render={({field}) => (
-                    <FormControl fullWidth size="small" error={!!errors.mentor}>
-                      <InputLabel id="mentor-label">Role</InputLabel>
-                      <Select
-                        labelId="mentor-label"
-                        label="Role"
-                        {...register("role")}
+                <div className="col-span-1 sm:col-span-2">
+                  <Controller
+                    name="role"
+                    control={control}
+                    rules={{ required: "Required" }}
+                    render={({ field }) => (
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        error={!!errors.mentor}
                       >
-                        {roles.map((role, index) => (
-                          <MenuItem key={index} value={role}>
-                            {role}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      <FormHelperText>{errors.role?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
+                        <InputLabel id="mentor-label">Role</InputLabel>
+                        <Select
+                          labelId="mentor-label"
+                          label="Role"
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                        >
+                          {roles.map((role, index) => (
+                            <MenuItem key={index} value={role || ""}>
+                              {role}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        <FormHelperText>{errors.role?.message}</FormHelperText>
+                      </FormControl>
+                    )}
+                  />
+                </div>
 
-                <TextField
-                  label="City"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  error={!!errors.city}
-                  helperText={errors.city?.message}
-                  {...register("city")}
-                  className="col-start-1 col-span-1"
-                />
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="City"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.city}
+                    helperText={errors.city?.message}
+                    {...register("city")}
+                    className="col-start-1 col-span-1"
+                  />
+                </div>
 
-                <TextField
-                  label="State"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  error={!!errors.state}
-                  helperText={errors.state?.message}
-                  {...register("state")}
-                />
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="State"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.state}
+                    helperText={errors.state?.message}
+                    {...register("state")}
+                  />
+                </div>
 
-                <TextField
-                  label="Pincode"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  error={!!errors.pincode}
-                  helperText={errors.pincode?.message}
-                  {...register("pincode")}
-                />
+                <div className="col-span-1 sm:col-span-2">
+                  <TextField
+                    label="Pincode"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.pincode}
+                    helperText={errors.pincode?.message}
+                    {...register("pincode")}
+                  />
+                </div>
                 {/* Course */}
                 {/* <Controller
                   name="course"
