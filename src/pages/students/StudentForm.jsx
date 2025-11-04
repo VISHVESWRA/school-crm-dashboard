@@ -1,10 +1,10 @@
 import Card from "react-bootstrap/Card";
-import { Col, Form, Row, Spinner } from "react-bootstrap";
-import { useForm, Controller } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import {Col, Form, Row, Spinner} from "react-bootstrap";
+import {useForm, Controller} from "react-hook-form";
+import {useNavigate, useParams} from "react-router-dom";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useEffect } from "react";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {useEffect} from "react";
 import dayjs from "dayjs";
 
 import {
@@ -15,27 +15,27 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   addStudents,
   fetchStudentById,
   updateStudents,
 } from "../../express/redux/StudentsSlice";
-import { toast } from "react-hot-toast";
-import { fetchCourses } from "../../express/redux/CourseSlice";
-import { fetchUsers } from "../../express/redux/UsersSlice";
+import {toast} from "react-hot-toast";
+import {fetchCourses} from "../../express/redux/CourseSlice";
+import {fetchUsers} from "../../express/redux/UsersSlice";
 
 export default function StudentForm() {
-  const { selectedStudent, loading, error } = useSelector(
+  const {selectedStudent, loading, error} = useSelector(
     (state) => state.students
   );
-  const { list } = useSelector((state) => state.courses);
+  const {list} = useSelector((state) => state.courses);
   const usersList = useSelector((state) => state.users);
   const users = usersList.list.filter((user) => user.role === "Staff");
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     reset,
     setValue,
     control,
@@ -61,7 +61,7 @@ export default function StudentForm() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const {id} = useParams();
 
   // const selectedCourseId = watch("courseDetails.course");
   // const selectedCourse = list?.courses?.find(
@@ -112,7 +112,7 @@ export default function StudentForm() {
       return;
     }
     if (id) {
-      dispatch(updateStudents({ id, data }));
+      dispatch(updateStudents({id, data}));
       reset();
       navigate("/settings/studentList");
     } else {
@@ -151,19 +151,25 @@ export default function StudentForm() {
   ];
 
   const genderOptions = [
-    { id: "male", label: "Male" },
-    { id: "female", label: "Female" },
-    { id: "other", label: "Other" },
-    { id: "notPrefer", label: "Prefer not to respond" },
+    {id: "male", label: "Male"},
+    {id: "female", label: "Female"},
+    {id: "other", label: "Other"},
+    {id: "notPrefer", label: "Prefer not to respond"},
   ];
 
   const durations = [
-    { id: 1, label: "1" },
-    { id: 2, label: "2" },
-    { id: 3, label: "3" },
-    { id: 4, label: "4" },
-    { id: 5, label: "5" },
-    { id: 6, label: "6" },
+    {id: 1, label: "1"},
+    {id: 2, label: "2"},
+    {id: 3, label: "3"},
+    {id: 4, label: "4"},
+    {id: 5, label: "5"},
+    {id: 6, label: "6"},
+  ];
+
+  const batch = [
+    {id: 1, label: "Morning"},
+    {id: 2, label: "Evening"},
+    {id: 3, label: "Agternoon"},
   ];
 
   return (
@@ -217,8 +223,8 @@ export default function StudentForm() {
                   helperText={errors.personalDetails?.regNumber?.message}
                   {...register("personalDetails.regNumber", {
                     required: "Required",
-                    minLength: { value: 10, message: "Must be 10 digits" },
-                    maxLength: { value: 10, message: "Must be 10 digits" },
+                    minLength: {value: 10, message: "Must be 10 digits"},
+                    maxLength: {value: 10, message: "Must be 10 digits"},
                   })}
                 />
                 <TextField
@@ -231,8 +237,8 @@ export default function StudentForm() {
                   helperText={errors.personalDetails?.phoneNumber?.message}
                   {...register("personalDetails.phoneNumber", {
                     required: "Required",
-                    minLength: { value: 10, message: "Must be 10 digits" },
-                    maxLength: { value: 10, message: "Must be 10 digits" },
+                    minLength: {value: 10, message: "Must be 10 digits"},
+                    maxLength: {value: 10, message: "Must be 10 digits"},
                   })}
                 />
 
@@ -252,7 +258,7 @@ export default function StudentForm() {
                         return true;
                       },
                     }}
-                    render={({ field, fieldState: { error } }) => (
+                    render={({field, fieldState: {error}}) => (
                       <DatePicker
                         label="DOB*"
                         value={field.value ? dayjs(field.value) : null}
@@ -288,10 +294,10 @@ export default function StudentForm() {
                     name="personalDetails.gender"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Gender is required" }}
-                    render={({ field, fieldState: { error } }) => (
+                    rules={{required: "Gender is required"}}
+                    render={({field, fieldState: {error}}) => (
                       <FormControl
-                        sx={{ minWidth: 100 }}
+                        sx={{minWidth: 100}}
                         size="small"
                         error={!!error}
                         fullWidth
@@ -376,17 +382,17 @@ export default function StudentForm() {
             <Card.Header className="font-poppins text-lg font-medium">
               Course Details
             </Card.Header>
-            <Card.Body>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <Card.Body className="p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                 <div className="col-span-1 sm:col-span-2">
                   <Controller
                     name="courseDetails.mentor"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Required" }}
-                    render={({ field, fieldState: { error } }) => (
+                    rules={{required: "Required"}}
+                    render={({field, fieldState: {error}}) => (
                       <FormControl
-                        sx={{ minWidth: 100 }}
+                        sx={{minWidth: 100}}
                         size="small"
                         error={!!error}
                         fullWidth
@@ -420,10 +426,10 @@ export default function StudentForm() {
                     name="courseDetails.course"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Required" }}
-                    render={({ field, fieldState: { error } }) => (
+                    rules={{required: "Required"}}
+                    render={({field, fieldState: {error}}) => (
                       <FormControl
-                        sx={{ minWidth: 100 }}
+                        sx={{minWidth: 100}}
                         size="small"
                         error={!!error}
                         fullWidth
@@ -457,10 +463,10 @@ export default function StudentForm() {
                     name="courseDetails.duration"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Required" }}
-                    render={({ field, fieldState: { error } }) => (
+                    rules={{required: "Required"}}
+                    render={({field, fieldState: {error}}) => (
                       <FormControl
-                        sx={{ minWidth: 100 }}
+                        sx={{minWidth: 100}}
                         size="small"
                         error={!!error}
                         fullWidth
@@ -477,6 +483,43 @@ export default function StudentForm() {
                             <em>None</em>
                           </MenuItem>
                           {durations.map((option) => (
+                            <MenuItem key={option.id} value={option.id}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {error && (
+                          <FormHelperText>{error.message}</FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  />
+                </div>
+                <div className="col-span-1 sm:col-span-2">
+                  <Controller
+                    name="courseDetails.batch"
+                    control={control}
+                    defaultValue=""
+                    rules={{required: "Required"}}
+                    render={({field, fieldState: {error}}) => (
+                      <FormControl
+                        sx={{minWidth: 100}}
+                        size="small"
+                        error={!!error}
+                        fullWidth
+                      >
+                        <InputLabel id="batch-label">Batch</InputLabel>
+                        <Select
+                          {...field}
+                          value={field.value || ""}
+                          labelId="batch-label"
+                          id="batch-select"
+                          label="Batch"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {batch.map((option) => (
                             <MenuItem key={option.id} value={option.id}>
                               {option.label}
                             </MenuItem>

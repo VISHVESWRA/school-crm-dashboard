@@ -1,18 +1,18 @@
-import { useForm, Controller } from "react-hook-form";
-import { Col, Form, Row } from "react-bootstrap";
+import {useForm, Controller} from "react-hook-form";
+import {Col, Form, Row} from "react-bootstrap";
 // import { createUserApi } from "../../express/api/UsersApi";
-import { data, useNavigate, useParams } from "react-router-dom";
+import {data, useNavigate, useParams} from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   createUser,
   fetchUserById,
   fetchUsers,
   updateUser,
 } from "../../express/redux/UsersSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { createUserApi } from "../../express/api/UsersApi";
+import {useDispatch, useSelector} from "react-redux";
+import {createUserApi} from "../../express/api/UsersApi";
 import {
   TextField,
   FormControl,
@@ -27,7 +27,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 // import {
 //   FormControl,
 //   FormLabel,
@@ -42,12 +42,12 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 // } from "@mui/material";
 import InputFileUpload from "../../components/FileUpload";
 // import Image from 'react-bootstrap/Image';
-import { Image } from "primereact/image";
+import {Image} from "primereact/image";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function UsersForm() {
-  const { selectedUser, loading, error } = useSelector((state) => state.users);
+  const {selectedUser, loading, error} = useSelector((state) => state.users);
 
   const roles = [
     "Admin",
@@ -63,7 +63,7 @@ export default function UsersForm() {
     control,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     reset,
     watch,
   } = useForm({
@@ -84,7 +84,7 @@ export default function UsersForm() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const {id} = useParams();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -127,7 +127,7 @@ export default function UsersForm() {
     console.log(data);
 
     if (id) {
-      dispatch(updateUser({ id, data }));
+      dispatch(updateUser({id, data}));
       reset();
       navigate("/settings/usersList");
     } else {
@@ -191,6 +191,42 @@ export default function UsersForm() {
               Personal Details
             </Card.Header>
             <Card.Body className="px-5 py-4">
+              {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <TextField label="First Name" fullWidth size="small" />
+                </div>
+                <div>
+                  <TextField label="Last Name" fullWidth size="small" />
+                </div>
+                <div>
+                  <TextField label="Email" fullWidth size="small" />
+                </div>
+                <div>
+                  <FormControl fullWidth size="small">
+                    <InputLabel>Password</InputLabel>
+                    <OutlinedInput label="Password" type="password" />
+                  </FormControl>
+                </div>
+                <div>
+                  <TextField label="Phone Number" fullWidth size="small" />
+                </div>
+                <div>
+                  <Controller
+                    name="gender"
+                    control={control}
+                    render={({field}) => (
+                      <FormControl fullWidth size="small">
+                        <InputLabel>Gender</InputLabel>
+                        <Select {...field}>
+                          <MenuItem value="male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                        </Select>
+                      </FormControl>
+                    )}
+                  />
+                </div>
+              </div> */}
+
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div className="col-span-1 sm:col-span-2">
                   <TextField
@@ -227,6 +263,7 @@ export default function UsersForm() {
                     label="Email"
                     variant="outlined"
                     size="small"
+                    fullWidth
                     required
                     error={!!errors.email}
                     helperText={errors.email?.message}
@@ -240,7 +277,7 @@ export default function UsersForm() {
                   />
                 </div>
 
-                <div className="col-start-1 col-span-2">
+                <div className="col-start-1 col-span-1 sm:col-span-2">
                   <FormControl
                     variant="outlined"
                     size="small"
@@ -259,7 +296,7 @@ export default function UsersForm() {
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
                       label="Password"
-                      {...register("password", { required: "Required" })}
+                      {...register("password", {required: "Required"})}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -283,7 +320,7 @@ export default function UsersForm() {
                     )}
                   </FormControl>
                 </div>
-                {/* Phone Number */}
+
                 <div className="col-span-1 sm:col-span-2">
                   <TextField
                     label="Phone Number"
@@ -329,13 +366,12 @@ export default function UsersForm() {
                   )}
                 /> */}
 
-                {/* Gender */}
                 <div className="col-span-1 sm:col-span-2">
                   <Controller
                     name="gender"
                     control={control}
-                    rules={{ required: "Gender is required" }}
-                    render={({ field }) => (
+                    rules={{required: "Gender is required"}}
+                    render={({field}) => (
                       <FormControl
                         fullWidth
                         size="small"
@@ -361,13 +397,12 @@ export default function UsersForm() {
                   />
                 </div>
 
-                {/* Mentor */}
                 <div className="col-span-1 sm:col-span-2">
                   <Controller
                     name="role"
                     control={control}
-                    rules={{ required: "Required" }}
-                    render={({ field }) => (
+                    rules={{required: "Required"}}
+                    render={({field}) => (
                       <FormControl
                         fullWidth
                         size="small"
