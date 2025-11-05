@@ -7,10 +7,12 @@ import TextField from "@mui/material/TextField";
 import toast from "react-hot-toast";
 import { ResetApi } from "../../express/api/LoginApi";
 import {
+  clearUser,
   clearVerifyError,
   resetPassword,
   verifyEmail,
 } from "../../express/redux/VerifyEmail";
+import { Spinner } from "react-bootstrap";
 
 export default function ResetPage() {
   const {
@@ -28,8 +30,8 @@ export default function ResetPage() {
   useEffect(() => {
     if (error) {
       toast.error(error, { duration: 1000 });
+      dispatch(clearVerifyError());
     }
-    dispatch(clearVerifyError());
   }, [error, dispatch]);
 
   useEffect(() => {
@@ -41,6 +43,16 @@ export default function ResetPage() {
       reset(data);
     }
   }, [reset, getUser]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-600">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   const onSubmit = async (data) => {
     try {
@@ -121,7 +133,7 @@ export default function ResetPage() {
               </h2> */}
               <h2 className="text-xl font-semibold text-gray-800 relative mb-4">
                 <span className="absolute -top-3 left-0 w-8 h-1 bg-[#8B0F4B] rounded-4xl"></span>
-                Sign Up
+                {getUser ? "Reset Password" : "Verify Email"}
               </h2>
 
               <form
@@ -174,12 +186,13 @@ export default function ResetPage() {
 
                   <div className="flex items-center justify-between pt-3">
                     <Link
-                      href="#"
                       to="/login"
                       underline="hover"
                       className="text-sm"
+                      // onClick={() => dispatch({ type: "verify/clearUser" })}
+                      onClick={() => dispatch(clearUser())}
                     >
-                      Sigin
+                      Sig In
                     </Link>
                     <Button
                       size="md"

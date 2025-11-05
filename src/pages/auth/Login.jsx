@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Spinner } from "react-bootstrap";
 
 export default function LoginPage() {
   const {
@@ -41,6 +42,16 @@ export default function LoginPage() {
       navigate("/");
     }
   }, [user, navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-600">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   const onSubmit = (data) => {
     dispatch(LoginUser(data));
@@ -172,12 +183,7 @@ export default function LoginPage() {
                   </FormControl>
 
                   <div className="flex items-center justify-between pt-3">
-                    <Link
-                      href="#"
-                      to="/reset"
-                      underline="hover"
-                      className="text-sm"
-                    >
+                    <Link to="/reset" underline="hover" className="text-sm">
                       Forgot Password
                     </Link>
                     <Button
@@ -214,14 +220,14 @@ export default function LoginPage() {
               </div> */}
 
               {/* Mobile-only forgot password for very small screens */}
-              <div className="sm:hidden mt-2 text-center">
+              {/* <div className="sm:hidden mt-2 text-center">
                 <a
                   href="#"
                   className="text-[#C72571] hover:text-[#8B0F4B] font-medium text-xs transition-colors duration-200"
                 >
                   Forgot?
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

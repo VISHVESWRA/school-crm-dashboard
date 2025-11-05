@@ -33,9 +33,13 @@ const verifySlice = createSlice({
     clearVerifyError: (state) => {
       state.error = null;
     },
+    clearUser: (state) => {
+      state.getUser = null;
+    },
   },
   extraReducers: (builder) => {
     builder
+      // Verify Email
       .addCase(verifyEmail.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -48,9 +52,24 @@ const verifySlice = createSlice({
       .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message;
+      })
+
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.getUser = null;
+        state.error = null;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message;
       });
   },
 });
 
-export const { clearVerifyError } = verifySlice.actions;
+export const { clearVerifyError, clearUser } = verifySlice.actions;
 export default verifySlice.reducer;

@@ -6,8 +6,13 @@ export const LoginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await LoginApi(credentials);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.token);
+      console.log("login response", response);
+
+      const { token, user } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", user.role);
+      localStorage.setItem("user", JSON.stringify(user));
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -17,14 +22,14 @@ export const LoginUser = createAsyncThunk(
   }
 );
 
-const savedUser = JSON.parse(localStorage.getItem("user"));
+const savedUser = JSON.parse(localStorage.getItem("user") || "null");
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: savedUser || null,
     token: localStorage.getItem("token") || null,
-    role: savedUser?.role || null,
+    role: localStorage.getItem("role") || null,
     loading: false,
     error: null,
   },
@@ -34,6 +39,7 @@ const authSlice = createSlice({
       state.token = null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("role");
     },
   },
   extraReducers: (builder) => {
@@ -41,14 +47,12 @@ const authSlice = createSlice({
       .addCase(LoginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.role = null;
       })
       .addCase(LoginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
         state.user = action.payload.user;
         state.role = action.payload.user?.role || null;
-        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(LoginUser.rejected, (state, action) => {
         state.loading = false;
