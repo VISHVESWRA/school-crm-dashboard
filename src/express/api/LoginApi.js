@@ -1,16 +1,20 @@
 import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:9900/api",
-});
+// const axiosInstance = axios.create({
+//   baseURL: "http://localhost:9900/api",
+// });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
 
 export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
 export const VerifyEmailApi = (data) =>

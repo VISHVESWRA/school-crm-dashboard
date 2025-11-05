@@ -18,6 +18,9 @@ export default function UsersList() {
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
 
+  console.log(list);
+  
+
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 

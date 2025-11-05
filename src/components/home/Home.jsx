@@ -1,8 +1,8 @@
-import { PiStudentFill } from "react-icons/pi";
-import { GiTeacher } from "react-icons/gi";
-import { FaIndianRupeeSign } from "react-icons/fa6";
-import { FaPersonSwimming } from "react-icons/fa6";
-import { BsPersonSlash } from "react-icons/bs";
+import {PiStudentFill} from "react-icons/pi";
+import {GiTeacher} from "react-icons/gi";
+import {FaIndianRupeeSign} from "react-icons/fa6";
+import {FaPersonSwimming} from "react-icons/fa6";
+import {BsPersonSlash} from "react-icons/bs";
 import {
   Users,
   TrendingUp,
@@ -11,23 +11,43 @@ import {
   FileSearch2,
   ShieldUser,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getTotalLength } from "../../express/api/GetDataApi";
+import {useEffect, useState} from "react";
+import {getTotalLength} from "../../express/api/GetDataApi";
+import {Spinner} from "react-bootstrap";
 
 export default function Home() {
-  const [stats, setStats] = useState({ students: 0, courses: 0, users: 0 });
+  const [stats, setStats] = useState({students: 0, courses: 0, users: 0});
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { data } = await getTotalLength();
-        setStats(data);
-      } catch (error) {
-        console.error("Error fetching dashboard stats:", error);
+        setError("");
+        const res = await getTotalLength();
+        setStats(res.data);
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+        setError(
+          err.response?.data?.message || err.message || "Something went wrong"
+        );
       }
     };
     fetchStats();
   }, []);
+
+  // if (!stats && !error) return <Spinner />;
+
+  // if (error) return <div className="text-red-500">{error}</div>;
+
+  if (!stats) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-600">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   return (
     <>
