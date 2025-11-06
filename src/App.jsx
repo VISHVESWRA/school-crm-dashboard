@@ -1,5 +1,5 @@
 import "./App.css";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UsersList from "./pages/users/UsersList";
 import UsersForm from "./pages/users/UsersForm";
 import Home from "./components/home/Home";
@@ -10,8 +10,11 @@ import CourseList from "./pages/course/CourseList";
 import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import ResetPage from "./pages/auth/Reset";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { checkTokenExpiration } from "./services/CheckTokenValidity.js";
 
 function App() {
   // const [theme, setTheme] = useState(() => {
@@ -22,6 +25,11 @@ function App() {
   //   document.documentElement.setAttribute("data-bs-theme", theme);
   //   localStorage.setItem("theme", theme);
   // }, [theme]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    checkTokenExpiration(dispatch);
+  }, [dispatch]);
 
   return (
     <>

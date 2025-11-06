@@ -1,8 +1,8 @@
-import {PiStudentFill} from "react-icons/pi";
-import {GiTeacher} from "react-icons/gi";
-import {FaIndianRupeeSign} from "react-icons/fa6";
-import {FaPersonSwimming} from "react-icons/fa6";
-import {BsPersonSlash} from "react-icons/bs";
+import { PiStudentFill } from "react-icons/pi";
+import { GiTeacher } from "react-icons/gi";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+import { FaPersonSwimming } from "react-icons/fa6";
+import { BsPersonSlash } from "react-icons/bs";
 import {
   Users,
   TrendingUp,
@@ -11,12 +11,12 @@ import {
   FileSearch2,
   ShieldUser,
 } from "lucide-react";
-import {useEffect, useState} from "react";
-import {getTotalLength} from "../../express/api/GetDataApi";
-import {Spinner} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { getTotalLength } from "../../express/api/GetDataApi";
+import { Spinner } from "react-bootstrap";
 
 export default function Home() {
-  const [stats, setStats] = useState({students: 0, courses: 0, users: 0});
+  const [stats, setStats] = useState({ students: 0, courses: 0, users: 0 });
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function Home() {
       try {
         setError("");
         const res = await getTotalLength();
-        setStats(res.data);
+        setStats(res?.data);
       } catch (err) {
         console.error("Dashboard fetch error:", err);
         setError(
