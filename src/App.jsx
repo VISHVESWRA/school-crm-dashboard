@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import UsersList from "./pages/users/UsersList";
 import UsersForm from "./pages/users/UsersForm";
 import Home from "./components/home/Home";
@@ -10,11 +10,12 @@ import CourseList from "./pages/course/CourseList";
 import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
 import StudentList from "./pages/students/StudentList";
-import { Toaster } from "react-hot-toast";
+import {Toaster} from "react-hot-toast";
 import ResetPage from "./pages/auth/Reset";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { checkTokenExpiration } from "./services/CheckTokenValidity.js";
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import {checkTokenExpiration} from "./services/CheckTokenValidity.js";
+import AttendanceSystem from "./Attendance.jsx";
 
 function App() {
   // const [theme, setTheme] = useState(() => {
@@ -58,6 +59,7 @@ function App() {
               <Route path="studentForm" element={<StudentForm />} />
               <Route path="studentForm/:id" element={<StudentForm />} />
               <Route path="studentList" element={<StudentList />} />
+              <Route path="attendance" element={<AttendanceSystem />} />
             </Route>
           </Route>
         </Routes>

@@ -71,8 +71,8 @@ export const menuItems = [
     icon: <HelpCircle size={20} />,
     roles: ["superAdmin", "admin"],
     dropdown: [
-      { name: "New Enquiry", path: "/", roles: ["superAdmin", "admin"] },
-      { name: "Manage Enquiry", path: "/", roles: ["superAdmin", "admin"] },
+      {name: "New Enquiry", path: "/", roles: ["superAdmin", "admin"]},
+      {name: "Manage Enquiry", path: "/", roles: ["superAdmin", "admin"]},
     ],
   },
   {
@@ -84,7 +84,7 @@ export const menuItems = [
         path: "/",
         roles: ["superAdmin", "admin"],
       },
-      { name: "Manage Enrollment", path: "/", roles: ["superAdmin", "admin"] },
+      {name: "Manage Enrollment", path: "/", roles: ["superAdmin", "admin"]},
     ],
   },
   {
@@ -99,7 +99,7 @@ export const menuItems = [
       },
       {
         name: "View Attendance",
-        path: "/",
+        path: "/settings/attendance",
         roles: ["superAdmin", "admin"],
       },
     ],

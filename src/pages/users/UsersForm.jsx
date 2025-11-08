@@ -111,6 +111,7 @@ export default function UsersForm() {
         lastName: selectedUser.lastName,
         email: selectedUser.email,
         phoneNumber: selectedUser.phoneNumber,
+        gender: selectedUser.gender,
         password: selectedUser.password,
         dateOfJoin: selectedUser.dateOfJoin
           ? new Date(selectedUser.dateOfJoin).toISOString().split("T")[0]
@@ -402,26 +403,35 @@ export default function UsersForm() {
                     name="role"
                     control={control}
                     rules={{required: "Required"}}
-                    render={({field}) => (
+                    render={({field, fieldState: {error}}) => (
                       <FormControl
                         fullWidth
                         size="small"
-                        error={!!errors.mentor}
+                        error={!!error}
+                        sx={{minWidth: 100}}
                       >
                         <InputLabel id="mentor-label">Role</InputLabel>
                         <Select
                           labelId="mentor-label"
                           label="Role"
                           value={field.value || ""}
-                          onChange={field.onChange}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            setTimeout(() => field.onChange(value), 0);
+                          }}
                         >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
                           {roles.map((role, index) => (
                             <MenuItem key={index} value={role || ""}>
                               {role}
                             </MenuItem>
                           ))}
                         </Select>
-                        <FormHelperText>{errors.role?.message}</FormHelperText>
+                        {error && (
+                          <FormHelperText>{error.message}</FormHelperText>
+                        )}
                       </FormControl>
                     )}
                   />

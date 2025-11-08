@@ -1,25 +1,22 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Form } from "react-bootstrap";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {Form} from "react-bootstrap";
+import {IoMdAddCircleOutline} from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import {FiEdit, FiTrash2} from "react-icons/fi";
 import Card from "react-bootstrap/Card";
-import { deleteUser, fetchUsers } from "../../express/redux/UsersSlice";
+import {deleteUser, fetchUsers} from "../../express/redux/UsersSlice";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
 export default function UsersList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { list, loading, error } = useSelector((state) => state.users);
+  const {list, loading, error} = useSelector((state) => state.users);
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
-
-  console.log(list);
-  
 
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
@@ -132,7 +129,7 @@ export default function UsersList() {
               Prev
             </button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+            {Array.from({length: totalPages}, (_, i) => i + 1).map((num) => (
               <button
                 key={num}
                 className={`px-3 py-1 border rounded ${
@@ -167,7 +164,10 @@ export default function UsersList() {
               </thead>
               <tbody>
                 {currentRows.map((user, idx) => (
-                  <tr key={user._id} className="hover:bg-gray-50 bg-white text-sm">
+                  <tr
+                    key={user._id}
+                    className="hover:bg-gray-50 bg-white text-sm"
+                  >
                     <td className="border px-4 py-2 text-center">
                       {indexOfFirstRow + idx + 1}
                     </td>

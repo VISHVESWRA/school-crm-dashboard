@@ -95,8 +95,9 @@ export default function StudentForm() {
       },
       courseDetails: {
         course: selectedStudent?.courseDetails?.course || "",
-        mentor: selectedStudent?.courseDetails?.mentor || "",
+        mentor: selectedStudent?.courseDetails?.mentor || {id: "", name: ""},
         duration: selectedStudent?.courseDetails?.duration || "",
+        batch: selectedStudent?.courseDetails?.batch || "",
       },
     });
   }, [selectedStudent, reset]);
@@ -107,6 +108,8 @@ export default function StudentForm() {
   }, [dispatch]);
 
   const onSubmit = async (data) => {
+    console.log(data);
+
     if (error) {
       toast.error(error);
       return;
@@ -223,8 +226,6 @@ export default function StudentForm() {
                   helperText={errors.personalDetails?.regNumber?.message}
                   {...register("personalDetails.regNumber", {
                     required: "Required",
-                    minLength: {value: 10, message: "Must be 10 digits"},
-                    maxLength: {value: 10, message: "Must be 10 digits"},
                   })}
                 />
                 <TextField
@@ -385,25 +386,78 @@ export default function StudentForm() {
             <Card.Body className="p-4">
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                 <div className="col-span-1 sm:col-span-2">
-                  <Controller
+                  {/* <Controller
                     name="courseDetails.mentor"
                     control={control}
-                    defaultValue=""
+                    defaultValue={{id: "", name: ""}}
                     rules={{required: "Required"}}
                     render={({field, fieldState: {error}}) => (
                       <FormControl
-                        sx={{minWidth: 100}}
+                        fullWidth
                         size="small"
                         error={!!error}
-                        fullWidth
+                        sx={{minWidth: 100}}
                       >
-                        <InputLabel id="gender-label">Mentor</InputLabel>
+                        <InputLabel id="mentor-label">Mentor</InputLabel>
                         <Select
-                          {...field}
-                          value={field.value || ""}
-                          labelId="gender-label"
-                          id="gender-select"
-                          label="Gender"
+                          labelId="mentor-label"
+                          value={field.value.id || ""}
+                          label="Mentor"
+                          onChange={(e) => {
+                            const selected = users.find(
+                              (u) => u._id === e.target.value
+                            );
+                            field.onChange({
+                              id: selected._id || "",
+                              name:
+                                `${selected.firstName} ${selected.lastName}` ||
+                                "",
+                            });
+                          }}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {users.map((option) => (
+                            <MenuItem key={option._id} value={option._id}>
+                              {option.firstName} {option.lastName}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {error && (
+                          <FormHelperText>{error.message}</FormHelperText>
+                        )}
+                      </FormControl>
+                    )}
+                  /> */}
+                  <Controller
+                    name="courseDetails.mentor"
+                    control={control}
+                    defaultValue={{id: "", name: ""}}
+                    rules={{required: "Mentor is required"}}
+                    render={({field, fieldState: {error}}) => (
+                      <FormControl
+                        fullWidth
+                        size="small"
+                        error={!!error}
+                        sx={{minWidth: 100}}
+                      >
+                        <InputLabel id="mentor-label">Mentor</InputLabel>
+                        <Select
+                          labelId="mentor-label"
+                          value={field?.value?.id || ""}
+                          label="Mentor"
+                          onChange={(e) => {
+                            const selected = users.find(
+                              (u) => u._id === e.target.value
+                            );
+                            field.onChange({
+                              id: selected?._id || "",
+                              name: `${selected?.firstName || ""} ${
+                                selected?.lastName || ""
+                              }`,
+                            });
+                          }}
                         >
                           <MenuItem value="">
                             <em>None</em>
@@ -471,13 +525,13 @@ export default function StudentForm() {
                         error={!!error}
                         fullWidth
                       >
-                        <InputLabel id="gender-label">Duration</InputLabel>
+                        <InputLabel id="duration-label">Duration</InputLabel>
                         <Select
                           {...field}
                           value={field.value || ""}
-                          labelId="gender-label"
-                          id="gender-select"
-                          label="Gender"
+                          labelId="duration-label"
+                          id="duration-select"
+                          label="Duration"
                         >
                           <MenuItem value="">
                             <em>None</em>
