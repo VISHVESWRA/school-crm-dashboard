@@ -128,7 +128,7 @@ const LoginForm = ({
         {/* Actions */}
         <div className="flex items-center justify-between pt-3">
           <Link
-            to="/reset"
+            to="/forgot-password"
             className="text-sm text-[#C72571] hover:text-[#8B0F4B] transition-colors"
           >
             Forgot Password
@@ -188,7 +188,8 @@ export default function LoginPage() {
   // Redirect if user is logged in
   useEffect(() => {
     if (user) {
-      navigate("/");
+      toasts.success("Login successful");
+      navigate("/", { replace: true }); // ✅ fix back issue
     }
   }, [user, navigate]);
 

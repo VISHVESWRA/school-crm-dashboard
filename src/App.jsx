@@ -41,7 +41,7 @@ function App() {
           <Route path="/reset" element={<ResetPage />} />
 
           {/* Protected Routes */}
-          <Route element={<PrivateRoute />}>
+          <Route element={<PrivateRoute role={"superadmin"} />}>
             <Route path="/" element={<SideNavBar />}>
               <Route index element={<Home />} />
 

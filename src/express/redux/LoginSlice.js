@@ -8,18 +8,19 @@ export const LoginUser = createAsyncThunk(
       const response = await LoginApi(credentials);
       console.log("login response", response);
 
-      const { token, user } = response.data;
+      const { accessToken, refreshToken, user } = response.data;
 
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("role", user.role);
       localStorage.setItem("user", JSON.stringify(user));
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Login failed. Please try again."
+        error.response?.data?.message || "Login failed. Please try again.",
       );
     }
-  }
+  },
 );
 
 const savedUser = JSON.parse(localStorage.getItem("user") || "null");
@@ -50,7 +51,7 @@ const authSlice = createSlice({
       })
       .addCase(LoginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token;
+        state.token = action.payload.accessToken;
         state.user = action.payload.user;
         state.role = action.payload.user?.role || null;
       })

@@ -1,6 +1,17 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
+export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
+export const VerifyEmailApi = (data) =>
+  axiosInstance.post("/auth/verify", data);
+export const ResetApi = (data) => axiosInstance.post("/auth/reset", data);
+
+export const ForgotPasswordApi = (data) =>
+  axiosInstance.post("/auth/forgot-password", data);
+
+export const ResetPasswordApi = (token, data) =>
+  axiosInstance.post(`/auth/reset-password/${token}`, data);
+
 // const axiosInstance = axios.create({
 //   baseURL: "http://localhost:9900/api",
 // });
@@ -15,11 +26,6 @@ import axiosInstance from "./axiosInstance";
 //   },
 //   (error) => Promise.reject(error)
 // );
-
-export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
-export const VerifyEmailApi = (data) =>
-  axiosInstance.post("/auth/verify", data);
-export const ResetApi = (data) => axiosInstance.post("/auth/reset", data);
 
 // const URL = "http://localhost:9900/api/auth/login";
 
