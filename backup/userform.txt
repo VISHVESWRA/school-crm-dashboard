@@ -315,7 +315,7 @@
                 className="mx-2"
                 type="button"
                 onClick={() => {
-                  navigate("/settings/usersList");
+                  navigate("/usersList");
                   setBreadcrumbs([]);
                 }}
               >

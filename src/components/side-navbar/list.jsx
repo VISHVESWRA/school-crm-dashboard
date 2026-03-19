@@ -32,7 +32,7 @@ export const menuItems = [
     dropdown: [
       {
         name: "All Users",
-        path: "/settings/usersList",
+        path: "/users",
         roles: ["superadmin", "admin"],
       },
       // { name: "Add Users", path: "/users/add", roles: ["superadmin", "admin"]  },
@@ -46,7 +46,7 @@ export const menuItems = [
     dropdown: [
       {
         name: "All Courses",
-        path: "/settings/courseList",
+        path: "/courseList",
         roles: ["superadmin", "admin", "staff"],
       },
       // { name: "Add Course", path: "/courses/add", roles: ["superadmin", "admin"]  },
@@ -60,7 +60,7 @@ export const menuItems = [
     dropdown: [
       {
         name: "All Students",
-        path: "/settings/studentList",
+        path: "/studentList",
         roles: ["superadmin", "admin", "staff"],
       },
       // { name: "Add Student", path: "/", roles: ["superadmin", "admin"] },
@@ -99,7 +99,7 @@ export const menuItems = [
       },
       {
         name: "View Attendance",
-        path: "/settings/attendance",
+        path: "/attendance",
         roles: ["superadmin", "admin"],
       },
     ],

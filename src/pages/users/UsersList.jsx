@@ -1,19 +1,19 @@
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {Form} from "react-bootstrap";
-import {IoMdAddCircleOutline} from "react-icons/io";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Form } from "react-bootstrap";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
-import {FiEdit, FiTrash2} from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Card from "react-bootstrap/Card";
-import {deleteUser, fetchUsers} from "../../express/redux/UsersSlice";
+import { deleteUser, fetchUsers } from "../../express/redux/UsersSlice";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
 export default function UsersList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {list, loading, error} = useSelector((state) => state.users);
+  const { list, loading, error } = useSelector((state) => state.users);
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
@@ -36,7 +36,7 @@ export default function UsersList() {
       label: "Add",
       icon: <AddCircleOutlineRoundedIcon fontSize="small" />,
       onClick: () => {
-        navigate("/settings/usersForm");
+        navigate("/users/new");
       },
     },
   ];
@@ -46,12 +46,12 @@ export default function UsersList() {
   }, [dispatch]);
 
   const handleEdit = (user) => {
-    navigate(`/settings/usersForm/${user._id}`);
+    navigate(`/users/${user._id}`);
   };
 
   const handleDelete = (id) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this user?"
+      "Are you sure you want to delete this user?",
     );
     if (!confirmed) return;
 
@@ -129,7 +129,7 @@ export default function UsersList() {
               Prev
             </button>
 
-            {Array.from({length: totalPages}, (_, i) => i + 1).map((num) => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <button
                 key={num}
                 className={`px-3 py-1 border rounded ${

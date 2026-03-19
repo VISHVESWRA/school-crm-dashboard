@@ -1,25 +1,25 @@
-import {DataTable} from "primereact/datatable";
-import {Button} from "primereact/button";
-import {Column} from "primereact/column";
-import {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchUsers} from "../../express/redux/UsersSlice";
+import { DataTable } from "primereact/datatable";
+import { Button } from "primereact/button";
+import { Column } from "primereact/column";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../express/redux/UsersSlice";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
-import {useNavigate} from "react-router-dom";
-import {fetchStudents} from "../../express/redux/StudentsSlice";
-import {Spinner} from "react-bootstrap";
-import {FiEdit, FiTrash2} from "react-icons/fi";
-import {getTotalLength} from "../../express/api/GetDataApi";
+import { useNavigate } from "react-router-dom";
+import { fetchStudents } from "../../express/redux/StudentsSlice";
+import { Spinner } from "react-bootstrap";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { getTotalLength } from "../../express/api/GetDataApi";
 
 export default function StudentList() {
-  const [stats, setStats] = useState({students: 0, courses: 0, users: 0});
+  const [stats, setStats] = useState({ students: 0, courses: 0, users: 0 });
   const hasAlerted = useRef(false);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const {data} = await getTotalLength();
+        const { data } = await getTotalLength();
         setStats(data);
 
         // Use useRef for prevent double render on strict mode
@@ -39,7 +39,7 @@ export default function StudentList() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(null);
-  const {list, loading, error} = useSelector((state) => state.students);
+  const { list, loading, error } = useSelector((state) => state.students);
   const [rowClick, setRowClick] = useState(false);
 
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
@@ -60,7 +60,7 @@ export default function StudentList() {
       label: "Add",
       icon: <AddCircleOutlineRoundedIcon fontSize="small" />,
       onClick: () => {
-        navigate("/settings/studentForm");
+        navigate("/studentForm");
       },
     },
   ];
@@ -75,7 +75,7 @@ export default function StudentList() {
 
   const actionTemplate = (nodeData) => {
     const handleEdit = () => {
-      navigate(`/settings/studentForm/${nodeData._id}`);
+      navigate(`/studentForm/${nodeData._id}`);
     };
 
     return (
@@ -122,7 +122,7 @@ export default function StudentList() {
           paginator
           rows={5}
           rowsPerPageOptions={[5, 10, 25, 50]}
-          tableStyle={{minWidth: "50rem"}}
+          tableStyle={{ minWidth: "50rem" }}
           paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
           paginatorLeft={paginatorLeft}
@@ -133,27 +133,27 @@ export default function StudentList() {
         >
           <Column
             selectionMode="multiple"
-            headerStyle={{width: "3rem"}}
+            headerStyle={{ width: "3rem" }}
           ></Column>
           <Column
             field="personalDetails.firstName"
             header="First Name"
-            style={{width: "25%"}}
+            style={{ width: "25%" }}
           ></Column>
           <Column
             field="personalDetails.lastName"
             header="Last Name"
-            style={{width: "25%"}}
+            style={{ width: "25%" }}
           ></Column>
           <Column
             field="courseDetails.mentor.name"
             header="Mentor"
-            style={{width: "25%"}}
+            style={{ width: "25%" }}
           ></Column>
           <Column
             field="courseDetails.duration"
             header="Duration"
-            style={{width: "25%"}}
+            style={{ width: "25%" }}
           ></Column>
           <Column body={actionTemplate} headerClassName="w-10rem" />
         </DataTable>

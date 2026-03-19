@@ -21,7 +21,7 @@ import {
 
 export default function CourseForm() {
   const { selectedCourse, loading, error } = useSelector(
-    (state) => state.courses
+    (state) => state.courses,
   );
   const usersList = useSelector((state) => state.users);
   const users = usersList.list.filter((user) => user.role === "Staff");
@@ -71,11 +71,11 @@ export default function CourseForm() {
     if (id) {
       dispatch(updateCourse({ id, data }));
       reset();
-      navigate("/settings/courseList");
+      navigate("/courseList");
     } else {
       dispatch(createCourse(data));
       reset();
-      navigate("/settings/courseList");
+      navigate("/courseList");
     }
   };
 
@@ -101,7 +101,7 @@ export default function CourseForm() {
     {
       label: "Cancel",
       onClick: () => {
-        navigate("/settings/courseList");
+        navigate("/courseList");
       },
     },
   ];

@@ -13,17 +13,27 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { menuItems, notifications } from "./list";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SideNavBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
   const { user } = useSelector((state) => state.auth);
+  const role = user?.role;
+  const navigate = useNavigate();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // const [settingsOpen, setSettingsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  useEffect(() => {
+    setOpenMenu(null);
+    setUserMenuOpen(false);
+    setNotificationsOpen(false);
+  }, [location.pathname]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -42,7 +52,16 @@ const SideNavBar = () => {
   };
 
   const handleFirstLetter = (data) => {
-    return data.name[0];
+    return data?.name?.[0]?.toUpperCase() || "V";
+  };
+
+  const toggleMenu = (index) => {
+    setOpenMenu((prev) => (prev === index ? null : index));
+  };
+
+  const handleLogout = () => {
+    dispatch(Logout());
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -79,11 +98,11 @@ const SideNavBar = () => {
           <nav className="flex-1 px-2 py-6 space-y-2">
             {/* overflow-y-auto */}
             {menuItems
-              .filter((item) => !item.roles || item.roles.includes(user.role))
+              .filter((item) => !item.roles || item.roles.includes(role))
               .map((item, index) => {
                 const filteredDropdown = item.dropdown
                   ? item.dropdown.filter(
-                      (sub) => !sub.roles || sub.roles.includes(user.role)
+                      (sub) => !sub.roles || sub.roles.includes(role),
                     )
                   : null;
 
@@ -93,12 +112,9 @@ const SideNavBar = () => {
                 }
 
                 const isActive =
-                  (item.path === "/" && location.pathname === "/") ||
-                  (item.path !== "/" &&
-                    location.pathname.startsWith(item.path)) ||
-                  filteredDropdown?.some(
-                    (sub) => location.pathname === sub.path
-                  );
+                  location.pathname === item.path ||
+                  location.pathname.startsWith(item.path + "/") ||
+                  item.dropdown?.some((sub) => location.pathname === sub.path);
                 return (
                   <div key={index}>
                     {/* Main Item */}
@@ -111,10 +127,7 @@ const SideNavBar = () => {
                       : "text-white hover:bg-pink-400 hover:text-black"
                   }
                 `}
-                      onClick={() =>
-                        item.dropdown &&
-                        setOpenMenu(openMenu === index ? null : index)
-                      }
+                      onClick={() => item.dropdown && toggleMenu(index)}
                     >
                       <Link
                         key={index}
@@ -305,23 +318,23 @@ const SideNavBar = () => {
 
                 {/* User Dropdown Menu */}
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 z-50">
+                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-2xl border border-gray-100 z-50">
                     {/* User Info Header */}
                     <div className="p-4 border-b border-gray-100">
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-between p-1">
                         <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center">
                           <span className="text-white font-semibold">
                             {handleFirstLetter(user)}
                           </span>
                         </div>
                         <div className="ml-3">
-                          <p className="text-sm font-semibold text-gray-900">
+                          <p className="mb-0 text-sm font-semibold text-gray-900">
                             {user.name}
                           </p>
                           {/* <p className="text-xs text-gray-500">
                             john.doe@company.com
                           </p> */}
-                          <span className="inline-block px-2 py-1 mt-1 text-xs font-medium bg-pink-100 text-pink-700 rounded-full">
+                          <span className="inline-block px-2 py-1 text-xs font-medium bg-pink-100 text-pink-700 rounded-full">
                             {user.role}
                           </span>
                         </div>
@@ -331,7 +344,7 @@ const SideNavBar = () => {
                     {/* Menu Items */}
                     <div className="py-2">
                       <Link
-                        href="#"
+                        to="#"
                         className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
@@ -376,7 +389,7 @@ const SideNavBar = () => {
                     <div className="border-t border-gray-100 py-2">
                       <button
                         className="w-full flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
-                        onClick={() => dispatch(Logout())}
+                        onClick={() => handleLogout()}
                       >
                         <LogOut className="w-4 h-4 mr-3" />
                         Sign Out

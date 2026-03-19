@@ -22,6 +22,7 @@ import PrivateRoute from "./redux/authRoutes";
 
 // Services
 import { checkTokenExpiration } from "./services/CheckTokenValidity.js";
+import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/reset" element={<ResetPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
           {/* Protected Routes */}
           <Route element={<PrivateRoute role={"superadmin"} />}>

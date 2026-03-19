@@ -15,3 +15,6 @@ my-app/
 │
 ├── .eslintrc.js         # Linting configuration
 ├── package.json         # Project dependencies & scripts
+
+
+Enquiry (Lead) → Follow-up → Convert → Enrollment → Payment
