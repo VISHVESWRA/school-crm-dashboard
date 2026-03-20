@@ -34,13 +34,13 @@ export default function StudentList() {
     fetchStats();
   }, []);
 
-  const [customers, setCustomers] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(null);
   const { list, loading, error } = useSelector((state) => state.students);
-  const [rowClick, setRowClick] = useState(false);
+  // const [customers, setCustomers] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // const [rowClick, setRowClick] = useState(false);
 
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
   const paginatorRight = <Button type="button" icon="pi pi-download" text />;
