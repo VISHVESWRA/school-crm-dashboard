@@ -67,11 +67,11 @@ export default function CourseForm() {
     if (id) {
       dispatch(updateCourse({ id, data }));
       reset();
-      navigate("/courseList");
+      navigate("/courses");
     } else {
       dispatch(createCourse(data));
       reset();
-      navigate("/courseList");
+      navigate("/courses");
     }
   };
 
@@ -82,7 +82,7 @@ export default function CourseForm() {
     },
     {
       label: "List",
-      href: "././courseList",
+      href: "../courses",
     },
     {
       label: "Course Form",
@@ -97,7 +97,7 @@ export default function CourseForm() {
     {
       label: "Cancel",
       onClick: () => {
-        navigate("/courseList");
+        navigate("/courses");
       },
     },
   ];

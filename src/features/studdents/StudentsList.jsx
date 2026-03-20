@@ -60,7 +60,7 @@ export default function StudentList() {
       label: "Add",
       icon: <AddCircleOutlineRoundedIcon fontSize="small" />,
       onClick: () => {
-        navigate("/studentForm");
+        navigate("/student/new");
       },
     },
   ];
@@ -75,7 +75,7 @@ export default function StudentList() {
 
   const actionTemplate = (nodeData) => {
     const handleEdit = () => {
-      navigate(`/studentForm/${nodeData._id}`);
+      navigate(`/students/${nodeData._id}`);
     };
 
     return (

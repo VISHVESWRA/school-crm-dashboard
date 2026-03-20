@@ -37,7 +37,7 @@ export default function CourseList() {
       label: "Add",
       icon: <AddCircleOutlineRoundedIcon fontSize="small" />,
       onClick: () => {
-        navigate("/courseForm");
+        navigate("/courses/new");
       },
     },
   ];
@@ -52,7 +52,7 @@ export default function CourseList() {
 
   const actionTemplate = (nodeData) => {
     const handleEdit = () => {
-      navigate(`/courseForm/${nodeData._id}`);
+      navigate(`/courses/${nodeData._id}`);
     };
 
     return (

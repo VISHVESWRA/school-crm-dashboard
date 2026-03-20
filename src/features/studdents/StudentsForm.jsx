@@ -130,7 +130,7 @@ export default function StudentForm() {
     },
     {
       label: "List",
-      href: "././studentList",
+      href: "../students",
     },
     {
       label: "Student Form",
@@ -145,7 +145,7 @@ export default function StudentForm() {
     {
       label: "Cancel",
       onClick: () => {
-        navigate("/studentList");
+        navigate("/students");
         // setBreadcrumbs([]);
       },
     },

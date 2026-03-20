@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import toast from "react-hot-toast";
-import { ResetApi } from "../../api/LoginApi.js";
+import { ResetApi } from "../../features/auth/LoginApi.js";
 import {
   clearUser,
   clearVerifyError,
