@@ -22,7 +22,7 @@
 // };
 
 import { jwtDecode } from "jwt-decode";
-import { Logout } from "../express/redux/LoginSlice";
+import { Logout } from "../features/auth/LoginSlice.js";
 import toasts from "react-hot-toast";
 
 export const checkTokenExpiration = (dispatch) => {

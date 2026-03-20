@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { LoginUser } from "../../express/redux/LoginSlice";
+import { LoginUser } from "./LoginSlice.js";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toasts from "react-hot-toast";
