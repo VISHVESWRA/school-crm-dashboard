@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import TextField from "@mui/material/TextField";
 import toast from "react-hot-toast";
-import { ResetApi } from "../../express/api/LoginApi";
+import { ResetApi } from "../../api/LoginApi.js";
 import {
   clearUser,
   clearVerifyError,
@@ -63,7 +63,7 @@ export default function ResetPage() {
         // Optional: check if it succeeded
         if (verifyEmail.fulfilled.match(result)) {
           toast.success(
-            "Email verified successfully! You can now reset your password."
+            "Email verified successfully! You can now reset your password.",
           );
         } else {
           toast.error(result.payload?.message || "Verification failed");

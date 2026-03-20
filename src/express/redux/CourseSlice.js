@@ -5,7 +5,7 @@ import {
   deleteCourseApi,
   getCoursesApi,
   getCourseByIdApi,
-} from "../api/CourseApi";
+} from "../../api/CourseApi.js";
 
 export const fetchCourses = createAsyncThunk("courses/fetchAll", async () => {
   const response = await getCoursesApi();
@@ -21,7 +21,7 @@ export const fetchCourseById = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 export const createCourse = createAsyncThunk(
@@ -33,7 +33,7 @@ export const createCourse = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 export const updateCourse = createAsyncThunk(
@@ -45,7 +45,7 @@ export const updateCourse = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 export const deleteCourse = createAsyncThunk("courses/delete", async (id) => {
@@ -95,7 +95,7 @@ const coursesSlice = createSlice({
 
       .addCase(updateCourse.fulfilled, (state, action) => {
         state.list = state.list.map((course) =>
-          course._id === action.payload._id ? action.payload : course
+          course._id === action.payload._id ? action.payload : course,
         );
       })
 

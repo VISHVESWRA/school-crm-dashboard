@@ -10,9 +10,9 @@ import {
   fetchUserById,
   fetchUsers,
   updateUser,
-} from "../../express/redux/UsersSlice";
+} from "../users/UsersSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { createUserApi } from "../../express/api/UsersApi";
+import { createUserApi } from "../users/UsersApi.js";
 import {
   TextField,
   FormControl,

@@ -25,6 +25,15 @@ export const menuItems = [
     roles: ["superadmin", "admin", "staff", "student", "parent", "Accountant"],
   },
   {
+    name: "Enquiry",
+    icon: <HelpCircle size={20} />,
+    roles: ["superadmin", "admin"],
+    dropdown: [
+      { name: "New Enquiry", path: "/", roles: ["superadmin", "admin"] },
+      { name: "Manage Enquiry", path: "/", roles: ["superadmin", "admin"] },
+    ],
+  },
+  {
     name: "New User",
     // path: "/users",
     icon: <BookUser size={20} />,
@@ -64,15 +73,6 @@ export const menuItems = [
         roles: ["superadmin", "admin", "staff"],
       },
       // { name: "Add Student", path: "/", roles: ["superadmin", "admin"] },
-    ],
-  },
-  {
-    name: "Enquiry",
-    icon: <HelpCircle size={20} />,
-    roles: ["superadmin", "admin"],
-    dropdown: [
-      { name: "New Enquiry", path: "/", roles: ["superadmin", "admin"] },
-      { name: "Manage Enquiry", path: "/", roles: ["superadmin", "admin"] },
     ],
   },
   {

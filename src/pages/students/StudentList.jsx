@@ -3,14 +3,14 @@ import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../express/redux/UsersSlice";
+import { fetchUsers } from "../../features/users/UsersSlice.js";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useNavigate } from "react-router-dom";
 import { fetchStudents } from "../../express/redux/StudentsSlice";
 import { Spinner } from "react-bootstrap";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { getTotalLength } from "../../express/api/GetDataApi";
+import { getTotalLength } from "../../api/GetDataApi.js";
 
 export default function StudentList() {
   const [stats, setStats] = useState({ students: 0, courses: 0, users: 0 });

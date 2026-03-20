@@ -11,7 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { PrimeReactProvider } from "primereact/api";
 import { Provider } from "react-redux";
-import { Store } from "./express/Store.js";
+import { Store } from "./app/Store.js";
 // import "primereact/resources/themes/saga-blue/theme.css";
 // import "@mui/material/styles";
 
@@ -24,5 +24,5 @@ createRoot(document.getElementById("root")).render(
         </PrimeReactProvider>
       </LocalizationProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );

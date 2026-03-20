@@ -12,7 +12,7 @@ import {
   ShieldUser,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getTotalLength } from "../../express/api/GetDataApi";
+import { getTotalLength } from "../../api/GetDataApi.js";
 import { Spinner } from "react-bootstrap";
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
       } catch (err) {
         console.error("Dashboard fetch error:", err);
         setError(
-          err.response?.data?.message || err.message || "Something went wrong"
+          err.response?.data?.message || err.message || "Something went wrong",
         );
       }
     };

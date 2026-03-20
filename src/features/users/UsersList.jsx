@@ -6,7 +6,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import Spinner from "react-bootstrap/Spinner";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Card from "react-bootstrap/Card";
-import { deleteUser, fetchUsers } from "../../express/redux/UsersSlice";
+import { deleteUser, fetchUsers } from "../users/UsersSlice.js";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 

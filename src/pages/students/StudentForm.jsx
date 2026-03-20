@@ -23,7 +23,7 @@ import {
 } from "../../express/redux/StudentsSlice";
 import { toast } from "react-hot-toast";
 import { fetchCourses } from "../../express/redux/CourseSlice";
-import { fetchUsers } from "../../express/redux/UsersSlice";
+import { fetchUsers } from "../../features/users/UsersSlice.js";
 
 export default function StudentForm() {
   const { selectedStudent, loading, error } = useSelector(

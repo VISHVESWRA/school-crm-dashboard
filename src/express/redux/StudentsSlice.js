@@ -5,7 +5,7 @@ import {
   getStudentsApi,
   getStudentsByIdApi,
   updateStudentsApi,
-} from "../api/StudentApi";
+} from "../../api/StudentApi.js";
 import { act } from "react";
 
 export const fetchStudents = createAsyncThunk(
@@ -37,7 +37,7 @@ export const fetchStudents = createAsyncThunk(
         });
       }
     }
-  }
+  },
 );
 
 export const fetchStudentById = createAsyncThunk(
@@ -49,7 +49,7 @@ export const fetchStudentById = createAsyncThunk(
     } catch (e) {
       return rejectWithValue(e.response?.data || e.message);
     }
-  }
+  },
 );
 
 export const addStudents = createAsyncThunk(
@@ -61,7 +61,7 @@ export const addStudents = createAsyncThunk(
     } catch (e) {
       return rejectWithValue(e.response?.data || e.message);
     }
-  }
+  },
 );
 
 export const updateStudents = createAsyncThunk(
@@ -73,7 +73,7 @@ export const updateStudents = createAsyncThunk(
     } catch (e) {
       return rejectWithValue(e.response?.data || e.message);
     }
-  }
+  },
 );
 
 export const removeStudents = createAsyncThunk(
@@ -85,7 +85,7 @@ export const removeStudents = createAsyncThunk(
     } catch (e) {
       return rejectWithValue(e.response?.data || e.message);
     }
-  }
+  },
 );
 
 // export const removeMultipleStudents = createAsyncThunk(
@@ -134,7 +134,7 @@ const studentSlice = createSlice({
       .addCase(removeStudents.fulfilled, (state, action) => {
         state.loading = false;
         state.list = state.list.filter(
-          (s) => s._id !== action.payload?.student
+          (s) => s._id !== action.payload?.student,
         );
       })
 
@@ -149,13 +149,13 @@ const studentSlice = createSlice({
           fetchStudents.pending,
           addStudents.pending,
           updateStudents.pending,
-          removeStudents.pending
+          removeStudents.pending,
         ),
         (state) => {
           state.loading = true;
           state.error = null;
           state.successMessage = null;
-        }
+        },
       )
       // 🔵 Using addMatcher for all rejected actions
       .addMatcher(
@@ -163,12 +163,12 @@ const studentSlice = createSlice({
           fetchStudents.rejected,
           addStudents.rejected,
           updateStudents.rejected,
-          removeStudents.rejected
+          removeStudents.rejected,
         ),
         (state, action) => {
           state.loading = false;
           state.error = action.payload?.message || "Something went wrong";
-        }
+        },
       );
   },
 });

@@ -5,7 +5,7 @@ import {
   deleteUserApi,
   getUsersApi,
   getUserByIdApi,
-} from "../api/UsersApi";
+} from "../users/UsersApi.js";
 
 export const fetchUsers = createAsyncThunk("users/fetchAll", async () => {
   const response = await getUsersApi();
@@ -21,7 +21,7 @@ export const fetchUserById = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 export const createUser = createAsyncThunk(
@@ -33,7 +33,7 @@ export const createUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 export const updateUser = createAsyncThunk(
@@ -45,7 +45,7 @@ export const updateUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 export const deleteUser = createAsyncThunk("users/delete", async (id) => {

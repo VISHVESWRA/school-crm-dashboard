@@ -1,6 +1,6 @@
 // verifySlice.js
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ResetApi, VerifyEmailApi } from "../api/LoginApi";
+import { ResetApi, VerifyEmailApi } from "../../api/LoginApi.js";
 
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
@@ -11,7 +11,7 @@ export const verifyEmail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
-  }
+  },
 );
 
 export const resetPassword = createAsyncThunk(
@@ -23,7 +23,7 @@ export const resetPassword = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
-  }
+  },
 );
 
 const verifySlice = createSlice({

@@ -5,11 +5,11 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 // Pages
-import UsersList from "./pages/users/UsersList";
-import UsersForm from "./pages/users/UsersForm";
+import UsersList from "./features/users/UsersList.jsx";
+import UsersForm from "./features/users/UsersForm.jsx";
 import Home from "./components/home/Home";
-import LoginPage from "./pages/auth/Login";
-import ResetPage from "./pages/auth/Reset";
+import LoginPage from "./features/auth/Login.jsx";
+import ResetPage from "./features/auth/Reset.jsx";
 import CourseList from "./pages/course/CourseList";
 import CourseForm from "./pages/course/CourseForm";
 import StudentForm from "./pages/students/StudentForm";
@@ -22,7 +22,7 @@ import PrivateRoute from "./redux/authRoutes";
 
 // Services
 import { checkTokenExpiration } from "./services/CheckTokenValidity.js";
-import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
+import ForgotPassword from "./features/auth/ForgotPassword.jsx";
 
 function App() {
   const dispatch = useDispatch();
