@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Logout } from "../../express/redux/LoginSlice";
+import { Logout } from "../../features/auth/LoginSlice.js";
 import {
   Menu,
   X,

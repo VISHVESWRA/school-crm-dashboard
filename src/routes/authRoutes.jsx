@@ -15,7 +15,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import { Logout } from "../express/redux/LoginSlice";
+import { Logout } from "../features/auth/LoginSlice.js";
 
 export default function PrivateRoute({ role }) {
   const { user } = useSelector((state) => state.auth);

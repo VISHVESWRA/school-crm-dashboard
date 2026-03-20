@@ -18,7 +18,7 @@ import AttendanceSystem from "./Attendance.jsx";
 
 // Components
 import SideNavBar from "./components/side-navbar/SideNavBar";
-import PrivateRoute from "./redux/authRoutes";
+import PrivateRoute from "./routes/authRoutes.jsx";
 
 // Services
 import { checkTokenExpiration } from "./services/CheckTokenValidity.js";
