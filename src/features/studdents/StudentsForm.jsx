@@ -20,7 +20,7 @@ import {
   addStudents,
   fetchStudentById,
   updateStudents,
-} from "../../express/redux/StudentsSlice";
+} from "../studdents/StudentsSlice.js";
 import { toast } from "react-hot-toast";
 import { fetchCourses } from "../../express/redux/CourseSlice";
 import { fetchUsers } from "../../features/users/UsersSlice.js";

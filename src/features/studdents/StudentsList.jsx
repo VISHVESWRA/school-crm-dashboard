@@ -7,7 +7,7 @@ import { fetchUsers } from "../../features/users/UsersSlice.js";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useNavigate } from "react-router-dom";
-import { fetchStudents } from "../../express/redux/StudentsSlice";
+import { fetchStudents } from "../studdents/StudentsSlice.js";
 import { Spinner } from "react-bootstrap";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { getTotalLength } from "../../api/GetDataApi.js";
