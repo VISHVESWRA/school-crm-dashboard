@@ -55,7 +55,7 @@ export const menuItems = [
     dropdown: [
       {
         name: "All Courses",
-        path: "/courseList",
+        path: "/courses",
         roles: ["superadmin", "admin", "staff"],
       },
       // { name: "Add Course", path: "/courses/add", roles: ["superadmin", "admin"]  },
@@ -69,7 +69,7 @@ export const menuItems = [
     dropdown: [
       {
         name: "All Students",
-        path: "/studentList",
+        path: "/students",
         roles: ["superadmin", "admin", "staff"],
       },
       // { name: "Add Student", path: "/", roles: ["superadmin", "admin"] },

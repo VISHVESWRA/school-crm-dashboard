@@ -1,5 +1,5 @@
-import axios from "axios";
-import axiosInstance from "./axiosInstance";
+// import axios from "axios";
+import axiosInstance from "../../api/axiosInstance.js";
 
 export const LoginApi = (data) => axiosInstance.post("/auth/login", data);
 export const VerifyEmailApi = (data) =>

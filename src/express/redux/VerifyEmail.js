@@ -1,6 +1,6 @@
 // verifySlice.js
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ResetApi, VerifyEmailApi } from "../../api/LoginApi.js";
+import { ResetApi, VerifyEmailApi } from "../../features/auth/LoginApi.js";
 
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
