@@ -26,9 +26,7 @@ import { fetchCourses } from "../../express/redux/CourseSlice";
 import { fetchUsers } from "../../features/users/UsersSlice.js";
 
 export default function StudentForm() {
-  const { selectedStudent, loading, error } = useSelector(
-    (state) => state.students,
-  );
+  const { selectedStudent, error } = useSelector((state) => state.students);
   const { list } = useSelector((state) => state.courses);
   const usersList = useSelector((state) => state.users);
   const users = usersList.list.filter((user) => user.role === "Staff");
@@ -37,9 +35,9 @@ export default function StudentForm() {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
+    // setValue,
     control,
-    watch,
+    // watch,
   } = useForm({
     defaultValues: {
       personalDetails: {
