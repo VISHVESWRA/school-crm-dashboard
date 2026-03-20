@@ -12,8 +12,8 @@ import LoginPage from "./features/auth/Login.jsx";
 import ResetPage from "./features/auth/Reset.jsx";
 import CourseList from "./pages/course/CourseList";
 import CourseForm from "./pages/course/CourseForm";
-import StudentForm from "./pages/students/StudentForm";
-import StudentList from "./pages/students/StudentList";
+import StudentForm from "./features/studdents/StudentsForm.jsx";
+import StudentList from "./features/studdents/StudentsList.jsx";
 import AttendanceSystem from "./Attendance.jsx";
 
 // Components

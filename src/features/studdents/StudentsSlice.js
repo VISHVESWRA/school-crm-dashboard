@@ -5,7 +5,7 @@ import {
   getStudentsApi,
   getStudentsByIdApi,
   updateStudentsApi,
-} from "../../api/StudentApi.js";
+} from "../studdents/StudentsApi.js";
 import { act } from "react";
 
 export const fetchStudents = createAsyncThunk(
