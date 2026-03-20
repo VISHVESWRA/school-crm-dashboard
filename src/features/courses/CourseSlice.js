@@ -5,7 +5,7 @@ import {
   deleteCourseApi,
   getCoursesApi,
   getCourseByIdApi,
-} from "../../api/CourseApi.js";
+} from "./CourseApi.js";
 
 export const fetchCourses = createAsyncThunk("courses/fetchAll", async () => {
   const response = await getCoursesApi();

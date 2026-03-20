@@ -13,11 +13,7 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
-import {
-  createCourse,
-  fetchCourseById,
-  updateCourse,
-} from "../../express/redux/CourseSlice";
+import { createCourse, fetchCourseById, updateCourse } from "./CourseSlice.js";
 
 export default function CourseForm() {
   const { selectedCourse, loading, error } = useSelector(

@@ -22,7 +22,7 @@ import {
   updateStudents,
 } from "../studdents/StudentsSlice.js";
 import { toast } from "react-hot-toast";
-import { fetchCourses } from "../../express/redux/CourseSlice";
+import { fetchCourses } from "../courses/CourseSlice.js";
 import { fetchUsers } from "../../features/users/UsersSlice.js";
 
 export default function StudentForm() {

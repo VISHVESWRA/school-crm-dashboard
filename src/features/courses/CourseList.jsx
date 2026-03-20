@@ -8,7 +8,7 @@ import BreadcrumbNav from "../../components/bredCrumbs/BredCrumb";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { fetchCourses } from "../../express/redux/CourseSlice";
+import { fetchCourses } from "./CourseSlice.js";
 
 export default function CourseList() {
   const [customers, setCustomers] = useState([]);
